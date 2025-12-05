@@ -76,25 +76,12 @@
       flex-direction: column;
     }
 
-    .nav-links {
-      display: flex;
-      gap: 10px;
-      font-size: 12px;
-    }
-
     .nav-links a {
-      text-decoration: none;
       color: var(--muted);
       padding: 6px 10px;
+      font-size: 13px;
       border-radius: 999px;
-      border: 1px solid transparent;
-      transition: 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--text);
-      border-color: rgba(255, 255, 255, 0.12);
-      background: rgba(255, 255, 255, 0.03);
+      text-decoration: none;
     }
 
     .nav-cta {
@@ -116,7 +103,6 @@
       gap: 24px;
     }
 
-    /* HERO LEFT */
     .hero-card {
       background: radial-gradient(circle at top left, #232a4c 0, #0b0f20 55%);
       border-radius: var(--radius-xl);
@@ -125,32 +111,9 @@
       border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 4px 10px 4px 4px;
-      border-radius: 999px;
-      background: rgba(4, 255, 163, 0.07);
-      border: 1px solid rgba(4, 255, 163, 0.35);
-      font-size: 11px;
-      color: #b5ffe4;
-      margin-bottom: 10px;
-    }
-
-    .hero-dot {
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      background: radial-gradient(circle, #6bffb5 0, #06d67c 40%, transparent 60%);
-      box-shadow: 0 0 14px rgba(6, 214, 124, 0.9);
-    }
-
     .hero-title {
       font-size: 30px;
       line-height: 1.1;
-      margin-bottom: 8px;
-      letter-spacing: 0.03em;
     }
 
     .hero-title span {
@@ -159,87 +122,12 @@
       color: transparent;
     }
 
-    .hero-sub {
-      font-size: 13px;
-      color: var(--muted);
-      max-width: 360px;
-      margin-bottom: 16px;
-    }
-
-    .hero-metrics {
-      display: flex;
-      gap: 18px;
-      margin-bottom: 18px;
-      flex-wrap: wrap;
-    }
-
-    .metric {
-      display: flex;
-      flex-direction: column;
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .metric strong {
-      font-size: 18px;
-      color: var(--text);
-    }
-
-    .hero-cta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 14px;
-    }
-
-    .btn-primary {
-      border-radius: 999px;
-      padding: 9px 18px;
-      background: linear-gradient(135deg, var(--accent), #ff3b6b);
-      color: #050712;
-      border: none;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      box-shadow: 0 10px 30px rgba(39, 224, 255, 0.55);
-    }
-
-    .btn-ghost {
-      border-radius: 999px;
-      padding: 8px 14px;
-      background: rgba(7, 10, 25, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: var(--text);
-      font-size: 12px;
-      cursor: pointer;
-      text-decoration: none;
-    }
-
-    .preview-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 11px;
-      color: var(--muted);
-    }
-
-    .preview-badges {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .preview-tag {
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: rgba(39, 224, 255, 0.12);
-      color: #baf3ff;
-      border: 1px solid rgba(39, 224, 255, 0.3);
+    .hero-preview {
+      background: radial-gradient(circle at top, #2a173f 0, #070716 60%);
+      border-radius: var(--radius-xl);
+      padding: 16px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.06);
     }
 
     .thumb-grid {
@@ -253,109 +141,45 @@
       border-radius: 14px;
       padding: 8px;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      position: relative;
-      overflow: hidden;
     }
 
-    .thumb-fake-img {
-      height: 80px;
-      border-radius: 9px;
-      background: radial-gradient(circle at 10% 0, #fff 0, #ffe680 19%, #ff3b6b 40%, #12091f 75%);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .thumb-meta {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 9px;
-      color: var(--muted);
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .gallery-item {
-      background: linear-gradient(140deg, #1c1332, #220c1d);
-      border-radius: 12px;
-      height: 90px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      overflow: hidden;
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    section {
+      margin-top: 32px;
     }
 
     .section-grid {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 16px;
-      margin-top: 14px;
     }
 
     .card {
       background: var(--bg2);
       border-radius: var(--radius-lg);
-      padding: 14px 14px 12px;
+      padding: 14px;
       border: 1px solid var(--border);
-      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.45);
       font-size: 13px;
     }
 
-    .pill-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 8px;
-    }
-
-    .pill {
-      font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      color: var(--muted);
-    }
-
-    .process-list {
+    .gallery-grid {
       display: grid;
-      gap: 8px;
-      margin-top: 8px;
-      font-size: 12px;
-      color: var(--muted);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 16px;
     }
 
-    .process-step {
-      display: flex;
-      gap: 8px;
-      align-items: flex-start;
+    .gallery-item {
+      background: #111526;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      min-height: 90px;
     }
 
-    .step-num {
-      width: 20px;
-      height: 20px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      margin-top: 1px;
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .pricing-grid {
@@ -376,7 +200,6 @@
     .price-tag {
       font-size: 18px;
       font-weight: 600;
-      margin-bottom: 2px;
     }
 
     footer {
@@ -386,354 +209,205 @@
       text-align: center;
     }
 
-    .contact-card {
-      margin-top: 18px;
-      background: linear-gradient(120deg, var(--accent-soft), rgba(255, 59, 107, 0.16));
-      border-radius: var(--radius-xl);
-      padding: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
+    /* IMAGE ZOOM */
+    .img-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(4px);
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 12px;
       align-items: center;
-      font-size: 13px;
+      justify-content: center;
+      z-index: 5000;
+      opacity: 0;
+      pointer-events: none;
+      transition: .3s ease;
     }
 
-    .contact-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+    .img-modal.active {
+      opacity: 1;
+      pointer-events: all;
     }
 
-    .contact-links a {
-      font-size: 12px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      text-decoration: none;
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      color: #020308;
-      background: #fdfdfd;
+    .img-modal img {
+      max-width: 90%;
+      max-height: 90vh;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      animation: pop .25s ease;
+    }
+
+    @keyframes pop {
+      from { transform: scale(.8); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+
+    .zoom-img {
+      cursor: zoom-in;
     }
   </style>
 </head>
 
 <body>
-  <div class="page">
+<div class="page">
 
-    <header>
-      <div class="brand">
-        <div class="brand-logo"></div>
-        <div class="brand-text">
-          <span>NotSagar · Thumbnails</span>
-          <span>Gaming · Minecraft · SMP</span>
-        </div>
-      </div>
-
-      <nav class="nav-links">
-        <a href="#services">Services</a>
-        <a href="#gallery">Gallery</a>
-        <a href="#process">Process</a>
-        <a href="#pricing">Pricing</a>
-      </nav>
-
-      <a href="#contact" class="nav-cta">Work with me</a>
-    </header>
-
-    <main>
-      <!-- LEFT: HERO -->
-      <section class="hero-card">
-        <div class="hero-badge">
-          <div class="hero-dot"></div>
-          <span>Thumbnail Designer for Gaming Creators</span>
-        </div>
-
-        <h1 class="hero-title">
-          Hi, I'm <span>Sagar</span><br />
-          I design thumbnails that get clicks.
-        </h1>
-
-        <p class="hero-sub">
-          Specialized in Minecraft & public SMP thumbnails. 4+ years testing designs
-          on real viewers as a creator & editor.
-        </p>
-
-        <div class="hero-metrics">
-          <div class="metric">
-            <strong>500+</strong>
-            <span>Thumbnails Designed</span>
-          </div>
-          <div class="metric">
-            <strong>4+ yrs</strong>
-            <span>YouTube Experience</span>
-          </div>
-          <div class="metric">
-            <strong>Gaming</strong>
-            <span>Niche Specialist</span>
-          </div>
-        </div>
-
-        <div class="hero-cta-row">
-          <a href="#gallery" class="btn-primary">
-            View Thumbnail Gallery →
-          </a>
-          <a href="#contact" class="btn-ghost">
-            Book a Thumbnail Pack
-          </a>
-        </div>
-
-        <div class="hero-footer-note">
-          <span>⚡ High CTR focus</span>
-          <span>🎮 Minecraft & SMP expert</span>
-          <span>📦 Monthly thumbnail packs available</span>
-        </div>
-      </section>
-
-      <!-- RIGHT: LIVE PREVIEW -->
-      <aside class="hero-preview">
-        <div class="preview-header">
-          <div class="preview-badges">
-            <span class="preview-dot"></span>
-            <span>Recent work preview</span>
-          </div>
-          <span class="preview-tag">YouTube Gaming</span>
-        </div>
-
-        <div class="thumb-grid">
-          <div class="thumb-card">
-            <span class="thumb-label">Public SMP</span>
-            <div class="thumb-fake-img">
-              RATING BASES
-            </div>
-            <div class="thumb-meta">
-              <span>AppleMC</span>
-              <span class="ctr-pill">CTR 9.8%</span>
-            </div>
-          </div>
-
-          <div class="thumb-card">
-            <span class="thumb-label">Challenge</span>
-            <div class="thumb-fake-img">
-              DEATH SWAP
-            </div>
-            <div class="thumb-meta">
-              <span>With Friends</span>
-              <span class="server-pill">Minecraft</span>
-            </div>
-          </div>
-
-          <div class="thumb-card">
-            <span class="thumb-label">Series Ep. 01</span>
-            <div class="thumb-fake-img">
-              NEW SMP
-            </div>
-            <div class="thumb-meta">
-              <span>Hook Thumbnail</span>
-              <span class="ctr-pill">+Views</span>
-            </div>
-          </div>
-
-          <div class="thumb-card">
-            <span class="thumb-label">Chaos Moment</span>
-            <div class="thumb-fake-img">
-              GONE WRONG
-            </div>
-            <div class="thumb-meta">
-              <span>Funny Clips</span>
-              <span class="server-pill">Shorts</span>
-            </div>
-          </div>
-        </div>
-
-      </aside>
-    </main>
-
-    <!-- SERVICES -->
-    <section id="services">
-      <h2>Services</h2>
-      <p class="muted">
-        I design custom thumbnails focused on story, emotion and high click-through rate.
-      </p>
-
-      <div class="section-grid">
-        <div class="card">
-          <h3>Gaming & Minecraft Thumbnails</h3>
-          <p>
-            Custom thumbnails for Minecraft, public SMP, Lifesteal, Manhunt,
-            challenge videos & more.
-          </p>
-          <div class="pill-row">
-            <span class="pill">Minecraft</span>
-            <span class="pill">Public SMP</span>
-            <span class="pill">Challenges</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3>Stream & Series Branding</h3>
-          <p>
-            LIVE thumbnails, series style, logo integration and cohesive branding
-            across episodes.
-          </p>
-          <div class="pill-row">
-            <span class="pill">Stream Thumbnails</span>
-            <span class="pill">Episode Style</span>
-            <span class="pill">Logo + Banner (add-on)</span>
-          </div>
-        </div>
-
-        <div class="card">
-          <h3>Thumbnail Packs</h3>
-          <p>
-            Monthly packs for creators uploading regularly – same style, fast
-            delivery, priority edits.
-          </p>
-          <div class="pill-row">
-            <span class="pill">5–20 thumbnails</span>
-            <span class="pill">Priority Delivery</span>
-            <span class="pill">Fixed Monthly Price</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- GALLERY -->
-    <section id="gallery">
-      <h2>Thumbnail Gallery</h2>
-
-      <div class="gallery-grid">
-        <div class="gallery-item"><img src="images/base-rating.jpg" alt=""></div>
-        <div class="gallery-item"><img src="images/rank-push.jpg" alt=""></div>
-        <div class="gallery-item"><img src="images/billu.jpg" alt=""></div>
-        <div class="gallery-item"><img src="images/srk-memes.jpg" alt=""></div>
-        <div class="gallery-item"><img src="images/full-course.jpg" alt=""></div>
-        <div class="gallery-item"><img src="images/scammer.jpg" alt=""></div>
-        <div class="gallery-item"><img src="images/custom01.jpg" alt=""></div>
-        <div class="gallery-item"><img src="images/custom02.jpg" alt=""></div>
-      </div>
-    </section>
-
-    <!-- PROCESS -->
-    <section id="process">
-      <h2>My Thumbnail Process</h2>
-      <p class="muted">
-        Every thumbnail goes through a tested workflow to make sure it performs on YouTube.
-      </p>
-
-      <div class="card">
-        <div class="process-list">
-          <div class="process-step">
-            <div class="step-num">1</div>
-            <div>
-              <strong>Research</strong><br />
-              I analyze your niche, top-performing videos and your past CTR
-              to understand what already works.
-            </div>
-          </div>
-
-          <div class="process-step">
-            <div class="step-num">2</div>
-            <div>
-              <strong>Concept & Story</strong><br />
-              I decide one strong story moment with clear emotion instead of
-              overloading the thumbnail.
-            </div>
-          </div>
-
-          <div class="process-step">
-            <div class="step-num">3</div>
-            <div>
-              <strong>Clean Cutouts & Composition</strong><br />
-              Subject cutout, background separation, depth, arrows and
-              supporting elements.
-            </div>
-          </div>
-
-          <div class="process-step">
-            <div class="step-num">4</div>
-            <div>
-              <strong>Lighting & Color</strong><br />
-              Strong contrast, glow, shadows, color grading and detail to make
-              the thumbnail pop at small size.
-            </div>
-          </div>
-
-          <div class="process-step">
-            <div class="step-num">5</div>
-            <div>
-              <strong>Text & Final Polish</strong><br />
-              Minimal bold text (2–4 words), logo placement and export in
-              perfect YouTube size.
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PRICING -->
-    <section id="pricing">
-      <h2>Pricing</h2>
-
-      <div class="pricing-grid">
-        <div class="price-card">
-          <div class="price-type">Single Thumbnail</div>
-          <div class="price-tag">₹200</div>
-          <ul class="price-list">
-            <li>1 custom thumbnail</li>
-            <li>For video or stream</li>
-            <li>1 small revision included</li>
-          </ul>
-          <span class="pill">Best for testing my work</span>
-        </div>
-
-        <div class="price-card">
-          <div class="price-type">5-Thumbnail Pack</div>
-          <div class="price-tag">₹1000</div>
-          <ul class="price-list">
-            <li>5 thumbnails for a series</li>
-            <li>Consistent branding & style</li>
-            <li>Priority delivery</li>
-          </ul>
-          <span class="pill">Perfect for weekly uploaders</span>
-        </div>
-
-        <div class="price-card">
-          <div class="price-type">Monthly Pack</div>
-          <div class="price-tag">DM</div>
-          <ul class="price-list">
-            <li>10–20 thumbnails / month</li>
-            <li>Priority queue & edits</li>
-            <li>Ideal for serious creators</li>
-          </ul>
-          <span class="pill">DM for custom quote</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- CONTACT -->
-    <section id="contact">
-      <h2>Contact & Booking</h2>
-      <div class="contact-card">
-        <div>
-          <strong>Ready to boost your thumbnails?</strong><br />
-          Send me your channel link, video idea and how many thumbnails you need.
-        </div>
-        <div class="contact-links">
-          <a href="mailto:shaurvsharma43@gmail.com">Email</a>
-          <a href="https://discord.gg/ajeXSRAtUU" target="_blank">Discord</a>
-          <a href="https://www.instagram.com/sagarplayz_official/" target="_blank">Instagram</a>
-          <a href="https://youtube.com/@notsagar_og" target="_blank">YouTube</a>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      © <span id="year"></span> Sagar · Thumbnail Designer · NotSagarGamerz
-    </footer>
+<header>
+  <div class="brand">
+    <div class="brand-logo"></div>
+    <div class="brand-text">
+      <span>NotSagar · Thumbnails</span>
+      <span>Gaming · Minecraft · SMP</span>
+    </div>
   </div>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+  <nav class="nav-links">
+    <a href="#services">Services</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#process">Process</a>
+    <a href="#pricing">Pricing</a>
+  </nav>
+
+  <a href="#contact" class="nav-cta">Work with me</a>
+</header>
+
+<main>
+<section class="hero-card">
+  <h1 class="hero-title">
+    Hi, I'm <span>Sagar</span><br />
+    I design thumbnails that get clicks.
+  </h1>
+  <p>Specialized in Minecraft & public SMP thumbnails.</p>
+</section>
+
+<aside class="hero-preview">
+<div class="thumb-grid">
+  <div class="thumb-card"><div class="thumb-fake-img">BASES</div></div>
+  <div class="thumb-card"><div class="thumb-fake-img">SWAP</div></div>
+  <div class="thumb-card"><div class="thumb-fake-img">SMP</div></div>
+  <div class="thumb-card"><div class="thumb-fake-img">WRONG</div></div>
+</div>
+</aside>
+</main>
+
+<section id="services">
+<h2>Services</h2>
+<div class="section-grid">
+<div class="card">Gaming Thumbnails</div>
+<div class="card">Stream Branding</div>
+<div class="card">Monthly Packs</div>
+</div>
+</section>
+
+<section id="gallery">
+<h2>Thumbnail Gallery</h2>
+<div class="gallery-grid">
+<div class="gallery-item"><img src="images/base-rating.jpg" class="zoom-img"></div>
+<div class="gallery-item"><img src="images/rank-push.jpg" class="zoom-img"></div>
+<div class="gallery-item"><img src="images/billu.jpg" class="zoom-img"></div>
+<div class="gallery-item"><img src="images/srk-memes.jpg" class="zoom-img"></div>
+<div class="gallery-item"><img src="images/full-course.jpg" class="zoom-img"></div>
+<div class="gallery-item"><img src="images/scammer.jpg" class="zoom-img"></div>
+<div class="gallery-item"></div>
+<div class="gallery-item"></div>
+</div>
+</section>
+
+<section id="process">
+<h2>My Thumbnail Process</h2>
+<div class="card">
+<div class="process-list">
+  <div>1 — Research</div>
+  <div>2 — Concept & Story</div>
+  <div>3 — Clean Cutouts</div>
+  <div>4 — Lighting & Color</div>
+  <div>5 — Final Polish</div>
+</div>
+</div>
+</section>
+
+<section id="pricing">
+<h2>Pricing</h2>
+
+<div class="pricing-grid">
+
+<div class="price-card">
+  <div class="price-type">Single Thumbnail</div>
+  <div class="price-tag">₹200</div>
+  <ul class="price-list">
+    <li>1 custom thumbnail</li>
+    <li>1 revision</li>
+  </ul>
+</div>
+
+<div class="price-card">
+  <div class="price-type">5-Thumbnail Pack</div>
+  <div class="price-tag">₹1000</div>
+  <ul class="price-list">
+    <li>5 thumbnails</li>
+    <li>Priority delivery</li>
+  </ul>
+</div>
+
+<div class="price-card">
+  <div class="price-type">Monthly Pack</div>
+  <div class="price-tag">DM</div>
+  <ul class="price-list">
+    <li>10–20 thumbnails</li>
+    <li>Priority edits</li>
+  </ul>
+</div>
+
+</div>
+</section>
+
+<section id="contact">
+<h2>Contact & Booking</h2>
+<div class="contact-card">
+  <div>
+    <strong>Ready to boost your thumbnails?</strong><br />
+    Send me your channel link, video idea and how many thumbnails you need.
+  </div>
+  <div class="contact-links">
+    <a href="mailto:shaurrvsharma43@gmail.com">Email</a>
+    <a href="https://discord.gg/ajeXSRAtUU" target="_blank">Discord</a>
+    <a href="https://www.instagram.com/sagarplayz_official/" target="_blank">Instagram</a>
+    <a href="https://youtube.com/@notsagar_og" target="_blank">YouTube</a>
+  </div>
+</div>
+</section>
+
+<footer>
+© <span id="year"></span> Sagar · Thumbnail Designer
+</footer>
+
+</div>
+
+<div class="img-modal" id="imgModal">
+  <img id="modalImage">
+</div>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+const modal = document.getElementById("imgModal");
+const modalImg = document.getElementById("modalImage");
+const zoomImgs = document.querySelectorAll(".zoom-img");
+
+zoomImgs.forEach(img => {
+  img.addEventListener("click", () => {
+    modalImg.src = img.src;
+    modal.classList.add("active");
+  });
+});
+
+modal.addEventListener("click", () => {
+  modal.classList.remove("active");
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") modal.classList.remove("active");
+});
+</script>
+
 </body>
 </html>
