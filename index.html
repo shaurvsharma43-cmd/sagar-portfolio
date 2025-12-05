@@ -14,226 +14,132 @@
       --accent-soft: rgba(39, 224, 255, 0.15);
       --text: #f5f5f7;
       --muted: #a0a3b1;
-      --danger: #ff3b6b;
       --card: #111526;
       --border: #22263a;
       --radius-lg: 18px;
       --radius-xl: 28px;
-      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.55);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-        Roboto, sans-serif;
-    }
-
-    body {
-      background: radial-gradient(circle at top, #151a3a 0, #050712 55%);
-      color: var(--text);
-      min-height: 100vh;
-    }
-
-    .page {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 24px 16px 60px;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui; }
+    body { background: radial-gradient(circle at top, #151a3a 0, #050712 55%); color: var(--text); }
+    .page { max-width: 1100px; margin: 0 auto; padding: 24px 16px 80px; }
 
     header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 12px 18px;
-      border-radius: 999px;
-      background: rgba(5, 7, 18, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      backdrop-filter: blur(20px);
-      position: sticky;
-      top: 12px;
-      z-index: 20;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(5,7,18,0.9);
+      padding: 12px 18px; border-radius: 999px;
+      backdrop-filter: blur(16px);
+      margin-bottom: 20px;
+      border: 1px solid rgba(255,255,255,0.05);
     }
 
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
+    .brand { display: flex; align-items: center; gap: 10px; }
     .brand-logo {
-      width: 34px;
-      height: 34px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 20%, #fff 0, #27e0ff 35%, #ff3b6b 100%);
-      box-shadow: 0 0 18px rgba(39, 224, 255, 0.7);
+      width: 34px; height: 34px; border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #fff, #27e0ff 40%, #ff3b6b 100%);
     }
 
-    .brand-text {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 10px;
-      font-size: 12px;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: var(--muted);
-      padding: 6px 10px;
-      border-radius: 999px;
-    }
+    .nav-links { display: flex; gap: 10px; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 12px; }
 
     .nav-cta {
-      border-radius: 999px;
       padding: 7px 14px;
-      background: linear-gradient(135deg, var(--accent), #6bffb5);
-      color: #020308;
-      font-size: 12px;
-      font-weight: 600;
-      text-decoration: none;
-      box-shadow: 0 10px 28px rgba(39, 224, 255, 0.5);
-      white-space: nowrap;
+      background: linear-gradient(135deg, #27e0ff, #6bffb5);
+      color: #000; border-radius: 999px; text-decoration: none; font-size: 12px; font-weight: 600;
     }
 
-    main {
-      margin-top: 26px;
-      display: grid;
-      grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.5fr);
-      gap: 24px;
-    }
+    main { display: grid; grid-template-columns: 2fr 1.5fr; gap: 24px; margin-top: 24px; }
 
     .hero-card {
       background: radial-gradient(circle at top left, #232a4c 0, #0b0f20 55%);
-      border-radius: var(--radius-xl);
-      padding: 22px;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 22px; border-radius: var(--radius-xl);
     }
 
-    .hero-title {
-      font-size: 30px;
-      line-height: 1.1;
-      margin-bottom: 8px;
-    }
-
+    .hero-title { font-size: 30px; margin-bottom: 10px; }
     .hero-title span {
       background: linear-gradient(135deg, #27e0ff, #6bffb5);
-      -webkit-background-clip: text;
-      color: transparent;
+      -webkit-background-clip: text; color: transparent;
     }
 
-    /* RIGHT PREVIEW */
     .hero-preview {
       background: radial-gradient(circle at top, #2a173f 0, #070716 60%);
-      border-radius: var(--radius-xl);
-      padding: 16px;
-      box-shadow: var(--shadow-soft);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 16px; border-radius: var(--radius-xl);
     }
 
     .thumb-grid {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: repeat(2,1fr);
       gap: 10px;
     }
 
     .thumb-card {
+      padding: 8px; border-radius: 14px;
       background: linear-gradient(145deg, #161933, #090a16);
-      border-radius: 14px;
-      padding: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255,255,255,0.08);
     }
 
-    /* SERVICES */
-    section {
-      margin-top: 32px;
-    }
-
-    .section-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      background: var(--bg2);
-      border-radius: var(--radius-lg);
-      padding: 14px;
-      border: 1px solid var(--border);
-      font-size: 13px;
-    }
-
-    /* GALLERY */
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 10px;
-      margin-top: 16px;
-    }
+    /* Services + Gallery */
+    section { margin-top: 40px; }
+    .section-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+    .card { background: var(--bg2); border-radius: var(--radius-lg); padding: 14px; border: 1px solid var(--border); }
+    .gallery-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 10px; }
 
     .gallery-item {
       background: #111526;
-      border-radius: 12px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.08);
       overflow: hidden;
       min-height: 90px;
     }
 
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
 
-    /* PROCESS */
-    .process-list {
-      display: grid;
-      gap: 8px;
-      margin-top: 8px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    /* PRICING */
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-      margin-top: 10px;
-    }
-
+    /* Pricing */
+    .pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
     .price-card {
       background: radial-gradient(circle at top, #251236 0, #090b18 55%);
-      border-radius: var(--radius-lg);
-      padding: 14px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      font-size: 13px;
+      padding: 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.12);
+    }
+    .price-tag { font-size: 20px; font-weight: 600; }
+
+    /* PREMIUM CONTACT SECTION */
+    .contact-section {
+      margin-top: 50px;
+      padding: 24px;
+      border-radius: var(--radius-xl);
+      background: linear-gradient(135deg, rgba(39,224,255,0.12), rgba(255,59,107,0.12));
+      border: 1px solid rgba(255,255,255,0.15);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
     }
 
-    .price-tag {
-      font-size: 18px;
+    .contact-text {
+      font-size: 16px;
       font-weight: 600;
-      margin-bottom: 2px;
     }
 
-    .price-type {
-      font-size: 11px;
-      color: var(--muted);
-      margin-bottom: 8px;
+    .contact-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
     }
 
-    footer {
-      margin-top: 32px;
-      font-size: 11px;
-      color: var(--muted);
-      text-align: center;
+    .contact-links a {
+      background: white;
+      color: #000;
+      padding: 7px 14px;
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.25);
     }
+
+    footer { margin-top: 40px; text-align: center; color: var(--muted); font-size: 12px; }
+
   </style>
 </head>
 
@@ -243,124 +149,136 @@
 <header>
   <div class="brand">
     <div class="brand-logo"></div>
-    <div class="brand-text">
-      <span>NotSagar · Thumbnails</span>
-      <span>Gaming · Minecraft · SMP</span>
+    <div>
+      <strong>NotSagar · Thumbnails</strong><br>
+      <span style="color:#aaa; font-size:11px;">Gaming · Minecraft · SMP</span>
     </div>
   </div>
+
   <nav class="nav-links">
     <a href="#services">Services</a>
     <a href="#gallery">Gallery</a>
     <a href="#process">Process</a>
     <a href="#pricing">Pricing</a>
   </nav>
+
   <a href="#contact" class="nav-cta">Work with me</a>
 </header>
 
-<main>
-<section class="hero-card">
-  <h1 class="hero-title">
-    Hi, I'm <span>Sagar</span><br />
-    I design thumbnails that get clicks.
-  </h1>
-  <p>Specialized in Minecraft & public SMP thumbnails.</p>
-</section>
 
-<aside class="hero-preview">
-<div class="thumb-grid">
-  <div class="thumb-card"><div class="thumb-fake-img">BASES</div></div>
-  <div class="thumb-card"><div class="thumb-fake-img">SWAP</div></div>
-  <div class="thumb-card"><div class="thumb-fake-img">SMP</div></div>
-  <div class="thumb-card"><div class="thumb-fake-img">WRONG</div></div>
-</div>
-</aside>
+<main>
+  <section class="hero-card">
+    <h1 class="hero-title">
+      Hi, I'm <span>Sagar</span><br>
+      I design thumbnails that get clicks.
+    </h1>
+    <p>Specialized in Minecraft & public SMP thumbnails.</p>
+  </section>
+
+  <aside class="hero-preview">
+    <div class="thumb-grid">
+      <div class="thumb-card"><div class="thumb-fake-img">BASES</div></div>
+      <div class="thumb-card"><div class="thumb-fake-img">SWAP</div></div>
+      <div class="thumb-card"><div class="thumb-fake-img">SMP</div></div>
+      <div class="thumb-card"><div class="thumb-fake-img">WRONG</div></div>
+    </div>
+  </aside>
 </main>
 
 <section id="services">
-<h2>Services</h2>
-<div class="section-grid">
-<div class="card">Gaming Thumbnails</div>
-<div class="card">Stream Branding</div>
-<div class="card">Monthly Packs</div>
-</div>
+  <h2>Services</h2>
+  <div class="section-grid">
+    <div class="card">Gaming Thumbnails</div>
+    <div class="card">Stream Branding</div>
+    <div class="card">Monthly Packs</div>
+  </div>
 </section>
 
 <section id="gallery">
-<h2>Thumbnail Gallery</h2>
-<div class="gallery-grid">
-<div class="gallery-item"><img src="images/base-rating.jpg"></div>
-<div class="gallery-item"><img src="images/rank-push.jpg"></div>
-<div class="gallery-item"><img src="images/billu.jpg"></div>
-<div class="gallery-item"><img src="images/srk-memes.jpg"></div>
-<div class="gallery-item"><img src="images/full-course.jpg"></div>
-<div class="gallery-item"><img src="images/scammer.jpg"></div>
-<div class="gallery-item"></div>
-<div class="gallery-item"></div>
-</div>
+  <h2>Thumbnail Gallery</h2>
+  <div class="gallery-grid">
+    <div class="gallery-item"><img src="images/base-rating.jpg"></div>
+    <div class="gallery-item"><img src="images/rank-push.jpg"></div>
+    <div class="gallery-item"><img src="images/billu.jpg"></div>
+    <div class="gallery-item"><img src="images/srk-memes.jpg"></div>
+    <div class="gallery-item"><img src="images/full-course.jpg"></div>
+    <div class="gallery-item"><img src="images/scammer.jpg"></div>
+    <div class="gallery-item"></div>
+    <div class="gallery-item"></div>
+  </div>
 </section>
 
 <section id="process">
-<h2>My Thumbnail Process</h2>
-<div class="card">
-<div class="process-list">
-  <div>1 — Research</div>
-  <div>2 — Concept & Story</div>
-  <div>3 — Clean Cutouts</div>
-  <div>4 — Lighting & Color</div>
-  <div>5 — Final Polish</div>
-</div>
-</div>
+  <h2>My Thumbnail Process</h2>
+  <div class="card">
+    <div class="process-list">
+      <div>1 — Research</div>
+      <div>2 — Concept & Story</div>
+      <div>3 — Clean Cutouts</div>
+      <div>4 — Lighting & Color</div>
+      <div>5 — Final Polish</div>
+    </div>
+  </div>
 </section>
 
 <section id="pricing">
-<h2>Pricing</h2>
+  <h2>Pricing</h2>
 
-<div class="pricing-grid">
+  <div class="pricing-grid">
 
-<div class="price-card">
-  <div class="price-type">Single Thumbnail</div>
-  <div class="price-tag">₹250</div>
-  <ul class="price-list">
-    <li>1 custom thumbnail</li>
-    <li>1 revision</li>
-  </ul>
-</div>
+    <div class="price-card">
+      <div class="price-type">Single Thumbnail</div>
+      <div class="price-tag">₹250</div>
+      <ul class="price-list">
+        <li>1 custom thumbnail</li>
+        <li>1 revision</li>
+      </ul>
+    </div>
 
-<div class="price-card">
-  <div class="price-type">5-Thumbnail Pack</div>
-  <div class="price-tag">₹1000</div>
-  <ul class="price-list">
-    <li>5 thumbnails</li>
-    <li>Priority delivery</li>
-  </ul>
-</div>
+    <div class="price-card">
+      <div class="price-type">5-Thumbnail Pack</div>
+      <div class="price-tag">₹1000</div>
+      <ul class="price-list">
+        <li>5 thumbnails</li>
+        <li>Priority delivery</li>
+      </ul>
+    </div>
 
-<div class="price-card">
-  <div class="price-type">Monthly Pack</div>
-  <div class="price-tag">₹2000 – ₹3000</div>
-  <ul class="price-list">
-    <li>10–20 thumbnails</li>
-    <li>Priority edits</li>
-  </ul>
-</div>
+    <div class="price-card">
+      <div class="price-type">Monthly Pack</div>
+      <div class="price-tag">₹2000 – ₹3000</div>
+      <ul class="price-list">
+        <li>10–20 thumbnails</li>
+        <li>Priority edits</li>
+      </ul>
+    </div>
 
-</div>
+  </div>
 </section>
 
-<section id="contact">
-<h2>Contact</h2>
-<p>Discord: <a href="https://discord.gg/ajeXSRAtUU">Join Here</a></p>
+<!-- PREMIUM CONTACT -->
+<section id="contact" class="contact-section">
+  <div class="contact-text">
+    Ready to boost your thumbnails? 🚀<br>
+    Send me your channel link & requirements.
+  </div>
+
+  <div class="contact-links">
+    <a href="mailto:shaurvsharma43@gmail.com">Email</a>
+    <a href="https://discord.gg/ajeXSRAtUU" target="_blank">Discord</a>
+    <a href="https://www.instagram.com/sagarplayz_official/" target="_blank">Instagram</a>
+    <a href="https://youtube.com/@notsagar_og" target="_blank">YouTube</a>
+  </div>
 </section>
 
 <footer>
-© <span id="year"></span> Sagar · Thumbnail Designer
+  © <span id="year"></span> Sagar · Thumbnail Designer
 </footer>
-
-</div>
 
 <script>
 document.getElementById("year").textContent = new Date().getFullYear();
 </script>
 
+</div>
 </body>
 </html>
