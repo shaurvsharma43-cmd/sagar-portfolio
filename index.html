@@ -536,6 +536,81 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
   </div>
 </section>
 
+<!-- CLIENT REVIEWS -->
+<section id="reviews" style="margin-top:60px;">
+  <h2 style="font-size:20px;margin-bottom:16px;">
+    Client Reviews ⭐
+  </h2>
+
+  <div id="reviewForm" style="
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    align-items:flex-start;
+    margin-bottom:20px;
+  ">
+
+    <input id="r_name" placeholder="Your Name" style="
+      flex:1;
+      min-width:180px;
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:#15182a;
+      color:#fff;
+      font-size:14px;
+      outline:none;
+    " />
+
+    <select id="r_rating" style="
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:#15182a;
+      color:#ffd43b;
+      font-size:16px;
+      outline:none;
+      cursor:pointer;
+    ">
+      <option value="5">⭐⭐⭐⭐⭐</option>
+      <option value="4">⭐⭐⭐⭐</option>
+      <option value="3">⭐⭐⭐</option>
+      <option value="2">⭐⭐</option>
+      <option value="1">⭐</option>
+    </select>
+
+    <textarea id="r_message" placeholder="Write your review..." style="
+      flex:2;
+      min-width:260px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,0.10);
+      background:#15182a;
+      color:#fff;
+      font-size:14px;
+      height:90px;
+      outline:none;
+    "></textarea>
+
+    <button onclick="submitReview()" style="
+      padding:11px 22px;
+      border:none;
+      border-radius:14px;
+      background:linear-gradient(135deg,#27e0ff,#ff3b6b);
+      font-size:14px;
+      font-weight:600;
+      cursor:pointer;
+      color:#050712;
+      min-width:130px;
+    ">
+      Submit Review
+    </button>
+
+  </div>
+
+  <div id="reviewsList"></div>
+</section>
+
 <!-- CONTACT -->
 <section id="contact">
   <h2>Contact & Booking</h2>
@@ -567,22 +642,127 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
 </div>
 
 <script>
+// ==== YEAR + ZOOM ====
 document.getElementById("year").textContent = new Date().getFullYear();
 
-const modal=document.getElementById("zoomModal");
-const zoomedImg=document.getElementById("zoomedImg");
-const closeZoom=document.getElementById("closeZoom");
+const modal     = document.getElementById("zoomModal");
+const zoomedImg = document.getElementById("zoomedImg");
+const closeZoom = document.getElementById("closeZoom");
 
-document.querySelectorAll(".zoom-img").forEach(img=>{
- img.addEventListener("click",()=>{
-   zoomedImg.src = img.src;
-   modal.style.display="flex";
- });
+document.querySelectorAll(".zoom-img").forEach(img => {
+  img.addEventListener("click", () => {
+    zoomedImg.src = img.src;
+    modal.style.display = "flex";
+  });
 });
 
-closeZoom.addEventListener("click",()=>modal.style.display="none");
-modal.addEventListener("click",(e)=>{if(e.target===modal)modal.style.display="none";});
-</script>
+closeZoom.addEventListener("click", () => (modal.style.display = "none"));
+modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
 
+
+// ==== REVIEWS + DEVICE LOCK ====
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz4AEokp4Lf-lj7KaGZum0ARPF9nqOBu5EcKkPwtRN0vXP8O6UhYS1n4v7lZOiDHDHR/exec";
+const DEVICE_KEY = "nsg_review_device_id_v1";
+
+// generate unique ID for this device
+let DEVICE_ID = localStorage.getItem(DEVICE_KEY);
+if (!DEVICE_ID) {
+  DEVICE_ID = crypto.randomUUID ? crypto.randomUUID() : (Math.random().toString(36).slice(2) + Date.now());
+  localStorage.setItem(DEVICE_KEY, DEVICE_ID);
+}
+
+// lock form
+function lockReviewForm(msg) {
+  const form = document.getElementById("reviewForm");
+  form.innerHTML = `
+    <div style="padding:10px;font-size:13px;color:#aaa;">
+      ✅ ${msg || "You already submitted a review from this device."}
+    </div>
+  `;
+}
+
+// clean text
+function esc(str) {
+  return String(str)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;");
+}
+
+// submit review
+function submitReview() {
+  const name    = document.getElementById("r_name").value.trim();
+  const rating  = document.getElementById("r_rating").value;
+  const message = document.getElementById("r_message").value.trim();
+
+  if (!name || !message) {
+    alert("Name aur review likh!");
+    return;
+  }
+
+  fetch(SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify({ name, rating, message, deviceId: DEVICE_ID })
+  })
+  .then(r => r.text())
+  .then(res => {
+    if (res === "SUCCESS") {
+      lockReviewForm("Thanks for your review!");
+      loadReviews();
+    } 
+    else if (res === "DUPLICATE_DEVICE") {
+      lockReviewForm("You already submitted a review from this device.");
+      alert("Is device se review already de chuke ho.");
+    }
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Network error aa gaya.");
+  });
+}
+
+// load reviews
+function loadReviews() {
+  fetch(SCRIPT_URL)
+    .then(r => r.json())
+    .then(data => {
+      let html = "";
+
+      if (data.length === 0) {
+        html = `<div style="color:#aaa;font-size:13px;">No reviews yet.</div>`;
+      }
+
+      data.reverse().forEach(r => {
+        html += `
+        <div style="
+          margin-bottom:12px;
+          padding:12px 14px;
+          background:#0b0f20;
+          border-radius:12px;
+          border:1px solid rgba(255,255,255,0.08);
+        ">
+          <div style="
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:4px;
+          ">
+            <span style="font-size:13px;font-weight:600">${esc(r.name)}</span>
+            <span style="font-size:14px;color:#ffd43b">${"⭐".repeat(r.rating)}</span>
+          </div>
+
+          <div style="font-size:13px;color:#ddd;">
+            ${esc(r.message)}
+          </div>
+        </div>
+        `;
+      });
+
+      document.getElementById("reviewsList").innerHTML = html;
+    });
+}
+
+loadReviews();
+</script>
 </body>
 </html>
