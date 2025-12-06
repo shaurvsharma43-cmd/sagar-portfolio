@@ -592,19 +592,19 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
       outline:none;
     "></textarea>
 
-    <button onclick="submitReview()" style="
-      padding:11px 22px;
-      border:none;
-      border-radius:14px;
-      background:linear-gradient(135deg,#27e0ff,#ff3b6b);
-      font-size:14px;
-      font-weight:600;
-      cursor:pointer;
-      color:#050712;
-      min-width:130px;
-    ">
-      Submit Review
-    </button>
+    <button id="reviewBtn" onclick="submitReview()" style="
+  padding:11px 22px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(135deg,#27e0ff,#ff3b6b);
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  color:#050712;
+  min-width:130px;
+">
+  Submit Review
+</button>
 
   </div>
 
@@ -641,8 +641,8 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
   <img id="zoomedImg" src="">
 </div>
 
-<script>
-// ==== YEAR + ZOOM ====
+<<script>
+// ==== YEAR + ZOOM MODAL ====
 document.getElementById("year").textContent = new Date().getFullYear();
 
 const modal     = document.getElementById("zoomModal");
@@ -657,82 +657,110 @@ document.querySelectorAll(".zoom-img").forEach(img => {
 });
 
 closeZoom.addEventListener("click", () => (modal.style.display = "none"));
-modal.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
+modal.addEventListener("click", e => {
+  if (e.target === modal) modal.style.display = "none";
+});
 
 
-// ==== REVIEWS + DEVICE LOCK ====
+// ==== REVIEWS + DEVICE LOCK + LOADING BUTTON ====
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz4AEokp4Lf-lj7KaGZum0ARPF9nqOBu5EcKkPwtRN0vXP8O6UhYS1n4v7lZOiDHDHR/exec";
 const DEVICE_KEY = "nsg_review_device_id_v1";
 
-// generate unique ID for this device
+// unique device id (same as pehle wala system)
 let DEVICE_ID = localStorage.getItem(DEVICE_KEY);
 if (!DEVICE_ID) {
-  DEVICE_ID = crypto.randomUUID ? crypto.randomUUID() : (Math.random().toString(36).slice(2) + Date.now());
+  if (window.crypto && crypto.randomUUID) {
+    DEVICE_ID = crypto.randomUUID();
+  } else {
+    DEVICE_ID = Math.random().toString(36).slice(2) + Date.now();
+  }
   localStorage.setItem(DEVICE_KEY, DEVICE_ID);
 }
 
-// lock form
-function lockReviewForm(msg) {
+function lockReviewForm(message) {
   const form = document.getElementById("reviewForm");
+  if (!form) return;
   form.innerHTML = `
-    <div style="padding:10px;font-size:13px;color:#aaa;">
-      ✅ ${msg || "You already submitted a review from this device."}
+    <div style="padding:10px 0;font-size:13px;color:#a0a3b1;">
+      ✅ ${message || "Thanks for your review! You can submit only once from this device."}
     </div>
   `;
 }
 
-// clean text
 function esc(str) {
-  return String(str)
+  return String(str || "")
     .replace(/&/g,"&amp;")
     .replace(/</g,"&lt;")
     .replace(/>/g,"&gt;");
 }
 
-// submit review
+// button loading on/off
+function setReviewButtonLoading(isLoading) {
+  const btn = document.getElementById("reviewBtn");
+  if (!btn) return;
+  if (isLoading) {
+    btn.disabled = true;
+    btn.innerText = "Submitting...";
+  } else {
+    btn.disabled = false;
+    btn.innerText = "Submit Review";
+  }
+}
+
+// SUBMIT REVIEW
 function submitReview() {
   const name    = document.getElementById("r_name").value.trim();
   const rating  = document.getElementById("r_rating").value;
   const message = document.getElementById("r_message").value.trim();
 
   if (!name || !message) {
-    alert("Name aur review likh!");
+    alert("Name aur review likh.");
     return;
   }
 
+  setReviewButtonLoading(true);
+
   fetch(SCRIPT_URL, {
     method: "POST",
+    // ❗ headers nahi, sirf body
     body: JSON.stringify({ name, rating, message, deviceId: DEVICE_ID })
   })
-  .then(r => r.text())
-  .then(res => {
-    if (res === "SUCCESS") {
-      lockReviewForm("Thanks for your review!");
-      loadReviews();
-    } 
-    else if (res === "DUPLICATE_DEVICE") {
-      lockReviewForm("You already submitted a review from this device.");
-      alert("Is device se review already de chuke ho.");
-    }
-  })
-  .catch(err => {
-    console.error(err);
-    alert("Network error aa gaya.");
-  });
+    .then(r => r.text())
+    .then(text => {
+      if (text === "SUCCESS") {
+        document.getElementById("r_name").value = "";
+        document.getElementById("r_message").value = "";
+        lockReviewForm("Thanks for your review! You can submit only once from this device.");
+        loadReviews();
+      } else if (text === "DUPLICATE_DEVICE") {
+        lockReviewForm("You already submitted a review from this device.");
+        alert("Is device se pehle hi review aa chuka hai.");
+      } else {
+        console.log("Unexpected response:", text);
+        alert("Review save karne me problem aa gayi.");
+      }
+    })
+    .catch(err => {
+      console.error("POST error:", err);
+      alert("Network error, thodi der baad try kar.");
+    })
+    .finally(() => {
+      setReviewButtonLoading(false);
+    });
 }
 
-// load reviews
+// LOAD REVIEWS
 function loadReviews() {
   fetch(SCRIPT_URL)
     .then(r => r.json())
     .then(data => {
       let html = "";
 
-      if (data.length === 0) {
+      if (!data.length) {
         html = `<div style="color:#aaa;font-size:13px;">No reviews yet.</div>`;
       }
 
-      data.reverse().forEach(r => {
+      data.slice().reverse().forEach(r => {
         html += `
         <div style="
           margin-bottom:12px;
@@ -747,22 +775,22 @@ function loadReviews() {
             align-items:center;
             margin-bottom:4px;
           ">
-            <span style="font-size:13px;font-weight:600">${esc(r.name)}</span>
-            <span style="font-size:14px;color:#ffd43b">${"⭐".repeat(r.rating)}</span>
+            <span style="font-size:13px;font-weight:600;">${esc(r.name)}</span>
+            <span style="font-size:14px;color:#ffd43b;">${"⭐".repeat(Number(r.rating) || 0)}</span>
           </div>
-
           <div style="font-size:13px;color:#ddd;">
             ${esc(r.message)}
           </div>
-        </div>
-        `;
+        </div>`;
       });
 
       document.getElementById("reviewsList").innerHTML = html;
-    });
+    })
+    .catch(err => console.error("GET error:", err));
 }
 
 loadReviews();
+</script>
 </script>
 </body>
 </html>
