@@ -1,1 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Notsagar Thumbnail Gallery</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{
+  --bg:#050509;
+  --card:#101018;
+  --accent:#f97316;
+  --text:#f9fafb;
+  --muted:#9ca3af;
+}
+
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  background:radial-gradient(circle at top,#111827 0,#020617 45%,#000 100%);
+  font-family:Arial, sans-serif;
+  color:var(--text);
+  padding:22px;
+}
+
+/* WRAPPER */
+.wrapper{
+  max-width:1200px;
+  margin:auto;
+  background:rgba(3,7,18,0.95);
+  border-radius:22px;
+  border:1px solid rgba(148,163,184,.25);
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+  padding:22px;
+}
+
+/* TITLE */
+h1{
+  text-align:center;
+  font-size:1.7rem;
+  margin-bottom:20px;
+  font-weight:700;
+  letter-spacing:.04em;
+}
+
+/* GRID 16:9 = MOBILE 3 PER ROW */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:14px;
+}
+
+/* THUMB CARD 16:9 */
+.thumb-card{
+  aspect-ratio:16/9;
+  border-radius:14px;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.09);
+  background:linear-gradient(145deg,#1e2433,#020617);
+  cursor:pointer;
+  transition:.28s;
+  box-shadow:0 10px 28px rgba(0,0,0,.55);
+}
+.thumb-card:hover{
+  border-color:rgba(249,115,22,.65);
+  box-shadow:0 16px 38px rgba(0,0,0,.85);
+  transform:translateY(-2px) scale(1.01);
+}
+.thumb-card img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:.35s;
+}
+.thumb-card:hover img{
+  transform:scale(1.08);
+}
+
+/* BUY BUTTON */
+.cta{text-align:center;margin:28px 0;}
+#buyBtn{
+  background:radial-gradient(circle,#f97316,#ea580c);
+  padding:12px 32px;
+  border:none;
+  border-radius:999px;
+  font-size:.95rem;
+  font-weight:700;
+  letter-spacing:.1em;
+  color:#0b1120;
+  cursor:pointer;
+  transition:.25s;
+  box-shadow:0 10px 30px rgba(249,115,22,.48);
+}
+#buyBtn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 18px 44px rgba(249,115,22,.65);
+}
+
+/* PLANS */
+#plans{
+  background:rgba(15,23,42,.95);
+  border:1px solid rgba(75,85,99,.7);
+  border-radius:16px;
+  padding:16px;
+  animation:fadeIn .25s ease;
+}
+.hidden{display:none;}
+
+.plan-card{
+  display:block;
+  border:1px solid rgba(75,85,99,.7);
+  border-radius:15px;
+  padding:12px;
+  margin-bottom:10px;
+  text-decoration:none;
+  color:var(--text);
+  background:linear-gradient(145deg,#1f2937,#020617);
+  box-shadow:0 12px 26px rgba(0,0,0,.6);
+  transition:.25s;
+}
+.plan-card:hover{
+  border-color:rgba(249,115,22,.7);
+  box-shadow:0 16px 42px rgba(0,0,0,.9);
+}
+
+.plan-title{
+  display:flex;
+  justify-content:space-between;
+  font-size:.92rem;
+  font-weight:600;
+}
+.price{
+  color:var(--accent);
+  font-weight:700;
+}
+
+/* MONTHLY */
+.monthly-options a{
+  display:block;
+  margin-top:8px;
+  padding:10px;
+  background:#1e293b;
+  border-radius:10px;
+  text-decoration:none;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+}
+.monthly-options a:hover{
+  background:#334155;
+}
+
+.note{
+  margin-top:6px;
+  font-size:.78rem;
+  color:var(--muted);
+}
+
+/* ZOOM MODAL */
+#imageModal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.92);
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+#modalImg{
+  max-width:90%;
+  max-height:85%;
+  border-radius:10px;
+  box-shadow:0 20px 60px rgba(0,0,0,.7);
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.95);}
+  to{opacity:1;transform:scale(1);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<h1>Premium Thumbnail Gallery</h1>
+
+<div class="gallery">
+
+<div class="thumb-card"><img src="images/thumb1.jpg"></div>
+<div class="thumb-card"><img src="images/thumb2.jpg"></div>
+<div class="thumb-card"><img src="images/thumb3.jpg"></div>
+<div class="thumb-card"><img src="images/thumb4.jpg"></div>
+
+<div class="thumb-card"><img src="images/thumb5.jpg"></div>
+<div class="thumb-card"><img src="images/thumb6.jpg"></div>
+<div class="thumb-card"><img src="images/thumb7.jpg"></div>
+<div class="thumb-card"><img src="images/thumb8.jpg"></div>
+
+<div class="thumb-card"><img src="images/thumb9.jpg"></div>
+<div class="thumb-card"><img src="images/thumb10.jpg"></div>
+<div class="thumb-card"><img src="images/thumb11.jpg"></div>
+<div class="thumb-card"><img src="images/thumb12.jpg"></div>
+
+<div class="thumb-card"><img src="images/thumb13.jpg"></div>
+<div class="thumb-card"><img src="images/thumb14.jpg"></div>
+<div class="thumb-card"><img src="images/thumb15.jpg"></div>
+<div class="thumb-card"><img src="images/thumb16.jpg"></div>
+
+<div class="thumb-card"><img src="images/thumb17.jpg"></div>
+<div class="thumb-card"><img src="images/thumb18.jpg"></div>
+<div class="thumb-card"><img src="images/thumb19.jpg"></div>
+<div class="thumb-card"><img src="images/thumb20.jpg"></div>
+
+<div class="thumb-card"><img src="images/thumb21.jpg"></div>
+<div class="thumb-card"><img src="images/thumb22.jpg"></div>
+<div class="thumb-card"><img src="images/thumb23.jpg"></div>
+<div class="thumb-card"><img src="images/thumb24.jpg"></div>
+
+<div class="thumb-card"><img src="images/thumb25.jpg"></div>
+<div class="thumb-card"><img src="images/thumb26.jpg"></div>
+<div class="thumb-card"><img src="images/thumb27.jpg"></div>
+<div class="thumb-card"><img src="images/thumb28.jpg"></div>
+
+<div class="thumb-card"><img src="images/thumb29.jpg"></div>
+<div class="thumb-card"><img src="images/thumb30.jpg"></div>
+
+</div>
+
+<div class="cta">
+<button id="buyBtn">🛒 BUY THUMBNAILS</button>
+</div>
+
+<div id="plans" class="hidden">
+
+<a class="plan-card"
+href="mailto:shaurvsharma43@gmail.com?subject=Single%20Thumbnail&body=Hey,%20I%20need%20a%20thumbnail.%0A%0AMy%20details:%0A-%20Channel%20Name:%0A-%20Video%20Title:%0A-%20Thumbnail%20Type:">
+<div class="plan-title">
+<span>Single Thumbnail</span>
+<span class="price">₹200</span>
+</div>
+</a>
+
+<a class="plan-card"
+href="mailto:shaurvsharma43@gmail.com?subject=5%20Thumbnail%20Pack&body=Hey,%20I%20need%205%20thumbnails.%0A%0AMy%20details:%0A-%20Channel%20Name:%0A-%20Video%20Ideas:%0A-%20Thumbnail%20Type:">
+<div class="plan-title">
+<span>5 Thumbnails Pack</span>
+<span class="price">₹1000</span>
+</div>
+</a>
+
+<div class="plan-card">
+<div class="plan-title">
+<span>Monthly Plan</span>
+<span class="price">DM</span>
+</div>
+
+<div class="monthly-options">
+<a href="https://www.instagram.com/sagarplayz_official/">DM on Instagram</a>
+<a href="mailto:shaurvsharma43@gmail.com?subject=Monthly%20Thumbnail%20Service&body=Hey,%20I%20need%20monthly%20thumbnail%20services.%0A%0AMy%20details:%0A-%20Channel%20Name:%0A-%20Average%20Uploads/week:%0A-%20Thumbnail%20Type:">Email Inquiry</a>
+</div>
+</div>
+
+<p class="note">Note: Thumbnail price depends on quality and quantity both.</p>
+
+</div>
+
+</div>
+
+<div id="imageModal">
+<img id="modalImg">
+</div>
+
+<script>
+document.getElementById("buyBtn").onclick=()=>{
+  let p=document.getElementById("plans");
+  p.classList.toggle("hidden");
+  p.scrollIntoView({behavior:"smooth"});
+}
+
+let modal=document.getElementById("imageModal");
+let modalImg=document.getElementById("modalImg");
+
+document.querySelectorAll(".thumb-card img").forEach(img=>{
+  img.onclick=()=>{
+    modal.style.display="flex";
+    modalImg.src=img.src;
+  }
+});
+modal.onclick=()=>{modal.style.display="none";}
+</script>
+
+</body>
+</html>
 
