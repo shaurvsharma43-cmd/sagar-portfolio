@@ -518,6 +518,43 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
   </div>
 </section>
 
+<!-- PRICING (simple version, optional – add id="pricing" to match nav) -->
+<section id="pricing">
+  <h2>Pricing</h2>
+  <p class="muted">
+    Prices based on style, complexity & volume.
+  </p>
+
+  <div class="section-grid">
+    <div class="card">
+      <h3>Single</h3>
+      <p>1 custom thumbnail with small revision.</p>
+      <div class="pill-row">
+        <span class="pill">₹200</span>
+        <span class="pill">Best for trying</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Pack (5)</h3>
+      <p>5 thumbnails in one consistent style for series.</p>
+      <div class="pill-row">
+        <span class="pill">₹1000</span>
+        <span class="pill">Priority</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Monthly</h3>
+      <p>For creators uploading regularly every week.</p>
+      <div class="pill-row">
+        <span class="pill">10–20 / month</span>
+        <span class="pill">DM for price</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CLIENT REVIEWS -->
 <section id="reviews" style="margin-top:60px;">
   <h2 style="font-size:20px;margin-bottom:16px;">
@@ -647,8 +684,20 @@ modal.addEventListener("click", e => {
 });
 
 
-// ==== REVIEWS (ONLY GOOGLE EMAIL) ====
+// ==== REVIEWS (Google login + deviceID spam block) ====
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz4AEokp4Lf-lj7KaGZum0ARPF9nqOBu5EcKkPwtRN0vXP8O6UhYS1n4v7lZOiDHDHR/exec";
+
+// local device id for spam control
+const DEVICE_KEY = "nsg_review_device_id_v1";
+let DEVICE_ID = localStorage.getItem(DEVICE_KEY);
+if (!DEVICE_ID) {
+  if (window.crypto && crypto.randomUUID) {
+    DEVICE_ID = crypto.randomUUID();
+  } else {
+    DEVICE_ID = Math.random().toString(36).slice(2) + Date.now();
+  }
+  localStorage.setItem(DEVICE_KEY, DEVICE_ID);
+}
 
 function esc(str) {
   return String(str || "")
@@ -691,7 +740,7 @@ function submitReview() {
 
   fetch(SCRIPT_URL, {
     method: "POST",
-    body: JSON.stringify({ name, email, rating, message })
+    body: JSON.stringify({ name, email, rating, message, deviceId: DEVICE_ID })
   })
   .then(r => r.text())
   .then(text => {
@@ -700,7 +749,7 @@ function submitReview() {
       alert("Thanks for your review!");
       loadReviews();
     } else if (text === "ALREADY_REVIEWED") {
-      alert("Is email se pehle hi review aa chuka hai.");
+      alert("Is email / device se pehle hi review aa chuka hai.");
     } else {
       console.log("Unexpected response:", text);
       alert("Review save karne me problem aa gayi.");
