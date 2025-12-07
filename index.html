@@ -535,6 +535,8 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
   </p>
 
   <div class="section-grid">
+
+    <!-- Single Thumbnail -->
     <div class="card">
       <h3>Single Thumbnail</h3>
       <p>Perfect for testing my design on your channel.</p>
@@ -542,8 +544,17 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
         <span class="pill">1 Thumbnail</span>
         <span class="pill">Small revision</span>
       </div>
+
+      <a 
+        href="mailto:shaurvsharma43@gmail.com?subject=I%20need%20thumbnail&body=Hi%20Sagar,%0D%0A%0D%0AI%20need%20a%20thumbnail.%0D%0A%0D%0AMy%20Channel%20Link:%20%0D%0AType%20style%3A%20%0D%0AReference%20Thumbnail%20Link:%20"
+        style="display:inline-block; margin-top:12px; padding:8px 16px; border-radius:999px;
+               background:linear-gradient(135deg,#27e0ff,#ff3b6b); color:#050712;
+               font-size:13px; font-weight:600; text-decoration:none;">
+        Buy Now →
+      </a>
     </div>
 
+    <!-- 5 Thumbnail Pack -->
     <div class="card">
       <h3>5 Thumbnail Pack</h3>
       <p>For weekly uploaders who want consistent style.</p>
@@ -552,8 +563,17 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
         <span class="pill">Series Style</span>
         <span class="pill">Priority</span>
       </div>
+
+      <a 
+        href="mailto:shaurvsharma43@gmail.com?subject=I%20need%205%20thumbnail%20pack&body=Hi%20Sagar,%0D%0A%0D%0AI%20need%20a%205%20thumbnail%20pack.%0D%0A%0D%0AMy%20Channel%20Link:%20%0D%0AType%20style%3A%20%0D%0AReference%20Thumbnail%20Link:%20"
+        style="display:inline-block; margin-top:12px; padding:8px 16px; border-radius:999px;
+               background:linear-gradient(135deg,#27e0ff,#6bffb5); color:#050712;
+               font-size:13px; font-weight:600; text-decoration:none;">
+        Buy Now →
+      </a>
     </div>
 
+    <!-- Monthly Pack -->
     <div class="card">
       <h3>Monthly Pack</h3>
       <p>For serious creators uploading regularly.</p>
@@ -562,9 +582,21 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
         <span class="pill">Priority Queue</span>
         <span class="pill">Custom Quote</span>
       </div>
+
+      <!-- Trigger -->
+      <a 
+        href="#"
+        onclick="openMonthlyOptions()"
+        style="display:inline-block; margin-top:12px; padding:8px 16px; border-radius:999px;
+               background:linear-gradient(135deg,#6bffb5,#ff3b6b); color:#050712;
+               font-size:13px; font-weight:600; text-decoration:none;">
+        Buy Now →
+      </a>
     </div>
+
   </div>
 </section>
+
 
 <!-- REVIEWS -->
 <section id="reviews" style="margin-top:60px;">
@@ -912,6 +944,46 @@ function logout(){
 // decode ID token
 function decodeJwt(token){
   return JSON.parse(atob(token.split('.')[1]));
+}
+</script>
+
+<div id="monthlyPopup" 
+     style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6);
+            backdrop-filter:blur(10px); z-index:9999; align-items:center; justify-content:center;">
+
+  <div style="background:#0b0f20; padding:22px; border-radius:18px;
+              width:260px; text-align:center; border:1px solid rgba(255,255,255,0.15);">
+
+    <h3 style="font-size:16px; margin-bottom:14px;">Monthly Pack</h3>
+
+    <a href="https://www.instagram.com/sagarplayz_official/"
+       style="display:block; padding:8px 10px; border-radius:999px;
+              background:linear-gradient(135deg,#27e0ff,#ff3b6b);
+              color:#050712; margin-bottom:10px; font-size:13px; font-weight:600; text-decoration:none;">
+      DM on Instagram
+    </a>
+
+    <a href="mailto:shaurvsharma43@gmail.com?subject=Monthly%20Pack%20Request&body=Hi%20Sagar,%0D%0A%0D%0AI%20need%20a%20monthly%20thumbnail%20pack.%0D%0A%0D%0AChannel%20Link:%0D%0AUpload%20Frequency:%0D%0AStyle:%0D%0AReference%20Link:%0D%0A"
+       style="display:block; padding:8px 10px; border-radius:999px;
+              background:linear-gradient(135deg,#6bffb5,#27e0ff);
+              color:#050712; font-size:13px; font-weight:600; text-decoration:none;">
+      Email Quote
+    </a>
+
+    <div onclick="closeMonthlyOptions()"
+         style="margin-top:12px; font-size:12px; cursor:pointer; color:#a0a3b1;">
+      Cancel
+    </div>
+
+  </div>
+</div>
+
+<script>
+function openMonthlyOptions(){
+  document.getElementById("monthlyPopup").style.display = "flex";
+}
+function closeMonthlyOptions(){
+  document.getElementById("monthlyPopup").style.display = "none";
 }
 </script>
 
