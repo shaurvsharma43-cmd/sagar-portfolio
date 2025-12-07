@@ -6,632 +6,675 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Sagar - Gaming & Minecraft Thumbnail Designer" />
 
-<style>
-:root {
-  --bg: #050712;
-  --bg2: #0c1020;
-  --accent: #27e0ff;
-  --accent-soft: rgba(39, 224, 255, 0.15);
-  --text: #f5f5f7;
-  --muted: #a0a3b1;
-  --card: #111526;
-  --border: #22263a;
-  --radius-lg: 18px;
-  --radius-xl: 28px;
-  --shadow-soft: 0 18px 40px rgba(0,0,0,0.55);
-}
+  <style>
+  :root {
+    --bg: #050712;
+    --bg2: #0c1020;
+    --accent: #27e0ff;
+    --accent-soft: rgba(39, 224, 255, 0.15);
+    --text: #f5f5f7;
+    --muted: #a0a3b1;
+    --card: #111526;
+    --border: #22263a;
+    --radius-lg: 18px;
+    --radius-xl: 28px;
+    --shadow-soft: 0 18px 40px rgba(0,0,0,0.55);
+  }
 
-*{
- margin:0;
- padding:0;
- box-sizing:border-box;
- font-family:system-ui,Roboto;
-}
+  *{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:system-ui,Roboto;
+  }
 
-body{
- background:radial-gradient(circle at top,#151a3a 0,#050712 55%);
- color:var(--text);
- min-height:100vh;
-}
+  body{
+    background:radial-gradient(circle at top,#151a3a 0,#050712 55%);
+    color:var(--text);
+    min-height:100vh;
+  }
 
-.page{
- max-width:1100px;
- margin:0 auto;
- padding:24px 16px 60px;
-}
+  .page{
+    max-width:1100px;
+    margin:0 auto;
+    padding:24px 16px 60px;
+  }
 
-/* HEADER */
-header{
- display:flex;
- align-items:center;
- justify-content:space-between;
- padding:12px 18px;
- border-radius:999px;
- background:rgba(5,7,18,0.9);
- border:1px solid rgba(255,255,255,0.06);
- backdrop-filter:blur(20px);
- position:sticky;
- top:12px;
- z-index:20;
-}
+  /* HEADER */
+  header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 18px;
+    border-radius:999px;
+    background:rgba(5,7,18,0.9);
+    border:1px solid rgba(255,255,255,0.06);
+    backdrop-filter:blur(20px);
+    position:sticky;
+    top:12px;
+    z-index:20;
+  }
 
-.brand{display:flex;gap:10px;align-items:center;}
-.brand-logo{
- width:34px; height:34px;
- border-radius:999px;
- background:radial-gradient(circle at 30% 20%,#fff 0,#27e0ff 35%,#ff3b6b 100%);
- box-shadow:0 0 18px rgba(39,224,255,0.7);
-}
-.brand-text{display:flex;flex-direction:column;font-size:13px;}
+  .brand{display:flex;gap:10px;align-items:center;}
+  .brand-logo{
+    width:34px; height:34px;
+    border-radius:999px;
+    background:radial-gradient(circle at 30% 20%,#fff 0,#27e0ff 35%,#ff3b6b 100%);
+    box-shadow:0 0 18px rgba(39,224,255,0.7);
+  }
+  .brand-text{display:flex;flex-direction:column;font-size:13px;}
 
-.nav-links{display:flex;gap:10px;font-size:12px;}
-.nav-links a{
- text-decoration:none;color:var(--muted);
- padding:6px 10px;border-radius:999px;
-}
-.nav-links a:hover{
- color:var(--text);
- background:rgba(255,255,255,0.06);
-}
+  .nav-links{display:flex;gap:10px;font-size:12px;}
+  .nav-links a{
+    text-decoration:none;color:var(--muted);
+    padding:6px 10px;border-radius:999px;
+  }
+  .nav-links a:hover{
+    color:var(--text);
+    background:rgba(255,255,255,0.06);
+  }
 
-.nav-cta{
- padding:7px 14px;
- border-radius:999px;
- background:linear-gradient(135deg,var(--accent),#6bffb5);
- color:#020308;
- font-weight:600;
- text-decoration:none;
-}
+  .nav-cta{
+    padding:7px 14px;
+    border-radius:999px;
+    background:linear-gradient(135deg,var(--accent),#6bffb5);
+    color:#020308;
+    font-weight:600;
+    text-decoration:none;
+    font-size:12px;
+  }
 
-/* HERO LAYOUT */
-main{
- margin-top:26px;
- display:grid;
- grid-template-columns:minmax(0,2.1fr) minmax(0,1.5fr);
- gap:24px;
-}
+  /* NEW: user auth area in header */
+  .user-auth-area{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  #user_area{
+    display:none;
+    align-items:center;
+    gap:8px;
+    background:rgba(255,255,255,0.06);
+    border-radius:999px;
+    padding:4px 10px 4px 6px;
+    font-size:12px;
+  }
+  #user_area img{
+    width:26px;
+    height:26px;
+    border-radius:50%;
+  }
+  #user_area span{
+    max-width:110px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  #user_area button{
+    border:none;
+    background:#ff3b6b;
+    color:#fff;
+    padding:3px 9px;
+    border-radius:999px;
+    font-size:11px;
+    cursor:pointer;
+  }
 
-/* HERO LEFT */
-.hero-card{
- background:radial-gradient(circle at top left,#232a4c 0,#0b0f20 55%);
- border-radius:var(--radius-xl);
- padding:22px;
- box-shadow:var(--shadow-soft);
- border:1px solid rgba(255,255,255,0.06);
-}
+  /* HERO LAYOUT */
+  main{
+    margin-top:26px;
+    display:grid;
+    grid-template-columns:minmax(0,2.1fr) minmax(0,1.5fr);
+    gap:24px;
+  }
 
-.hero-badge{
- display:inline-flex;align-items:center;gap:8px;
- padding:4px 10px 4px 4px;
- border-radius:999px;
- background:rgba(4,255,163,0.07);
-}
-.hero-dot{
- width:18px;height:18px;border-radius:999px;
- background:radial-gradient(circle,#6bffb5 0,#06d67c 40%,transparent 60%);
-}
+  /* HERO LEFT */
+  .hero-card{
+    background:radial-gradient(circle at top left,#232a4c 0,#0b0f20 55%);
+    border-radius:var(--radius-xl);
+    padding:22px;
+    box-shadow:var(--shadow-soft);
+    border:1px solid rgba(255,255,255,0.06);
+  }
 
-.hero-title{font-size:30px;margin-bottom:8px;line-height:1.1;}
-.hero-title span{
- background:linear-gradient(135deg,#27e0ff,#6bffb5);
- -webkit-background-clip:text;color:transparent;
-}
+  .hero-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:4px 10px 4px 4px;
+    border-radius:999px;
+    background:rgba(4,255,163,0.07);
+  }
+  .hero-dot{
+    width:18px;height:18px;border-radius:999px;
+    background:radial-gradient(circle,#6bffb5 0,#06d67c 40%,transparent 60%);
+  }
 
-.hero-sub{font-size:13px;color:var(--muted);max-width:360px;margin-bottom:16px;}
+  .hero-title{font-size:30px;margin-bottom:8px;line-height:1.1;}
+  .hero-title span{
+    background:linear-gradient(135deg,#27e0ff,#6bffb5);
+    -webkit-background-clip:text;color:transparent;
+  }
 
-.hero-metrics{display:flex;gap:18px;margin-bottom:18px;}
-.hero-metrics strong{font-size:18px;color:var(--text);}
-.hero-metrics span{font-size:11px;color:var(--muted);display:block;}
+  .hero-sub{font-size:13px;color:var(--muted);max-width:360px;margin-bottom:16px;}
 
-.hero-cta-row{display:flex;gap:10px;margin-bottom:14px;}
-.btn-primary{
- padding:9px 18px;border-radius:999px;
- background:linear-gradient(135deg,var(--accent),#ff3b6b);
- color:#050712;font-size:13px;font-weight:600;text-decoration:none;
-}
-.btn-ghost{
- padding:8px 14px;border-radius:999px;
- background:rgba(7,10,25,0.7);border:1px solid rgba(255,255,255,0.12);
- color:var(--text);font-size:12px;text-decoration:none;
-}
-.hero-footer-note{font-size:11px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;}
+  .hero-metrics{display:flex;gap:18px;margin-bottom:18px;}
+  .hero-metrics strong{font-size:18px;color:var(--text);}
+  .hero-metrics span{font-size:11px;color:var(--muted);display:block;}
 
-/* HERO RIGHT */
-.hero-preview{
- background:radial-gradient(circle at top,#2a173f 0,#070716 60%);
- border-radius:var(--radius-xl);
- padding:16px;box-shadow:var(--shadow-soft);
- border:1px solid rgba(255,255,255,0.06);
-}
+  .hero-cta-row{display:flex;gap:10px;margin-bottom:14px;}
+  .btn-primary{
+    padding:9px 18px;border-radius:999px;
+    background:linear-gradient(135deg,var(--accent),#ff3b6b);
+    color:#050712;font-size:13px;font-weight:600;text-decoration:none;
+  }
+  .btn-ghost{
+    padding:8px 14px;border-radius:999px;
+    background:rgba(7,10,25,0.7);border:1px solid rgba(255,255,255,0.12);
+    color:var(--text);font-size:12px;text-decoration:none;
+  }
+  .hero-footer-note{font-size:11px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;}
 
-.preview-header{
- display:flex;justify-content:space-between;
- font-size:11px;color:var(--muted);
- margin-bottom:10px;
-}
+  /* HERO RIGHT */
+  .hero-preview{
+    background:radial-gradient(circle at top,#2a173f 0,#070716 60%);
+    border-radius:var(--radius-xl);
+    padding:16px;box-shadow:var(--shadow-soft);
+    border:1px solid rgba(255,255,255,0.06);
+  }
 
-.thumb-grid{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:10px;
-}
+  .preview-header{
+    display:flex;justify-content:space-between;
+    font-size:11px;color:var(--muted);
+    margin-bottom:10px;
+  }
 
-.thumb-card{
- background:linear-gradient(145deg,#161933,#090a16);
- border-radius:14px;padding:8px;
- border:1px solid rgba(255,255,255,0.08);
-}
+  .thumb-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+  }
 
-.thumb-img{
- width:100%;border-radius:9px;
- cursor:pointer;
-}
-.thumb-meta{
- display:flex;justify-content:space-between;
- font-size:10px;margin-top:6px;
- color:var(--muted);
-}
-.ctr-pill,
-.server-pill{
- padding:2px 6px;border-radius:999px;
- border:1px solid rgba(255,255,255,0.3);
- font-size:9px;
-}
+  .thumb-card{
+    background:linear-gradient(145deg,#161933,#090a16);
+    border-radius:14px;padding:8px;
+    border:1px solid rgba(255,255,255,0.08);
+  }
 
-/* SECTION */
-section{margin-top:32px;}
-h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
-.muted{color:var(--muted);font-size:13px;}
+  .thumb-img{
+    width:100%;border-radius:9px;
+    cursor:pointer;
+  }
+  .thumb-meta{
+    display:flex;justify-content:space-between;
+    font-size:10px;margin-top:6px;
+    color:var(--muted);
+  }
+  .ctr-pill,
+  .server-pill{
+    padding:2px 6px;border-radius:999px;
+    border:1px solid rgba(255,255,255,0.3);
+    font-size:9px;
+  }
 
-.section-grid{
- display:grid;gap:16px;
- grid-template-columns:repeat(3,1fr);
-}
+  /* SECTION */
+  section{margin-top:32px;}
+  h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
+  .muted{color:var(--muted);font-size:13px;}
 
-.card{
- background:var(--bg2);
- border-radius:var(--radius-lg);
- padding:14px;
- border:1px solid var(--border);
- font-size:13px;
-}
+  .section-grid{
+    display:grid;gap:16px;
+    grid-template-columns:repeat(3,1fr);
+  }
 
-.pill-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
-.pill{
- font-size:11px;
- padding:3px 8px;border-radius:999px;
- border:1px solid rgba(255,255,255,0.06);
-}
+  .card{
+    background:var(--bg2);
+    border-radius:var(--radius-lg);
+    padding:14px;
+    border:1px solid var(--border);
+    font-size:13px;
+  }
 
-/* GALLERY */
-.gallery-grid{
- display:grid;gap:12px;margin-top:16px;
- grid-template-columns:repeat(4,1fr);
-}
-.gallery-item img{
- width:100%;border-radius:14px;
- cursor:pointer;
-}
+  .pill-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+  .pill{
+    font-size:11px;
+    padding:3px 8px;border-radius:999px;
+    border:1px solid rgba(255,255,255,0.06);
+  }
 
-/* MODAL */
-#zoomModal{
- display:none;position:fixed;inset:0;
- background:rgba(0,0,0,0.75);
- backdrop-filter:blur(6px);
- justify-content:center;align-items:center;
- z-index:9999;
-}
-#zoomedImg{
- max-width:90%;max-height:90%;
- border-radius:12px;
-}
-#closeZoom{
- position:absolute;top:32px;right:42px;
- font-size:42px;color:white;cursor:pointer;
-}
+  /* GALLERY */
+  .gallery-grid{
+    display:grid;gap:12px;margin-top:16px;
+    grid-template-columns:repeat(4,1fr);
+  }
+  .gallery-item img{
+    width:100%;border-radius:14px;
+    cursor:pointer;
+  }
 
-/* RESPONSIVE */
-@media(max-width:840px){
- main{grid-template-columns:1fr;}
-}
-</style>
+  /* MODAL */
+  #zoomModal{
+    display:none;position:fixed;inset:0;
+    background:rgba(0,0,0,0.75);
+    backdrop-filter:blur(6px);
+    justify-content:center;align-items:center;
+    z-index:9999;
+  }
+  #zoomedImg{
+    max-width:90%;max-height:90%;
+    border-radius:12px;
+  }
+  #closeZoom{
+    position:absolute;top:32px;right:42px;
+    font-size:42px;color:white;cursor:pointer;
+  }
+
+  /* RESPONSIVE */
+  @media(max-width:840px){
+    main{grid-template-columns:1fr;}
+    header{
+      flex-wrap:wrap;
+      gap:10px;
+    }
+  }
+  </style>
 </head>
 
 <body>
 <div class="page">
 
-<header>
-  <div class="brand">
-    <div class="brand-logo"></div>
-    <div class="brand-text">
-      <span>NotSagar · Thumbnails</span>
-      <span>Gaming · Minecraft · SMP</span>
-    </div>
-  </div>
-
-  <nav class="nav-links">
-    <a href="#services">Services</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#process">Process</a>
-    <a href="#pricing">Pricing</a>
-  </nav>
-
-  <a href="#contact" class="nav-cta">Work with me</a>
-</header>
-
-<main>
-
-<!-- HERO LEFT -->
-<section class="hero-card">
-  <div class="hero-badge">
-    <div class="hero-dot"></div>
-    <span>Thumbnail Designer for Gaming Creators</span>
-  </div>
-
-  <h1 class="hero-title">
-    Hi, I'm <span>Sagar</span><br />
-    I design thumbnails that get clicks.
-  </h1>
-
-  <p class="hero-sub">
-    Specialized in Minecraft & public SMP thumbnails. 4+ years testing designs
-    on real viewers as a creator & editor.
-  </p>
-
-  <div class="hero-metrics">
-    <div>
-      <strong>500+</strong>
-      <span>Thumbnails Designed</span>
-    </div>
-    <div>
-      <strong>4+ yrs</strong>
-      <span>YouTube Experience</span>
-    </div>
-    <div>
-      <strong>Gaming</strong>
-      <span>Niche Specialist</span>
-    </div>
-  </div>
-
-  <div class="hero-cta-row">
-    <a href="#gallery" class="btn-primary">
-      View Thumbnail Gallery →
-    </a>
-    <a href="#contact" class="btn-ghost">
-      Book a Thumbnail Pack
-    </a>
-  </div>
-
-  <div class="hero-footer-note">
-    <span>⚡ High CTR focus</span>
-    <span>🎮 Minecraft & SMP expert</span>
-    <span>📦 Monthly thumbnail packs available</span>
-  </div>
-</section>
-
-<!-- HERO RIGHT -->
-<aside class="hero-preview">
-  <div class="preview-header">
-    <div>Recent work preview</div>
-    <span>YouTube Gaming</span>
-  </div>
-
-  <div class="thumb-grid">
-
-    <div class="thumb-card">
-      <img src="images/death swap.jpg" class="thumb-img zoom-img">
-      <div class="thumb-meta">
-        <span>Death Swap</span>
-        <span class="ctr-pill">Minecraft</span>
+  <header>
+    <div class="brand">
+      <div class="brand-logo"></div>
+      <div class="brand-text">
+        <span>NotSagar · Thumbnails</span>
+        <span>Gaming · Minecraft · SMP</span>
       </div>
     </div>
 
-    <div class="thumb-card">
-      <img src="images/free.jpg" class="thumb-img zoom-img">
-      <div class="thumb-meta">
-        <span>Free</span>
-        <span class="server-pill">Valorant</span>
-      </div>
+    <nav class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#process">Process</a>
+      <a href="#pricing">Pricing</a>
+    </nav>
+
+    <!-- LOGIN + CTA -->
+    <div class="user-auth-area">
+      <!-- Google button mount -->
+      <div id="g_login_btn"></div>
+
+      <!-- After login info -->
+      <div id="user_area"></div>
+
+      <a href="#contact" class="nav-cta">Work with me</a>
     </div>
+  </header>
 
-    <div class="thumb-card">
-      <img src="images/montaze.jpg" class="thumb-img zoom-img">
-      <div class="thumb-meta">
-        <span>Montage</span>
-        <span class="ctr-pill">Highlights</span>
+  <main>
+
+    <!-- HERO LEFT -->
+    <section class="hero-card">
+      <div class="hero-badge">
+        <div class="hero-dot"></div>
+        <span>Thumbnail Designer for Gaming Creators</span>
       </div>
-    </div>
 
-    <div class="thumb-card">
-      <img src="images/spear.jpg" class="thumb-img zoom-img">
-      <div class="thumb-meta">
-        <span>Spear</span>
-        <span class="server-pill">Minecraft</span>
-      </div>
-    </div>
+      <h1 class="hero-title">
+        Hi, I'm <span>Sagar</span><br />
+        I design thumbnails that get clicks.
+      </h1>
 
-  </div>
-
-  <div class="preview-cta">
-    Click any thumbnail to zoom · More work in the gallery below.
-  </div>
-
-</aside>
-
-</main>
-
-<!-- SERVICES -->
-<section id="services">
-  <h2>Services</h2>
-  <p class="muted">
-    I design custom thumbnails focused on story, emotion and high click-through rate.
-  </p>
-
-  <div class="section-grid">
-
-    <div class="card">
-      <h3>Gaming & Minecraft Thumbnails</h3>
-      <p>
-        Custom thumbnails for Minecraft, SMP, Manhunt, challenge videos & more.
+      <p class="hero-sub">
+        Specialized in Minecraft & public SMP thumbnails. 4+ years testing designs
+        on real viewers as a creator & editor.
       </p>
-      <div class="pill-row">
-        <span class="pill">Minecraft</span>
-        <span class="pill">Public SMP</span>
-        <span class="pill">Challenges</span>
-      </div>
-    </div>
 
-    <div class="card">
-      <h3>Stream & Series Branding</h3>
-      <p>
-        LIVE thumbnails, episodes style, logo integration & cohesive branding.
-      </p>
-      <div class="pill-row">
-        <span class="pill">Stream</span>
-        <span class="pill">Series Style</span>
-        <span class="pill">Banner</span>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>Thumbnail Packs</h3>
-      <p>
-        Monthly packs for creators uploading regularly.
-      </p>
-      <div class="pill-row">
-        <span class="pill">5–20</span>
-        <span class="pill">Priority</span>
-        <span class="pill">Monthly Price</span>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- GALLERY -->
-<section id="gallery">
-  <h2>Thumbnail Gallery</h2>
-
-  <div class="gallery-grid">
-    <div class="gallery-item"><img src="images/base-rating.jpg" class="zoom-img"></div>
-    <div class="gallery-item"><img src="images/rank-push.jpg" class="zoom-img"></div>
-    <div class="gallery-item"><img src="images/billu.jpg" class="zoom-img"></div>
-    <div class="gallery-item"><img src="images/srk-memes.jpg" class="zoom-img"></div>
-    <div class="gallery-item"><img src="images/full-course.jpg" class="zoom-img"></div>
-    <div class="gallery-item"><img src="images/scammer.jpg" class="zoom-img"></div>
-<div class="gallery-item">
-  <img src="images/face.jpg" class="zoom-img">
-</div>
-
-<div class="gallery-item">
-  <img src="images/live stream.jpg" class="zoom-img">
-</div>
-
-  </div>
-</section>
-
-<!-- ========== UPDATED PROCESS ========== -->
-<section id="process">
-  <h2>My Thumbnail Process</h2>
-  <p class="muted">
-    Every thumbnail goes through a tested workflow to make sure it performs on YouTube.
-  </p>
-
-  <div class="card" style="margin-top:16px; padding:20px;">
-    
-    <div style="display:flex; flex-direction:column; gap:18px; font-size:13px;">
-
-      <!-- STEP 1 -->
-      <div style="display:flex; gap:14px;">
-        <div style="font-weight:600; 
-          background:rgba(255,255,255,0.09);
-          border:1px solid rgba(255,255,255,0.15);
-          border-radius:50%;
-          width:26px; height:26px;
-          display:flex; align-items:center; justify-content:center;">
-          1
+      <div class="hero-metrics">
+        <div>
+          <strong>500+</strong>
+          <span>Thumbnails Designed</span>
         </div>
         <div>
-          <strong>Research</strong><br>
-          <span style="color:var(--muted);">
-            I analyze your niche, top-performing videos and your past CTR to understand what already works.
-          </span>
+          <strong>4+ yrs</strong>
+          <span>YouTube Experience</span>
+        </div>
+        <div>
+          <strong>Gaming</strong>
+          <span>Niche Specialist</span>
         </div>
       </div>
 
-      <!-- STEP 2 -->
-      <div style="display:flex; gap:14px;">
-        <div style="font-weight:600; 
-          background:rgba(255,255,255,0.09);
-          border:1px solid rgba(255,255,255,0.15);
-          border-radius:50%;
-          width:26px; height:26px;
-          display:flex; align-items:center; justify-content:center;">
-          2
+      <div class="hero-cta-row">
+        <a href="#gallery" class="btn-primary">
+          View Thumbnail Gallery →
+        </a>
+        <a href="#contact" class="btn-ghost">
+          Book a Thumbnail Pack
+        </a>
+      </div>
+
+      <div class="hero-footer-note">
+        <span>⚡ High CTR focus</span>
+        <span>🎮 Minecraft & SMP expert</span>
+        <span>📦 Monthly thumbnail packs available</span>
+      </div>
+    </section>
+
+    <!-- HERO RIGHT -->
+    <aside class="hero-preview">
+      <div class="preview-header">
+        <div>Recent work preview</div>
+        <span>YouTube Gaming</span>
+      </div>
+
+      <div class="thumb-grid">
+
+        <div class="thumb-card">
+          <img src="images/death swap.jpg" class="thumb-img zoom-img" alt="Death Swap thumbnail">
+          <div class="thumb-meta">
+            <span>Death Swap</span>
+            <span class="ctr-pill">Minecraft</span>
+          </div>
         </div>
-        <div>
-          <strong>Concept & Story</strong><br>
-          <span style="color:var(--muted);">
-            I decide one strong story moment with clear emotion instead of overloading the thumbnail.
-          </span>
+
+        <div class="thumb-card">
+          <img src="images/free.jpg" class="thumb-img zoom-img" alt="Free thumbnail">
+          <div class="thumb-meta">
+            <span>Free</span>
+            <span class="server-pill">Valorant</span>
+          </div>
+        </div>
+
+        <div class="thumb-card">
+          <img src="images/montaze.jpg" class="thumb-img zoom-img" alt="Montage thumbnail">
+          <div class="thumb-meta">
+            <span>Montage</span>
+            <span class="ctr-pill">Highlights</span>
+          </div>
+        </div>
+
+        <div class="thumb-card">
+          <img src="images/spear.jpg" class="thumb-img zoom-img" alt="Spear thumbnail">
+          <div class="thumb-meta">
+            <span>Spear</span>
+            <span class="server-pill">Minecraft</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="preview-cta">
+        Click any thumbnail to zoom · More work in the gallery below.
+      </div>
+
+    </aside>
+
+  </main>
+
+  <!-- SERVICES -->
+  <section id="services">
+    <h2>Services</h2>
+    <p class="muted">
+      I design custom thumbnails focused on story, emotion and high click-through rate.
+    </p>
+
+    <div class="section-grid">
+
+      <div class="card">
+        <h3>Gaming & Minecraft Thumbnails</h3>
+        <p>
+          Custom thumbnails for Minecraft, SMP, Manhunt, challenge videos & more.
+        </p>
+        <div class="pill-row">
+          <span class="pill">Minecraft</span>
+          <span class="pill">Public SMP</span>
+          <span class="pill">Challenges</span>
         </div>
       </div>
 
-      <!-- STEP 3 -->
-      <div style="display:flex; gap:14px;">
-        <div style="font-weight:600; 
-          background:rgba(255,255,255,0.09);
-          border:1px solid rgba(255,255,255,0.15);
-          border-radius:50%;
-          width:26px; height:26px;
-          display:flex; align-items:center; justify-content:center;">
-          3
-        </div>
-        <div>
-          <strong>Clean Cutouts & Composition</strong><br>
-          <span style="color:var(--muted);">
-            Subject cutout, background separation, depth, arrows and supporting elements.
-          </span>
+      <div class="card">
+        <h3>Stream & Series Branding</h3>
+        <p>
+          LIVE thumbnails, episodes style, logo integration & cohesive branding.
+        </p>
+        <div class="pill-row">
+          <span class="pill">Stream</span>
+          <span class="pill">Series Style</span>
+          <span class="pill">Banner</span>
         </div>
       </div>
 
-      <!-- STEP 4 -->
-      <div style="display:flex; gap:14px;">
-        <div style="font-weight:600; 
-          background:rgba(255,255,255,0.09);
-          border:1px solid rgba(255,255,255,0.15);
-          border-radius:50%;
-          width:26px; height:26px;
-          display:flex; align-items:center; justify-content:center;">
-          4
-        </div>
-        <div>
-          <strong>Lighting & Color</strong><br>
-          <span style="color:var(--muted);">
-            Strong contrast, glow, shadows, color grading and detail to make the thumbnail pop at small size.
-          </span>
-        </div>
-      </div>
-
-      <!-- STEP 5 -->
-      <div style="display:flex; gap:14px;">
-        <div style="font-weight:600; 
-          background:rgba(255,255,255,0.09);
-          border:1px solid rgba(255,255,255,0.15);
-          border-radius:50%;
-          width:26px; height:26px;
-          display:flex; align-items:center; justify-content:center;">
-          5
-        </div>
-        <div>
-          <strong>Text & Final Polish</strong><br>
-          <span style="color:var(--muted);">
-            Minimal bold text (2–4 words), logo placement and export in perfect YouTube size.
-          </span>
+      <div class="card">
+        <h3>Thumbnail Packs</h3>
+        <p>
+          Monthly packs for creators uploading regularly.
+        </p>
+        <div class="pill-row">
+          <span class="pill">5–20</span>
+          <span class="pill">Priority</span>
+          <span class="pill">Monthly Price</span>
         </div>
       </div>
 
     </div>
+  </section>
 
-  </div>
-</section>
+  <!-- GALLERY -->
+  <section id="gallery">
+    <h2>Thumbnail Gallery</h2>
 
-<!-- CLIENT REVIEWS -->
-<section id="reviews" style="margin-top:60px;">
-  <h2 style="font-size:20px;margin-bottom:16px;">
-    Client Reviews ⭐
-  </h2>
+    <div class="gallery-grid">
+      <div class="gallery-item"><img src="images/base-rating.jpg" class="zoom-img" alt="Base rating"></div>
+      <div class="gallery-item"><img src="images/rank-push.jpg" class="zoom-img" alt="Rank push"></div>
+      <div class="gallery-item"><img src="images/billu.jpg" class="zoom-img" alt="Billu"></div>
+      <div class="gallery-item"><img src="images/srk-memes.jpg" class="zoom-img" alt="SRK memes"></div>
+      <div class="gallery-item"><img src="images/full-course.jpg" class="zoom-img" alt="Full course"></div>
+      <div class="gallery-item"><img src="images/scammer.jpg" class="zoom-img" alt="Scammer"></div>
+      <div class="gallery-item"><img src="images/face.jpg" class="zoom-img" alt="Face reveal"></div>
+      <div class="gallery-item"><img src="images/live stream.jpg" class="zoom-img" alt="Live stream"></div>
+    </div>
+  </section>
 
-  <div id="reviewForm" style="
-    display:flex;
-    gap:10px;
-    flex-wrap:wrap;
-    align-items:flex-start;
-    margin-bottom:20px;
-  ">
+  <!-- PROCESS -->
+  <section id="process">
+    <h2>My Thumbnail Process</h2>
+    <p class="muted">
+      Every thumbnail goes through a tested workflow to make sure it performs on YouTube.
+    </p>
 
-    <input id="r_name" placeholder="Your Name" style="
-      flex:1;
-      min-width:180px;
-      padding:10px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:#15182a;
-      color:#fff;
-      font-size:14px;
-      outline:none;
-    " />
+    <div class="card" style="margin-top:16px; padding:20px;">
+      <div style="display:flex; flex-direction:column; gap:18px; font-size:13px;">
 
-    <select id="r_rating" style="
-      padding:10px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:#15182a;
-      color:#ffd43b;
-      font-size:16px;
-      outline:none;
-      cursor:pointer;
+        <div style="display:flex; gap:14px;">
+          <div style="font-weight:600;
+            background:rgba(255,255,255,0.09);
+            border:1px solid rgba(255,255,255,0.15);
+            border-radius:50%;
+            width:26px; height:26px;
+            display:flex; align-items:center; justify-content:center;">
+            1
+          </div>
+          <div>
+            <strong>Research</strong><br>
+            <span style="color:var(--muted);">
+              I analyze your niche, top-performing videos and your past CTR to understand what already works.
+            </span>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:14px;">
+          <div style="font-weight:600;
+            background:rgba(255,255,255,0.09);
+            border:1px solid rgba(255,255,255,0.15);
+            border-radius:50%;
+            width:26px; height:26px;
+            display:flex; align-items:center; justify-content:center;">
+            2
+          </div>
+          <div>
+            <strong>Concept & Story</strong><br>
+            <span style="color:var(--muted);">
+              I decide one strong story moment with clear emotion instead of overloading the thumbnail.
+            </span>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:14px;">
+          <div style="font-weight:600;
+            background:rgba(255,255,255,0.09);
+            border:1px solid rgba(255,255,255,0.15);
+            border-radius:50%;
+            width:26px; height:26px;
+            display:flex; align-items:center; justify-content:center;">
+            3
+          </div>
+          <div>
+            <strong>Clean Cutouts & Composition</strong><br>
+            <span style="color:var(--muted);">
+              Subject cutout, background separation, depth, arrows and supporting elements.
+            </span>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:14px;">
+          <div style="font-weight:600;
+            background:rgba(255,255,255,0.09);
+            border:1px solid rgba(255,255,255,0.15);
+            border-radius:50%;
+            width:26px; height:26px;
+            display:flex; align-items:center; justify-content:center;">
+            4
+          </div>
+          <div>
+            <strong>Lighting & Color</strong><br>
+            <span style="color:var(--muted);">
+              Strong contrast, glow, shadows, color grading and detail to make the thumbnail pop at small size.
+            </span>
+          </div>
+        </div>
+
+        <div style="display:flex; gap:14px;">
+          <div style="font-weight:600;
+            background:rgba(255,255,255,0.09);
+            border:1px solid rgba(255,255,255,0.15);
+            border-radius:50%;
+            width:26px; height:26px;
+            display:flex; align-items:center; justify-content:center;">
+            5
+          </div>
+          <div>
+            <strong>Text & Final Polish</strong><br>
+            <span style="color:var(--muted);">
+              Minimal bold text (2–4 words), logo placement and export in perfect YouTube size.
+            </span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENT REVIEWS -->
+  <section id="reviews" style="margin-top:60px;">
+    <h2 style="font-size:20px;margin-bottom:16px;">
+      Client Reviews ⭐
+    </h2>
+
+    <div id="reviewForm" style="
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:flex-start;
+      margin-bottom:20px;
     ">
-      <option value="5">⭐⭐⭐⭐⭐</option>
-      <option value="4">⭐⭐⭐⭐</option>
-      <option value="3">⭐⭐⭐</option>
-      <option value="2">⭐⭐</option>
-      <option value="1">⭐</option>
-    </select>
 
-    <textarea id="r_message" placeholder="Write your review..." style="
-      flex:2;
-      min-width:260px;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,0.10);
-      background:#15182a;
-      color:#fff;
-      font-size:14px;
-      height:90px;
-      outline:none;
-    "></textarea>
+      <input id="r_name" placeholder="Your Name" style="
+        flex:1;
+        min-width:180px;
+        padding:10px 14px;
+        border-radius:14px;
+        border:1px solid rgba(255,255,255,0.10);
+        background:#15182a;
+        color:#fff;
+        font-size:14px;
+        outline:none;
+      " />
 
-    <button id="reviewBtn" onclick="submitReview()" style="
-  padding:11px 22px;
-  border:none;
-  border-radius:14px;
-  background:linear-gradient(135deg,#27e0ff,#ff3b6b);
-  font-size:14px;
-  font-weight:600;
-  cursor:pointer;
-  color:#050712;
-  min-width:130px;
-">
-  Submit Review
-</button>
+      <select id="r_rating" style="
+        padding:10px 14px;
+        border-radius:14px;
+        border:1px solid rgba(255,255,255,0.10);
+        background:#15182a;
+        color:#ffd43b;
+        font-size:16px;
+        outline:none;
+        cursor:pointer;
+      ">
+        <option value="5">⭐⭐⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="1">⭐</option>
+      </select>
 
-  </div>
+      <textarea id="r_message" placeholder="Write your review..." style="
+        flex:2;
+        min-width:260px;
+        padding:12px 14px;
+        border-radius:14px;
+        border:1px solid rgba(255,255,255,0.10);
+        background:#15182a;
+        color:#fff;
+        font-size:14px;
+        height:90px;
+        outline:none;
+      "></textarea>
 
-  <div id="reviewsList"></div>
-</section>
+      <button id="reviewBtn" onclick="submitReview()" style="
+        padding:11px 22px;
+        border:none;
+        border-radius:14px;
+        background:linear-gradient(135deg,#27e0ff,#ff3b6b);
+        font-size:14px;
+        font-weight:600;
+        cursor:pointer;
+        color:#050712;
+        min-width:130px;
+      ">
+        Submit Review
+      </button>
 
-<!-- CONTACT -->
-<section id="contact">
-  <h2>Contact & Booking</h2>
-  <div class="contact-card" style="margin-top:18px;background:linear-gradient(120deg,var(--accent-soft),rgba(255,59,107,0.16));border-radius:var(--radius-xl);padding:16px;border:1px solid rgba(255,255,255,0.18);display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:13px;">
-    <div>
-      <strong>Ready to boost?</strong><br>
-      Send channel link & idea.
     </div>
 
-    <div class="contact-links" style="display:flex;gap:8px;flex-wrap:wrap;">
-      <a href="mailto:shaurvsharma43@gmail.com" style="text-decoration:none;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:#fdfdfd;color:#020308;">Email</a>
-      <a href="https://discord.gg/ajeXSRAtUU" style="text-decoration:none;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:#fdfdfd;color:#020308;">Discord</a>
-      <a href="https://www.instagram.com/sagarplayz_official/" style="text-decoration:none;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:#fdfdfd;color:#020308;">Instagram</a>
-      <a href="https://youtube.com/@notsagar_og" style="text-decoration:none;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:#fdfdfd;color:#020308;">YouTube</a>
-    </div>
-  </div>
-</section>
+    <div id="reviewsList"></div>
+  </section>
 
-<footer style="margin-top:32px;font-size:11px;color:var(--muted);text-align:center;">
-  © <span id="year"></span> Sagar · Thumbnail Designer · NotSagarGamerz
-</footer>
+  <!-- PRICING (placeholder so #pricing link works) -->
+  <section id="pricing">
+    <h2>Pricing</h2>
+    <p class="muted">Contact me for custom pricing based on style & volume.</p>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <h2>Contact & Booking</h2>
+    <div class="contact-card" style="margin-top:18px;background:linear-gradient(120deg,var(--accent-soft),rgba(255,59,107,0.16));border-radius:var(--radius-xl);padding:16px;border:1px solid rgba(255,255,255,0.18);display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:13px;">
+      <div>
+        <strong>Ready to boost?</strong><br>
+        Send channel link & idea.
+      </div>
+
+      <div class="contact-links" style="display:flex;gap:8px;flex-wrap:wrap;">
+        <a href="mailto:shaurvsharma43@gmail.com" style="text-decoration:none;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:#fdfdfd;color:#020308;">Email</a>
+        <a href="https://discord.gg/ajeXSRAtUU" style="text-decoration:none;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:#fdfdfd;color:#020308;">Discord</a>
+        <a href="https://www.instagram.com/sagarplayz_official/" style="text-decoration:none;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:#fdfdfd;color:#020308;">Instagram</a>
+        <a href="https://youtube.com/@notsagar_og" style="text-decoration:none;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:#fdfdfd;color:#020308;">YouTube</a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="margin-top:32px;font-size:11px;color:var(--muted);text-align:center;">
+    © <span id="year"></span> Sagar · Thumbnail Designer · NotSagarGamerz
+  </footer>
 
 </div>
 
@@ -641,8 +684,8 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
   <img id="zoomedImg" src="">
 </div>
 
-<<script>
-// ==== YEAR + ZOOM MODAL ====
+<!-- YEAR + MODAL + REVIEWS -->
+<script>
 document.getElementById("year").textContent = new Date().getFullYear();
 
 const modal     = document.getElementById("zoomModal");
@@ -661,12 +704,9 @@ modal.addEventListener("click", e => {
   if (e.target === modal) modal.style.display = "none";
 });
 
-
-// ==== REVIEWS + DEVICE LOCK + LOADING BUTTON ====
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz4AEokp4Lf-lj7KaGZum0ARPF9nqOBu5EcKkPwtRN0vXP8O6UhYS1n4v7lZOiDHDHR/exec";
 const DEVICE_KEY = "nsg_review_device_id_v1";
 
-// unique device id (same as pehle wala system)
 let DEVICE_ID = localStorage.getItem(DEVICE_KEY);
 if (!DEVICE_ID) {
   if (window.crypto && crypto.randomUUID) {
@@ -694,7 +734,6 @@ function esc(str) {
     .replace(/>/g,"&gt;");
 }
 
-// button loading on/off
 function setReviewButtonLoading(isLoading) {
   const btn = document.getElementById("reviewBtn");
   if (!btn) return;
@@ -707,7 +746,6 @@ function setReviewButtonLoading(isLoading) {
   }
 }
 
-// SUBMIT REVIEW
 function submitReview() {
   const name    = document.getElementById("r_name").value.trim();
   const rating  = document.getElementById("r_rating").value;
@@ -722,13 +760,12 @@ function submitReview() {
 
   fetch(SCRIPT_URL, {
     method: "POST",
-    // ❗ headers nahi, sirf body
     body: JSON.stringify({ name, rating, message, deviceId: DEVICE_ID })
   })
     .then(r => r.text())
     .then(text => {
       if (text === "SUCCESS") {
-        document.getElementById("r_name").value = "";
+        document.getElementById("r_name").value = name;
         document.getElementById("r_message").value = "";
         lockReviewForm("Thanks for your review! You can submit only once from this device.");
         loadReviews();
@@ -749,7 +786,6 @@ function submitReview() {
     });
 }
 
-// LOAD REVIEWS
 function loadReviews() {
   fetch(SCRIPT_URL)
     .then(r => r.json())
@@ -791,6 +827,85 @@ function loadReviews() {
 
 loadReviews();
 </script>
+
+<!-- GOOGLE LOGIN SDK -->
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<!-- GOOGLE LOGIN LOGIC -->
+<script>
+const CLIENT_ID = "330326769652-h3hcdreqcbj6jo84c74n60bvicuuea3o.apps.googleusercontent.com";
+
+function renderUserArea(data){
+  const area = document.getElementById("user_area");
+  const loginBtn = document.getElementById("g_login_btn");
+  if (!area) return;
+
+  area.style.display = "flex";
+  loginBtn.style.display = "none";
+
+  area.innerHTML = `
+    <img src="${data.picture}" alt="pfp">
+    <span>${data.name}</span>
+    <button onclick="logout()">Logout</button>
+  `;
+}
+
+function handleLogin(response){
+  const data = decodeJwt(response.credential);
+
+  localStorage.setItem("userName", data.name);
+  localStorage.setItem("userEmail", data.email);
+  localStorage.setItem("userPic", data.picture);
+
+  renderUserArea(data);
+
+  const nameInput = document.getElementById("r_name");
+  if (nameInput) nameInput.value = data.name;
+}
+
+function logout(){
+  localStorage.removeItem("userName");
+  localStorage.removeItem("userEmail");
+  localStorage.removeItem("userPic");
+
+  const area = document.getElementById("user_area");
+  const loginBtn = document.getElementById("g_login_btn");
+  if (area) {
+    area.style.display = "none";
+    area.innerHTML = "";
+  }
+  if (loginBtn) loginBtn.style.display = "block";
+}
+
+function decodeJwt(token){
+  return JSON.parse(atob(token.split('.')[1]));
+}
+
+function initGoogleLogin(){
+  if (!(window.google && google.accounts && google.accounts.id)) return;
+
+  google.accounts.id.initialize({
+    client_id: CLIENT_ID,
+    callback: handleLogin
+  });
+
+  google.accounts.id.renderButton(
+    document.getElementById("g_login_btn"),
+    { theme: "outline", size: "medium", shape: "pill" }
+  );
+
+  // if already logged in earlier, restore
+  const name = localStorage.getItem("userName");
+  const pic  = localStorage.getItem("userPic");
+  if (name && pic) {
+    renderUserArea({name, picture:pic});
+    const nameInput = document.getElementById("r_name");
+    if (nameInput) nameInput.value = name;
+  }
+}
+
+window.addEventListener("load", initGoogleLogin);
 </script>
+
 </body>
 </html>
