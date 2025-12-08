@@ -1,166 +1,515 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Full Thumbnail Gallery</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Gallery | Sagar Thumbnails</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-body{
+:root{
+  --bg:#050712;
+  --text:#f5f5f7;
+  --accent:#27e0ff;
+  --accent2:#6bffb5;
+  --glass:rgba(10,12,28,0.85);
+  --border:rgba(255,255,255,0.18);
+}
+
+/* RESET */
+*{
   margin:0;
   padding:0;
-  font-family:system-ui,Roboto;
-  background:radial-gradient(circle at top,#151a3a 0,#050712 55%);
-  color:#fff;
+  box-sizing:border-box;
+  font-family:system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-/* container */
-.wrapper{
-  max-width:1100px;
-  margin:0 auto;
-  padding:24px 18px 70px;
+/* BACKGROUND */
+body{
+  min-height:100vh;
+  color:var(--text);
+  background:radial-gradient(circle at top,#242a5a 0,#050712 55%,#02030a 100%);
+  overflow-x:hidden;
+  position:relative;
 }
 
-/* Title box */
-.box{
-  background:rgba(255,255,255,0.05);
-  backdrop-filter:blur(14px);
-  border:1px solid rgba(255,255,255,0.08);
-  border-radius:28px;
-  padding:26px;
-  box-shadow:0 10px 40px rgba(0,0,0,0.6);
-  margin-bottom:22px;
-}
-
-/* grid 16:9 + 3 per row mobile */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(30%,1fr));
-  gap:12px;
-}
-
-.grid img{
-  width:100%;
-  aspect-ratio:16/9;
-  object-fit:cover;
-  border-radius:14px;
-  cursor:pointer;
-  transition:0.2s;
-}
-.grid img:hover{
-  transform:scale(1.04);
-}
-
-/* buy button fixed bottom right */
-.buy-btn{
+/* stars layer */
+body::before{
+  content:"";
   position:fixed;
-  right:16px;
-  bottom:16px;
-  padding:12px 22px;
-  font-size:14px;
-  font-weight:600;
-  border-radius:999px;
-  border:none;
-  cursor:pointer;
-  background:linear-gradient(135deg,#27e0ff,#ff3b6b);
-  color:#050712;
-  box-shadow:0 6px 22px rgba(0,0,0,0.4);
+  inset:-200px;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(39,224,255,0.18),transparent 55%),
+    radial-gradient(circle at 80% 10%,rgba(255,59,107,0.18),transparent 55%),
+    radial-gradient(circle at 10% 80%,rgba(107,255,181,0.16),transparent 55%);
+  opacity:0.85;
+  z-index:-2;
 }
 
-/* modal background */
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  background-image:
+    radial-gradient(2px 2px at 10% 20%, rgba(255,255,255,.6), transparent),
+    radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,.4), transparent),
+    radial-gradient(1.5px 1.5px at 60% 70%, rgba(255,255,255,.5), transparent),
+    radial-gradient(1px 1px at 30% 50%, rgba(255,255,255,.3), transparent);
+  opacity:0.3;
+  animation:starsMove 25s linear infinite;
+  z-index:-1;
+}
+
+@keyframes starsMove{
+  0%{transform:translate3d(0,0,0);}
+  100%{transform:translate3d(-40px,-60px,0);}
+}
+
+/* PAGE WRAP */
+.page{
+  max-width:1150px;
+  margin:0 auto;
+  padding:26px 18px 60px;
+  position:relative;
+  z-index:1;
+  animation:fadeIn .4s ease-out;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(12px);}
+  to{opacity:1;transform:translateY(0);}
+}
+
+/* TOP BAR */
+.top-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  margin-bottom:18px;
+}
+
+.top-buttons{
+  display:flex;
+  gap:10px;
+}
+
+.btn-pill{
+  padding:9px 18px;
+  border-radius:999px;
+  border:1px solid var(--border);
+  font-size:13px;
+  font-weight:600;
+  text-decoration:none;
+  cursor:pointer;
+  backdrop-filter:blur(14px);
+  background:rgba(6,8,20,0.9);
+  color:var(--text);
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  transition:.18s ease;
+}
+
+.btn-pill span.icon{
+  font-size:14px;
+}
+
+.btn-pill.primary{
+  border:none;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#050712;
+  box-shadow:0 10px 28px rgba(0,0,0,.55);
+}
+
+.btn-pill:hover{
+  transform:translateY(-2px);
+  opacity:.95;
+}
+
+/* TITLE */
+h1{
+  font-size:26px;
+  letter-spacing:.06em;
+  margin-bottom:4px;
+}
+.sub{
+  font-size:13px;
+  opacity:.78;
+}
+
+/* GALLERY GRID */
+.gallery-grid{
+  margin-top:22px;
+  display:grid;
+  gap:16px;
+  grid-template-columns:repeat(4,1fr);
+}
+
+.card{
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+  background:rgba(8,10,26,0.9);
+  border:1px solid rgba(255,255,255,0.10);
+  box-shadow:0 8px 26px rgba(0,0,0,0.65);
+  backdrop-filter:blur(18px);
+  cursor:pointer;
+  transform-origin:center;
+  transition:transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  inset:-40%;
+  background:conic-gradient(
+    from 180deg,
+    transparent 0deg,
+    rgba(39,224,255,0.7) 60deg,
+    transparent 120deg
+  );
+  opacity:0;
+  transition:opacity .3s ease, transform .3s ease;
+  z-index:-1;
+}
+
+.card-inner{
+  position:relative;
+}
+
+.card img{
+  width:100%;
+  display:block;
+  object-fit:cover;
+  aspect-ratio:16/9;
+}
+
+/* bottom strip */
+.card-meta{
+  position:absolute;
+  left:0;right:0;bottom:0;
+  padding:6px 10px;
+  background:linear-gradient(to top,rgba(2,3,10,0.96),rgba(2,3,10,0.35));
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:11px;
+}
+
+.card-title{
+  font-weight:600;
+}
+
+.card-tag{
+  padding:2px 8px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,0.28);
+  font-size:10px;
+  opacity:.9;
+}
+
+/* hover */
+.card:hover{
+  transform:translateY(-8px) scale(1.02);
+  box-shadow:0 16px 40px rgba(0,0,0,0.85);
+  border-color:rgba(39,224,255,0.7);
+}
+
+.card:hover::before{
+  opacity:.8;
+  transform:translate3d(-8px,-12px,0) rotate(8deg);
+}
+
+/* BOTTOM BUY */
+.buy-bottom{
+  display:flex;
+  justify-content:flex-end;
+  margin-top:26px;
+}
+
+/* ZOOM MODAL */
 #zoomModal{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.7);
-  backdrop-filter:blur(4px);
+  background:rgba(0,0,0,0.78);
+  backdrop-filter:blur(8px);
   justify-content:center;
   align-items:center;
-  z-index:9999;
+  z-index:20;
 }
 #zoomedImg{
-  max-width:90%;
-  max-height:88%;
-  border-radius:12px;
+  max-width:92%;
+  max-height:92%;
+  border-radius:18px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.9);
 }
 #closeZoom{
   position:absolute;
-  top:28px;
-  right:38px;
+  top:26px;
+  right:40px;
   font-size:40px;
+  color:white;
   cursor:pointer;
-  color:#fff;
 }
 
-/* Plan modal */
-#planBox{
+/* BUY POPUP – gray glass */
+#buyModal{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(0,0,0,0.6);
-  backdrop-filter:blur(6px);
-  z-index:9999;
+  background:rgba(0,0,0,0.65);
+  backdrop-filter:blur(10px);
   justify-content:center;
   align-items:center;
+  z-index:19;
 }
 
-.plan-card{
-  width:300px;
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:24px;
-  padding:22px;
-  text-align:center;
+.buy-box{
+  width:320px;
+  max-width:90%;
+  background:var(--glass);
+  border-radius:20px;
+  border:1px solid var(--border);
+  padding:20px 18px 16px;
+  box-shadow:0 18px 48px rgba(0,0,0,0.85);
+  animation:pop .22s ease-out;
 }
 
-.plan-card h2{margin-bottom:14px;}
-.plan-card button{
-  width:100%;
-  margin-top:10px;
-  padding:10px;
-  border:none;
-  border-radius:16px;
+@keyframes pop{
+  from{transform:scale(.9) translateY(10px);opacity:0;}
+  to{transform:scale(1) translateY(0);opacity:1;}
+}
+
+.buy-title{
+  font-size:18px;
+  font-weight:700;
+  margin-bottom:6px;
+}
+
+.buy-sub{
+  font-size:12px;
+  opacity:.76;
+  margin-bottom:12px;
+}
+
+.plan{
+  margin-bottom:8px;
+  padding:10px 12px;
+  border-radius:14px;
+  background:rgba(12,15,32,0.95);
+  border:1px solid rgba(255,255,255,0.14);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
   cursor:pointer;
-  background:#fff;
-  color:#050712;
+  transition:.18s ease;
+  font-size:13px;
+}
+.plan:hover{
+  background:rgba(22,26,54,0.95);
+  border-color:rgba(39,224,255,0.7);
+}
+
+.plan-left{
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+}
+.plan-name{
   font-weight:600;
 }
-
-.plan-note{
-  margin-top:12px;
+.plan-desc{
   font-size:11px;
-  color:#bbb;
+  opacity:.8;
+}
+.plan-price{
+  font-size:12px;
+  opacity:.9;
+}
+
+.note{
+  margin-top:8px;
+  font-size:11px;
+  opacity:.78;
+}
+
+.close-buy{
+  margin-top:10px;
+  text-align:center;
+  font-size:12px;
+  cursor:pointer;
+  opacity:.7;
+}
+.close-buy:hover{opacity:1;}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .gallery-grid{grid-template-columns:repeat(3,1fr);}
+}
+@media(max-width:640px){
+  .top-row{flex-direction:column;align-items:flex-start;}
+  .gallery-grid{grid-template-columns:repeat(3,1fr);gap:10px;}
+  .btn-pill{padding:7px 14px;}
 }
 </style>
 </head>
 
 <body>
+<div class="page">
 
-<div class="wrapper">
-  <div class="box">
-    <h1 style="font-size:28px;text-align:center;margin:0;">
-      Full Thumbnail Gallery
-    </h1>
+  <div class="top-row">
+    <div>
+      <h1>Thumbnail Gallery</h1>
+      <div class="sub">Some of my favourite gaming & Minecraft thumbnails.</div>
+    </div>
+
+    <div class="top-buttons">
+      <a href="../index.html" class="btn-pill">
+        <span class="icon">←</span>
+        Back Home
+      </a>
+      <button class="btn-pill primary" onclick="openBuy()">
+        <span class="icon">🛒</span>
+        Buy Thumbnails
+      </button>
+    </div>
   </div>
 
-  <div class="grid">
-    <img src="images/base-rating.jpg" class="zoom">
-    <img src="images/rank-push.jpg" class="zoom">
-    <img src="images/billu.jpg" class="zoom">
-    <img src="images/srk-memes.jpg" class="zoom">
-    <img src="images/full-course.jpg" class="zoom">
-    <img src="images/scammer.jpg" class="zoom">
-    <img src="images/face.jpg" class="zoom">
-    <img src="images/live stream.jpg" class="zoom">
-    <img src="images/death swap.jpg" class="zoom">
-    <img src="images/spear.jpg" class="zoom">
-    <img src="images/free.jpg" class="zoom">
-    <img src="images/montaze.jpg" class="zoom">
+  <div class="gallery-grid">
+
+    <div class="card">
+      <div class="card-inner">
+        <img src="images/base-rating.jpg" class="zoom-img" loading="lazy">
+        <div class="card-meta">
+          <span class="card-title">Base Rating</span>
+          <span class="card-tag">Minecraft SMP</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <img src="images/rank-push.jpg" class="zoom-img" loading="lazy">
+        <div class="card-meta">
+          <span class="card-title">Rank Push</span>
+          <span class="card-tag">Valorant Competitive</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <img src="images/billu.jpg" class="zoom-img" loading="lazy">
+        <div class="card-meta">
+          <span class="card-title">Gta v Live </span>
+          <span class="card-tag">GTA RP</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <img src="images/srk-memes.jpg" class="zoom-img" loading="lazy">
+        <div class="card-meta">
+          <span class="card-title">SRK Memes Reaction</span>
+          <span class="card-tag">Reaction</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <img src="images/full-course.jpg" class="zoom-img" loading="lazy">
+        <div class="card-meta">
+          <span class="card-title">Thumbnails like Tube Sensei</span>
+          <span class="card-tag">Tutorial</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <img src="images/scammer.jpg" class="zoom-img" loading="lazy">
+        <div class="card-meta">
+          <span class="card-title">Harshad mehta Exposed Thumbnail</span>
+          <span class="card-tag">Documentary</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <img src="images/face.jpg" class="zoom-img" loading="lazy">
+        <div class="card-meta">
+          <span class="card-title">My Channels Face Reveal Thumbnail</span>
+          <span class="card-tag">Face Reveal</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <img src="images/live stream.jpg" class="zoom-img" loading="lazy">
+        <div class="card-meta">
+          <span class="card-title">Minecraft Live Stream</span>
+          <span class="card-tag">Streaming</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <img src="images/death swap.jpg" class="zoom-img" loading="lazy">
+        <div class="card-meta">
+          <span class="card-title">Death Swap</span>
+          <span class="card-tag">Minecraft</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <img src="images/free.jpg" class="zoom-img" loading="lazy">
+        <div class="card-meta">
+          <span class="card-title">Valo With me</span>
+          <span class="card-tag">FPS</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <img src="images/montaze.jpg" class="zoom-img" loading="lazy">
+        <div class="card-meta">
+          <span class="card-title">Valorant Montage</span>
+          <span class="card-tag">Highlights</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <img src="images/spear.jpg" class="zoom-img" loading="lazy">
+        <div class="card-meta">
+          <span class="card-title">Spear Clutch</span>
+          <span class="card-tag">Minecraft</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <img src="images/100 days.jpg" class="zoom-img" loading="lazy">
+        <div class="card-meta">
+          <span class="card-title">100 Days Thumbnail</span>
+          <span class="card-tag">Minecraft</span>
+        </div>
+      </div>
+    </div>
+    
   </div>
+
 </div>
-
-<!-- BUY BUTTON -->
-<button class="buy-btn" onclick="openPlans()">Buy Now</button>
 
 <!-- ZOOM MODAL -->
 <div id="zoomModal">
@@ -168,57 +517,124 @@ body{
   <img id="zoomedImg" src="">
 </div>
 
-<!-- Plan Modal -->
-<div id="planBox">
-  <div class="plan-card">
-    <h2>Select Plan</h2>
+<!-- BUY POPUP (GRAY GLASS) -->
+<div id="buyModal">
+  <div class="buy-box">
+    <div class="buy-title">Choose a plan</div>
+    <div class="buy-sub">Tell me what you need – I’ll reply with details.</div>
 
-    <button onclick="singleMail()">1 Thumbnail – ₹200</button>
-    <button onclick="packMail()">5 Thumbnails – ₹1000</button>
-    <button onclick="dmInsta()">DM on Instagram (Monthly)</button>
-
-    <div class="plan-note">
-      Note: Thumbnail price depends on style and quality.
+    <div class="plan" onclick="buySingle()">
+      <div class="plan-left">
+        <span class="plan-name">Single Thumbnail</span>
+        <span class="plan-desc">Best for testing my style</span>
+      </div>
+      <span class="plan-price">₹200</span>
     </div>
+
+    <div class="plan" onclick="buyPack()">
+      <div class="plan-left">
+        <span class="plan-name">5 Thumbnail Pack</span>
+        <span class="plan-desc">Weekly uploaders / mini series</span>
+      </div>
+      <span class="plan-price">₹1000</span>
+    </div>
+
+    <div class="plan" onclick="buyMonthly()">
+      <div class="plan-left">
+        <span class="plan-name">Monthly Pack</span>
+        <span class="plan-desc">Custom, for regular creators</span>
+      </div>
+      <span class="plan-price">Custom</span>
+    </div>
+
+    <div class="note">
+      * Final price depends on thumbnail quality & quantity both.
+    </div>
+
+    <div class="close-buy" onclick="closeBuy()">Close</div>
   </div>
 </div>
 
 <script>
 // ZOOM
-const modal = document.getElementById("zoomModal");
-const imgZoom = document.getElementById("zoomedImg");
+const zoomModal = document.getElementById("zoomModal");
+const zoomImg   = document.getElementById("zoomedImg");
 const closeZoom = document.getElementById("closeZoom");
 
-document.querySelectorAll(".zoom").forEach(i=>{
-  i.addEventListener("click",()=>{
-    imgZoom.src = i.src;
-    modal.style.display = "flex";
+document.querySelectorAll(".zoom-img").forEach(img=>{
+  img.addEventListener("click",()=>{
+    zoomImg.src = img.src;
+    zoomModal.style.display = "flex";
   });
 });
 
-closeZoom.onclick = ()=> modal.style.display="none";
-modal.onclick = (e)=>{ if(e.target===modal) modal.style.display="none"}
+function hideZoom(){
+  zoomModal.style.display = "none";
+}
+closeZoom.addEventListener("click", hideZoom);
+zoomModal.addEventListener("click", e=>{
+  if(e.target === zoomModal) hideZoom();
+});
 
-// PLAN
-function openPlans(){
-  document.getElementById("planBox").style.display="flex";
-}
-document.getElementById("planBox").onclick = (e)=>{
-  if(e.target.id==="planBox") e.target.style.display="none";
-};
+// BUY POPUP
+const buyModal = document.getElementById("buyModal");
 
-// EMAIL
-function singleMail(){
-  window.location.href = 
-  "mailto:shaurvsharma43@gmail.com?subject=Thumbnail&body=I need thumbnail.%0A%0AStyle:";
+function openBuy(){
+  buyModal.style.display = "flex";
 }
-function packMail(){
-  window.location.href = 
-  "mailto:shaurvsharma43@gmail.com?subject=Thumbnail Pack&body=I need thumbnail pack.%0A%0AStyle:";
+function closeBuy(){
+  buyModal.style.display = "none";
 }
-function dmInsta(){
-  window.location.href = 
-  "https://www.instagram.com/sagarplayz_official/";
+
+// ESC to close both modals
+document.addEventListener("keydown",e=>{
+  if(e.key === "Escape"){
+    hideZoom();
+    closeBuy();
+  }
+});
+
+// PLAN ACTIONS
+function buySingle(){
+  window.location.href =
+    "mailto:shaurvsharma43@gmail.com"
+    + "?subject=" + encodeURIComponent("I need thumbnail")
+    + "&body=" + encodeURIComponent(
+      "Plan: Single Thumbnail\n\n" +
+      "Channel link:\n" +
+      "Video type / idea:\n" +
+      "Reference thumbnail link:\n"
+    );
+}
+
+function buyPack(){
+  window.location.href =
+    "mailto:shaurvsharma43@gmail.com"
+    + "?subject=" + encodeURIComponent("I need thumbnail")
+    + "&body=" + encodeURIComponent(
+      "Plan: 5 Thumbnail Pack\n\n" +
+      "Channel link:\n" +
+      "Video types in pack:\n" +
+      "Reference thumbnail links:\n"
+    );
+}
+
+function buyMonthly(){
+  const dm = confirm("DM on Instagram? (OK = Insta, Cancel = Email)");
+  if(dm){
+    window.location.href = "https://www.instagram.com/sagarplayz_official/";
+  } else {
+    window.location.href =
+      "mailto:shaurvsharma43@gmail.com"
+      + "?subject=" + encodeURIComponent("I need thumbnail")
+      + "&body=" + encodeURIComponent(
+        "Plan: Monthly Thumbnail Pack\n\n" +
+        "Channel link:\n" +
+        "Upload frequency (per week):\n" +
+        "Content type:\n" +
+        "Reference thumbnails:\n"
+      );
+  }
 }
 </script>
 
