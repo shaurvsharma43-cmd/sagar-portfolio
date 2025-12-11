@@ -1182,24 +1182,22 @@ function submitReview() {
 
 function editReview(name, message, rating, email) {
 
-  // 1️⃣ Pehle old review delete
+  // Step 1: delete old review
   fetch(`${SCRIPT_URL}?delete=1&email=${encodeURIComponent(email)}`, {
     method: "POST"
   })
   .then(r => r.text())
   .then(t => {
-    console.log("Old Review Deleted:", t);
+    console.log("DELETE RESPONSE:", t);
 
-    // 2️⃣ Ab form me values fill karo
+    // Step 2: fill form for editing
     document.getElementById("r_name").value = name;
     document.getElementById("r_message").value = message;
     document.getElementById("r_rating").value = rating;
 
-    document.getElementById("reviewForm").scrollIntoView({
-      behavior: "smooth"
-    });
+    document.getElementById("reviewForm").scrollIntoView({ behavior: "smooth" });
 
-    alert("Now edit your review & submit again!");
+    alert("Old review deleted. Now edit & submit again!");
   });
 }
 
@@ -1218,7 +1216,7 @@ function loadReviews() {
   const loggedEmail = localStorage.getItem("userEmail");
 
   const showEdit = (loggedEmail && loggedEmail === r.email) 
-                   ? `<button onclick="startEditReview('${esc(r.email)}','${esc(r.name)}','${esc(r.message)}','${r.rating}')"
+                   ? `<button onclick="editReview('${esc(r.name)}','${esc(r.message)}','${r.rating}','${r.email}')">"
                         style="padding:3px 10px;font-size:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.25);background:#111526;color:#fff;cursor:pointer;">
                           ✎ Edit
                       </button>`
