@@ -1023,6 +1023,36 @@ section {
   <div id="reviewsList"></div>
 </section>
 
+<!-- EDIT POPUP MODAL -->
+<div id="editModal" 
+     style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55);
+            backdrop-filter:blur(8px); z-index:9999; justify-content:center; align-items:center;">
+
+  <div style="background:#0f1327; padding:22px; border-radius:16px;
+              width:300px; border:1px solid rgba(255,255,255,0.12);">
+
+    <h3 style="font-size:16px; margin-bottom:10px;">Edit Review</h3>
+
+    <textarea id="edit_message" style="
+      width:100%; height:100px; resize:none;
+      background:#15182a; color:white;
+      border:1px solid rgba(255,255,255,0.15);
+      border-radius:10px; padding:10px; font-size:13px;"></textarea>
+
+    <div style="margin-top:12px; display:flex; gap:10px; justify-content:flex-end;">
+      <button onclick="closeEditPopup()" style="
+        padding:6px 14px; border-radius:10px; border:none;
+        background:#444; color:white; cursor:pointer;">Cancel</button>
+
+      <button onclick="submitEditedReview()" style="
+        padding:6px 14px; border-radius:10px; border:none;
+        background:#27e0ff; color:#050712; font-weight:600; cursor:pointer;">
+        Save
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- CONTACT -->
 <section id="contact" class="reveal">
   <h2>Contact & Booking</h2>
@@ -1188,42 +1218,6 @@ function submitReview() {
 // - Properly escaped onclick parameters (JSON.stringify style usage)
 // - Waits for delete response, fills form, scrolls to form
 // ================================
-function startEditReview(email, name, message, rating) {
-  // Security guard: only allow editing if logged-in email matches
-  const loggedEmail = localStorage.getItem("userEmail");
-  if (!loggedEmail || loggedEmail !== email) {
-    alert("You can only edit your own review. Login with the same Google account used to post this review.");
-    return;
-  }
-
-  setReviewButtonLoading(true);
-
-  fetch(`${SCRIPT_URL}?delete=1&email=${encodeURIComponent(email)}`, { method: "POST" })
-    .then(r => r.text())
-    .then(t => {
-      console.log("DELETE RESPONSE:", t);
-      // Fill the form for editing
-      const rName = document.getElementById("r_name");
-      if (rName) {
-        rName.value = name;
-        rName.setAttribute("readonly", true);
-      }
-      const rMessage = document.getElementById("r_message");
-      if (rMessage) rMessage.value = message || "";
-      const rRating = document.getElementById("r_rating");
-      if (rRating) rRating.value = rating || "5";
-
-      document.getElementById("reviewForm").scrollIntoView({ behavior: "smooth" });
-      alert("Purana review delete ho gaya. Ab edit karke submit kar do!");
-      loadReviews(); // refresh list after delete
-    })
-    .catch(err => {
-      console.error("DELETE error:", err);
-      alert("Purge karte waqt error aaya. Thodi der baad try karo.");
-    })
-    .finally(() => setReviewButtonLoading(false));
-}
-
 
 // LOAD REVIEWS (fixed button generation)
 function loadReviews() {
@@ -1240,9 +1234,10 @@ function loadReviews() {
         const loggedEmail = localStorage.getItem("userEmail");
 
         // Use JSON.stringify to make safe JS string literals inside onclick
-        const editBtnHtml = (loggedEmail && loggedEmail === r.email)
-          ? `<button onclick="startEditReview(${JSON.stringify(r.email)}, ${JSON.stringify(r.name)}, ${JSON.stringify(r.message)}, ${JSON.stringify(String(r.rating))})" style="padding:3px 10px;font-size:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.25);background:#111526;color:#fff;cursor:pointer;">
-               ✎ Edit
+       const editBtnHtml = (loggedEmail && loggedEmail === r.email)
+          ? `<button onclick="openEditPopup(${JSON.stringify(r.name)}, ${JSON.stringify(r.message)}, ${JSON.stringify(String(r.rating))}, ${JSON.stringify(r.email)})"
+              style="padding:3px 10px;font-size:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.25);background:#111526;color:#fff;cursor:pointer;">
+             ✎ Edit
              </button>`
           : "";
 
@@ -1402,6 +1397,55 @@ function openMonthlyOptions(){
 }
 function closeMonthlyOptions(){
   document.getElementById("monthlyPopup").style.display = "none";
+}
+
+let EDIT_EMAIL = "";
+let EDIT_RATING = "";
+let EDIT_NAME = "";
+
+function openEditPopup(name, message, rating, email) {
+  EDIT_EMAIL = email;
+  EDIT_NAME = name;
+  EDIT_RATING = rating;
+
+  document.getElementById("edit_message").value = message;
+  document.getElementById("editModal").style.display = "flex";
+}
+
+function closeEditPopup() {
+  document.getElementById("editModal").style.display = "none";
+}
+
+function submitEditedReview() {
+  const newMessage = document.getElementById("edit_message").value.trim();
+  if (!newMessage) return alert("Message cannot be empty.");
+
+  fetch(SCRIPT_URL, {
+    method: "POST",
+    body: JSON.stringify({
+      name: EDIT_NAME,
+      email: EDIT_EMAIL,
+      rating: EDIT_RATING,
+      message: newMessage,
+      deviceId: DEVICE_ID,
+      fingerprint: getFingerprint(),
+      mode: "EDIT"   // ⭐ IMPORTANT (uppercase)
+    })
+  })
+  .then(r => r.text())
+  .then(resp => {
+    if (resp.includes("UPDATED")) {
+      closeEditPopup();
+      loadReviews();
+      alert("Review updated successfully! 🎉");
+    } else {
+      alert("Error updating review.");
+    }
+  })
+  .catch(err => {
+    console.error("EDIT ERROR:", err);
+    alert("Error updating review.");
+  });
 }
 </script>
 
