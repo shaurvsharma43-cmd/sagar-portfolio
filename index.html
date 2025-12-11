@@ -1199,49 +1199,30 @@ function loadReviews() {
         html = `<div style="color:#aaa;font-size:13px;">No reviews yet.</div>`;
       }
 
-     data.slice().reverse().forEach(r => {
+    data.slice().reverse().forEach(r => {
+  const loggedEmail = localStorage.getItem("userEmail");
 
-  const safeName = esc(r.name);
-  const safeMessage = esc(r.message);
-  const safeRating = Number(r.rating) || 0;
+  const showEdit = (loggedEmail && loggedEmail === r.email) 
+                   ? `<button onclick="startEditReview('${esc(r.email)}','${esc(r.name)}','${esc(r.message)}','${r.rating}')"
+                        style="padding:3px 10px;font-size:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.25);background:#111526;color:#fff;cursor:pointer;">
+                          ✎ Edit
+                      </button>`
+                   : "";
 
   html += `
-  <div class="review-box" style="
-      margin-bottom:12px;
-      padding:12px 14px;
-      background:#0b0f20;
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,0.08);
-  ">
-    
-    <div style="display:flex; justify-content:space-between; align-items:center;">
-    
-      <span style="font-size:13px; font-weight:600;">${safeName}</span>
-
-      <div style="display:flex; align-items:center; gap:8px;">
-        <span style="font-size:14px; color:#ffd43b;">${"⭐".repeat(safeRating)}</span>
-
-        <button 
-          onclick="editReview(\`${safeName}\`, \`${safeMessage}\`, '${safeRating}')"
-          style="
-            padding:3px 10px;
-            font-size:12px;
-            border-radius:8px;
-            border:1px solid rgba(255,255,255,0.25);
-            background:#111526;
-            color:#fff;
-            cursor:pointer;">
-          ✎ Edit
-        </button>
+    <div style="margin-bottom:12px;padding:12px 14px;background:#0b0f20;border-radius:12px;border:1px solid rgba(255,255,255,0.08);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <span style="font-size:13px;font-weight:600;">${esc(r.name)}</span>
+        <span>
+          ${"⭐".repeat(Number(r.rating) || 0)}
+          ${showEdit}
+        </span>
       </div>
-
+      <div style="font-size:13px;color:#ddd;">
+        ${esc(r.message)}
+      </div>
     </div>
-
-    <div style="font-size:13px; color:#ddd; margin-top:6px;">
-      ${safeMessage}
-    </div>
-
-  </div>`;
+  `;
 });
 
       document.getElementById("reviewsList").innerHTML = html;
@@ -1382,6 +1363,25 @@ function openMonthlyOptions(){
 function closeMonthlyOptions(){
   document.getElementById("monthlyPopup").style.display = "none";
 }
+
+function startEditReview(email, name, message, rating) {
+
+  // 1️⃣ Purana review DELETE request
+  fetch(SCRIPT_URL + "?delete=1&email=" + encodeURIComponent(email))
+    .then(r => r.text())
+    .then(res => {
+      console.log("DELETE RESPONSE:", res);
+    });
+
+  // 2️⃣ Form fill for editing
+  document.getElementById("r_name").value = name;
+  document.getElementById("r_message").value = message;
+  document.getElementById("r_rating").value = rating;
+
+  // 3️⃣ Smooth scroll to form
+  document.getElementById("reviewForm").scrollIntoView({ behavior: "smooth" });
+}
+
 </script>
 
 </body>
