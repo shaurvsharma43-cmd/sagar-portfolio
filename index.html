@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,7 +47,8 @@ header{
  justify-content:space-between;
  padding:12px 18px;
  border-radius:999px;
- background:rgba(5,7,18,0.9);
+ background: rgba(5, 7, 18, 0.55); /* lighter transparency */
+backdrop-filter: blur(18px);
  border:1px solid rgba(255,255,255,0.06);
  backdrop-filter:blur(20px);
  position:sticky;
@@ -205,9 +205,11 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
 }
 
 /* GALLERY */
-.gallery-grid{
- display:grid;gap:12px;margin-top:16px;
- grid-template-columns:repeat(4,1fr);
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;              /* better spacing */
+  margin-top: 16px;
 }
 .gallery-item img{
  width:100%;border-radius:14px;
@@ -236,10 +238,356 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
  font-size:42px;color:white;cursor:pointer;
 }
 
+
+#reviewForm {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  border-radius: 18px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Inputs */
+#r_name,
+#r_rating,
+#r_message {
+  width: 100%;
+  background: #0c0f1c;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #fff;
+  font-size: 14px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+/* Hover + Focus subtle */
+#r_name:focus,
+#r_rating:focus,
+#r_message:focus {
+  border-color: rgba(39,224,255,0.4);
+}
+
+/* Textarea height */
+#r_message {
+  height: 110px;
+  resize: none;
+}
+
+/* Submit Button – full width like screenshot */
+#reviewBtn {
+  width: 100%;
+  padding: 12px 20px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+#reviewBtn:hover {
+  background: rgba(255,255,255,0.10);
+}
+
+/* ============================
+   ⭐ DISPLAYED REVIEWS
+   ============================ */
+
+#reviewsList > div {
+  margin-top: 10px;
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+#reviewsList span {
+  font-size: 13px;
+  color: #ffd43b;
+}
+
+.gallery-box {
+  background: rgba(255,255,255,0.03);       /* light transparent card */
+  padding: 22px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.06); /* subtle border */
+  backdrop-filter: blur(6px);               /* glass effect */
+  margin-top: 10px;
+}
+
+/* spacing improvement */
+.gallery-box h2 {
+  margin-bottom: 12px;
+}
+
+.gallery-grid {
+  margin-top: 12px;
+}
+
+
+.gallery-item img {
+  width: 100%;
+  aspect-ratio: 1.65 / 1;
+  object-fit: cover;
+  border-radius: 14px;
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+/* ANIMATION ON HOVER */
+.gallery-item img:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+
+/* ===== SCROLL REVEAL BASE ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease-out;
+}
+
+/* ===== SCROLL REVEAL ACTIVE ===== */
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.thumb-card {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.thumb-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.55);
+}
+
+.nav-links a {
+  position: relative;
+  padding-bottom: 6px;
+}
+
+.nav-links a::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 0%;
+  height: 2px;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 5px;
+  transform: translateX(-50%);
+  transition: width 0.25s ease;
+}
+
+.nav-links a:hover::after {
+  width: 60%;
+}
+
+.gallery-box {
+  position: relative;
+  padding-bottom: 50px; /* spacing for button */
+}
+
+.see-all-btn {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: transform 0.25s ease;
+}
+
+.see-all-btn:hover {
+  transform: scale(1.08);
+}
+
+.btn-primary,
+.btn-ghost {
+  transition: transform 0.25s ease;
+}
+
+.btn-primary:hover,
+.btn-ghost:hover {
+  transform: scale(1.07);
+}
+
+.buy-btn {
+  transition: transform 0.25s ease;
+}
+
+.buy-btn:hover {
+  transform: scale(1.07);
+}
+ 
+.nav-cta {
+  transition: transform 0.25s ease;
+}
+
+.nav-cta:hover {
+  transform: scale(1.07);
+}
+
+#g_login_btn,
+.g-btn {
+  transition: transform 0.25s ease;
+  display: inline-block; /* ensure transform works */
+}
+
+#g_login_btn:hover,
+.g-btn:hover {
+  transform: scale(1.07);
+}
+
+#reviewBtn {
+  transition: transform 0.25s ease;
+}
+
+#reviewBtn:hover {
+  transform: scale(1.05);
+}
+
+.contact-links a {
+  transition: transform 0.25s ease;
+  display: inline-block; /* ensure scale works */
+}
+
+.contact-links a:hover {
+  transform: scale(1.07);
+}
+
+.card {
+  transition: transform 0.25s ease;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+.hero-metrics {
+  display: flex;
+  gap: 18px;
+}
+
+.metric {
+  padding: 14px 18px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 12px;
+  backdrop-filter: blur(4px);
+  transition: transform 0.25s ease, border-color 0.3s ease;
+  cursor: pointer;
+}
+
+.metric strong {
+  font-size: 18px;
+  font-weight: 700;
+  display: block;
+}
+
+.metric span {
+  font-size: 12px;
+  color: #bfc2d8;
+}
+
+.metric:hover {
+  transform: scale(1.06);
+  border-color: rgba(39,224,255,0.35);
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: rgba(39,224,255,0.12);
+  border: 1px solid rgba(39,224,255,0.35);
+  backdrop-filter: blur(4px);
+  font-size: 12px;
+  font-weight: 500;
+  color: #d8faff;
+}
+
+.hero-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #27e0ff;
+  box-shadow: 0 0 10px rgba(39,224,255,0.8);
+}
+
+.hero-title {
+  margin-top: 14px;
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.23;
+  color: white;
+}
+
+.hero-title .hero-name {
+  background: linear-gradient(90deg,#27e0ff,#6bffc0);
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: 800;
+}
+
+.hero-sub {
+  color: #bfc2d8;
+  margin-top: 8px;
+  max-width: 520px;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+.hero-name {
+  transition: transform 0.25s ease;
+}
+
+.hero-name:hover {
+  transform: scale(1.08);
+}
+
+section h2 {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #ffffff;
+  letter-spacing: 0.3px;
+}
+
+section .muted,
+section p.muted,
+section > p {
+  color: #b9bed5;
+  font-size: 14px;
+  line-height: 1.55;
+  margin-bottom: 22px;
+}
+
+section {
+  margin-top: 60px;
+}
+
+section {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 40px;
+}
+
 /* RESPONSIVE */
 @media(max-width:840px){
  main{grid-template-columns:1fr;}
 }
+
 </style>
 </head>
 
@@ -263,7 +611,7 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
   </nav>
 
   <div style="display:flex;align-items:center;gap:12px;">
-    <div id="g_login_btn"></div>
+    <div id="g_login_btn" class="g-btn"></div>
     <div id="user_area" style="display:flex;align-items:center;gap:8px;"></div>
     <a href="#contact" class="nav-cta">Work with me</a>
   </div>
@@ -272,7 +620,7 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
 <main>
 
 <!-- HERO CARD -->
-<section class="hero-card">
+<section class="hero-card" class="reveal">
   <div class="hero-badge">
     <div class="hero-dot"></div>
     <span>Thumbnail Designer for Gaming Creators</span>
@@ -289,15 +637,15 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
   </p>
 
   <div class="hero-metrics">
-    <div>
+    <div class="metric">
       <strong>100+</strong>
       <span>Thumbnails Designed</span>
     </div>
-    <div>
+    <div class="metric">
       <strong>4+ yrs</strong>
       <span>YouTube Experience</span>
     </div>
-    <div>
+    <div class="metric">
       <strong>Gaming</strong>
       <span>Niche Specialist</span>
     </div>
@@ -370,7 +718,7 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
 </main>
 
 <!-- SERVICES -->
-<section id="services">
+<section id="services" class="reveal">
   <h2>Services</h2>
   <p class="muted">
     I design custom thumbnails focused on story, emotion and high click-through rate.
@@ -418,20 +766,16 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
 </section>
 
 <!-- GALLERY -->
-<section id="gallery">
+<section id="gallery" class="reveal">
 
-  <!-- 👇 ADDED BUTTON HERE -->
-  <div style="display:flex;align-items:center;justify-content:space-between;">
-    <h2>Thumbnail Gallery</h2>
+  <div class="gallery-box">   <!-- ⭐ NEW -->
 
-    <a href="gallery/index.html"
-      class="btn-primary"
-      style="font-size:13px;padding:8px 14px;border-radius:999px;text-decoration:none;white-space:nowrap;">
-      See All →
-    </a>
-  </div>
-
-  <div class="gallery-grid">
+    <!-- Your heading + button stays same -->
+   <div class="gallery-header">
+  <h2>Thumbnail Gallery</h2>
+</div>
+  
+ <div class="gallery-grid">
     <div class="gallery-item"><img src="images/base-rating.jpg" class="zoom-img"></div>
     <div class="gallery-item"><img src="images/rank-push.jpg" class="zoom-img"></div>
     <div class="gallery-item"><img src="images/billu.jpg" class="zoom-img"></div>
@@ -440,11 +784,14 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
     <div class="gallery-item"><img src="images/scammer.jpg" class="zoom-img"></div>
     <div class="gallery-item"><img src="images/face.jpg" class="zoom-img"></div>
     <div class="gallery-item"><img src="images/live stream.jpg" class="zoom-img"></div>
-  </div>
+    </div>
+<a href="gallery/index.html" class="btn-primary see-all-btn">See All →</a>
+  </div>  <!-- ⭐ END NEW -->
+
 </section>
 
 <!-- PROCESS -->
-<section id="process">
+<section id="process" class="reveal">
   <h2>My Thumbnail Process</h2>
   <p class="muted">
     Every thumbnail goes through a tested workflow to make sure it performs on YouTube.
@@ -529,7 +876,7 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
 </section>
 
 <!-- PRICING -->
-<section id="pricing">
+<section id="pricing" class="reveal">
   <h2>Pricing</h2>
   <p class="muted">
     Prices based on style, complexity & volume.
@@ -546,7 +893,7 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
         <span class="pill">Small revision</span>
       </div>
 
-      <a 
+      <a class="buy-btn"
         href="mailto:shaurvsharma43@gmail.com?subject=I%20need%20thumbnail&body=Hi%20Sagar,%0D%0A%0D%0AI%20need%20a%20thumbnail.%0D%0A%0D%0AMy%20Channel%20Link:%20%0D%0AType%20style%3A%20%0D%0AReference%20Thumbnail%20Link:%20"
         style="display:inline-block; margin-top:12px; padding:8px 16px; border-radius:999px;
                background:linear-gradient(135deg,#27e0ff,#ff3b6b); color:#050712;
@@ -565,7 +912,7 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
         <span class="pill">Priority</span>
       </div>
 
-      <a 
+      <a class="buy-btn"
         href="mailto:shaurvsharma43@gmail.com?subject=I%20need%205%20thumbnail%20pack&body=Hi%20Sagar,%0D%0A%0D%0AI%20need%20a%205%20thumbnail%20pack.%0D%0A%0D%0AMy%20Channel%20Link:%20%0D%0AType%20style%3A%20%0D%0AReference%20Thumbnail%20Link:%20"
         style="display:inline-block; margin-top:12px; padding:8px 16px; border-radius:999px;
                background:linear-gradient(135deg,#27e0ff,#6bffb5); color:#050712;
@@ -585,7 +932,7 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
       </div>
 
       <!-- Trigger -->
-      <a 
+      <a class="buy-btn"
         href="#"
         onclick="openMonthlyOptions()"
         style="display:inline-block; margin-top:12px; padding:8px 16px; border-radius:999px;
@@ -600,7 +947,7 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
 
 
 <!-- REVIEWS -->
-<section id="reviews" style="margin-top:60px;">
+<section id="reviews" style="margin-top:60px;" class="reveal">
   <h2 style="font-size:20px;margin-bottom:16px;">
     Client Reviews ⭐
   </h2>
@@ -675,7 +1022,7 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
 </section>
 
 <!-- CONTACT -->
-<section id="contact">
+<section id="contact" class="reveal">
   <h2>Contact & Booking</h2>
   <div class="contact-card" style="margin-top:18px;background:linear-gradient(120deg,var(--accent-soft),rgba(255,59,107,0.16));border-radius:var(--radius-xl);padding:16px;border:1px solid rgba(255,255,255,0.18);display:flex;gap:12px;flex-wrap:wrap;align-items:center;font-size:13px;">
     <div>
@@ -684,10 +1031,10 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
     </div>
 
     <div class="contact-links" style="display:flex;gap:8px;flex-wrap:wrap;">
-      <a href="mailto:shaurvsharma43@gmail.com" style="text-decoration:none;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:#fdfdfd;color:#020308;">Email</a>
-      <a href="https://discord.gg/ajeXSRAtUU" style="text-decoration:none;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:#fdfdfd;color:#020308;">Discord</a>
-      <a href="https://www.instagram.com/sagarplayz_official/" style="text-decoration:none;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:#fdfdfd;color:#020308;">Instagram</a>
-      <a href="https://youtube.com/@notsagar_og" style="text-decoration:none;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:#fdfdfd;color:#020308;">YouTube</a>
+      <a href="mailto:shaurvsharma43@gmail.com" style="text-decoration:none;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:#fdfdfd;color:#020308;" class="contact-btn">Email</a>
+      <a href="https://discord.gg/ajeXSRAtUU" style="text-decoration:none;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:#fdfdfd;color:#020308;"class="contact-btn">Discord</a>
+      <a href="https://www.instagram.com/sagarplayz_official/" style="text-decoration:none;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:#fdfdfd;color:#020308;"class="contact-btn">Instagram</a>
+      <a href="https://youtube.com/@notsagar_og" style="text-decoration:none;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);background:#fdfdfd;color:#020308;"class="contact-btn">YouTube</a>
     </div>
   </div>
 </section>
@@ -695,8 +1042,6 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
 <footer style="margin-top:32px;font-size:11px;color:var(--muted);text-align:center;">
   © <span id="year"></span> Sagar · Thumbnail Designer · NotSagarGamerz
 </footer>
-
-</div>
 
 <!-- MODAL -->
 <div id="zoomModal">
@@ -845,27 +1190,48 @@ function loadReviews() {
       }
 
       data.slice().reverse().forEach(r => {
-        html += `
-        <div style="
-          margin-bottom:12px;
-          padding:12px 14px;
-          background:#0b0f20;
-          border-radius:12px;
-          border:1px solid rgba(255,255,255,0.08);
-        ">
-          <div style="
-            display:flex;
-            justify-content:space-between;
-            align-items:center;
-            margin-bottom:4px;
+      html += `
+  <div style="
+    margin-bottom:12px;
+    padding:12px 14px;
+    background:#0b0f20;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.08);
+  ">
+    <div style="
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:4px;
+    ">
+      <span style="font-size:13px;font-weight:600;">${esc(r.name)}</span>
+
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:14px;color:#ffd43b;">
+          ${"⭐".repeat(Number(r.rating) || 0)}
+        </span>
+
+        <!-- ⭐ EDIT BUTTON -->
+        <button onclick="editReview('${esc(r.name)}','${esc(r.message)}','${r.rating}')"
+          style="
+            padding:3px 10px;
+            font-size:12px;
+            border-radius:8px;
+            border:1px solid rgba(255,255,255,0.25);
+            background:#111526;
+            color:#fff;
+            cursor:pointer;
           ">
-            <span style="font-size:13px;font-weight:600;">${esc(r.name)}</span>
-            <span style="font-size:14px;color:#ffd43b;">${"⭐".repeat(Number(r.rating) || 0)}</span>
-          </div>
-          <div style="font-size:13px;color:#ddd;">
-            ${esc(r.message)}
-          </div>
-        </div>`;
+          ✎ Edit
+        </button>
+      </div>
+    </div>
+
+    <div style="font-size:13px;color:#ddd;">
+      ${esc(r.message)}
+    </div>
+  </div>
+`;
       });
 
       document.getElementById("reviewsList").innerHTML = html;
@@ -978,6 +1344,26 @@ function decodeJwt(token){
 
   </div>
 </div>
+
+<script>
+  const revealItems = document.querySelectorAll(".reveal");
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+
+    
+      if (entry.isIntersecting) {
+        entry.target.classList.add("active");
+      } else {
+
+        entry.target.classList.remove("active");
+      }
+
+    });
+  }, { threshold: 0.20 });
+
+  revealItems.forEach(el => observer.observe(el));
+</script>
 
 <script>
 function openMonthlyOptions(){
