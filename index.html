@@ -952,6 +952,7 @@ section {
       <div class="pill-row">
         <span class="pill">1 Thumbnail</span>
         <span class="pill">Small revision</span>
+        <span class="pill">₹200</span>
       </div>
 
       <a class="buy-btn"
@@ -959,7 +960,7 @@ section {
         style="display:inline-block; margin-top:12px; padding:8px 16px; border-radius:999px;
                background:linear-gradient(135deg,#27e0ff,#ff3b6b); color:#050712;
                font-size:13px; font-weight:600; text-decoration:none;">
-        Buy Now →
+        Buy Now → (₹200)
       </a>
     </div>
 
@@ -971,6 +972,7 @@ section {
         <span class="pill">5 Thumbnails</span>
         <span class="pill">Series Style</span>
         <span class="pill">Priority</span>
+        <span class="pill">₹1000</span>
       </div>
 
       <a class="buy-btn"
@@ -978,32 +980,39 @@ section {
         style="display:inline-block; margin-top:12px; padding:8px 16px; border-radius:999px;
                background:linear-gradient(135deg,#27e0ff,#6bffb5); color:#050712;
                font-size:13px; font-weight:600; text-decoration:none;">
-        Buy Now →
+        Buy Now → (₹1000)
       </a>
     </div>
 
-    <!-- Monthly Pack -->
-    <div class="card">
-      <h3>Monthly Pack</h3>
-      <p>For serious creators uploading regularly.</p>
-      <div class="pill-row">
-        <span class="pill">10–20 Thumbnails</span>
-        <span class="pill">Priority Queue</span>
-        <span class="pill">Custom Quote</span>
-      </div>
-
-      <!-- Trigger -->
-      <a class="buy-btn"
-        href="#"
-        onclick="openMonthlyOptions()"
-        style="display:inline-block; margin-top:12px; padding:8px 16px; border-radius:999px;
-               background:linear-gradient(135deg,#6bffb5,#ff3b6b); color:#050712;
-               font-size:13px; font-weight:600; text-decoration:none;">
-        Buy Now →
-      </a>
-    </div>
-
+   <!-- Monthly Pack -->
+<div class="card">
+  <h3>Monthly Pack</h3>
+  <p>For serious creators uploading regularly.</p>
+  <div class="pill-row">
+    <span class="pill">10–20 Thumbnails</span>
+    <span class="pill">Priority Queue</span>
+    <span class="pill">Custom Quote</span>
+    <span class="pill">DM</span>
   </div>
+
+  <!-- DM Button -->
+  <a class="buy-btn"
+    href="https://www.instagram.com/sagarplayz_official/"
+    style="display:inline-block; margin-top:12px; padding:8px 16px; border-radius:999px;
+           background:linear-gradient(135deg,#27e0ff,#ff3b6b); color:#050712;
+           font-size:13px; font-weight:600; text-decoration:none;">
+    DM on Instagram →
+  </a>
+
+  <!-- Email Button -->
+  <a class="buy-btn"
+    href="mailto:shaurvsharma43@gmail.com?subject=Monthly%20Pack%20Request&body=Hi%20Sagar,%0D%0A%0D%0AI%20need%20a%20monthly%20thumbnail%20pack.%0D%0A%0D%0AChannel%20Link:%0D%0AUpload%20Frequency:%0D%0AStyle:%0D%0AReference%20Link:%0D%0A"
+    style="display:inline-block; margin-top:10px; padding:8px 16px; border-radius:999px;
+           background:linear-gradient(135deg,#6bffb5,#27e0ff); color:#050712;
+           font-size:13px; font-weight:600; text-decoration:none;">
+    Email Quote →
+  </a>
+</div>
 </section>
 
 
@@ -1082,7 +1091,6 @@ section {
   <div id="reviewsList"></div>
 </section>
 
-<!-- EDIT POPUP MODAL -->
 <div id="editModal" 
      style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55);
             backdrop-filter:blur(8px); z-index:9999; justify-content:center; align-items:center;">
@@ -1235,7 +1243,7 @@ function submitReview() {
   }
 
   if (!message) {
-    alert("Review likh!");
+    alert("Please write a review!");
     return;
   }
 
@@ -1253,32 +1261,24 @@ function submitReview() {
       alert("Thanks for your review!");
       loadReviews();
     } else if (resp === "ALREADY_REVIEWED") {
-      alert("Is email se pehle hi review aa chuka hai.");
+      alert("A review has already been submitted from this email.");
     } else if (resp === "DUPLICATE_DEVICE") {
-      alert("Is device/fingerprint se pehle hi review aa chuka hai.");
+      alert("A review has already been submitted from this device/fingerprint.");
     } else {
       console.log("Unexpected response:", resp);
-      alert("Review save karne me problem aa gayi.");
+      alert("There was a problem saving your review.");
     }
   })
   .catch(err => {
     console.error("POST error:", err);
-    alert("Network error, thodi der baad try kar.");
+    alert("Network error, please try again later.");
   })
   .finally(() => {
     setReviewButtonLoading(false);
   });
 }
 
-
-// ================================
-// ✅ Unified edit flow (fixed)
-// - Only one function (startEditReview)
-// - Properly escaped onclick parameters (JSON.stringify style usage)
-// - Waits for delete response, fills form, scrolls to form
-// ================================
-
-// LOAD REVIEWS (fixed button generation)
+// LOAD REVIEWS
 function loadReviews() {
   fetch(SCRIPT_URL)
     .then(r => r.json())
@@ -1290,10 +1290,7 @@ function loadReviews() {
       }
 
       (Array.isArray(data) ? data.slice().reverse() : []).forEach(r => {
-        const loggedEmail = localStorage.getItem("userEmail");
 
-        // Use JSON.stringify to make safe JS string literals inside onclick
-  
         html += `
           <div style="margin-bottom:12px;padding:12px 14px;background:#0b0f20;border-radius:12px;border:1px solid rgba(255,255,255,0.08);">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
@@ -1313,7 +1310,7 @@ function loadReviews() {
     })
     .catch(err => {
       console.error("GET error:", err);
-      document.getElementById("reviewsList").innerHTML = `<div style="color:#aaa;font-size:13px;">Reviews load karne me problem aayi.</div>`;
+      document.getElementById("reviewsList").innerHTML = `<div style="color:#aaa;font-size:13px;">There was a problem loading reviews.</div>`;
     });
 }
 
