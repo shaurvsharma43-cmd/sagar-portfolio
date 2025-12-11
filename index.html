@@ -1234,17 +1234,13 @@ function loadReviews() {
         const loggedEmail = localStorage.getItem("userEmail");
 
         // Use JSON.stringify to make safe JS string literals inside onclick
-       const editBtnHtml = (loggedEmail && loggedEmail === r.email)
-          ? `<button onclick="openEditPopup(${JSON.stringify(r.name)}, ${JSON.stringify(r.message)}, ${JSON.stringify(String(r.rating))}, ${JSON.stringify(r.email)})" style="padding:3px 10px;font-size:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.25);background:#111526;color:#fff;cursor:pointer;">✎ Edit</button>`
-          : "";
-
+  
         html += `
           <div style="margin-bottom:12px;padding:12px 14px;background:#0b0f20;border-radius:12px;border:1px solid rgba(255,255,255,0.08);">
             <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
               <span style="font-size:13px;font-weight:600;">${esc(r.name)}</span>
               <span>
                 ${"⭐".repeat(Number(r.rating) || 0)}
-                ${editBtnHtml}
               </span>
             </div>
             <div style="font-size:13px;color:#ddd;">
