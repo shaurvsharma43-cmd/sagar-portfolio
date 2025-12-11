@@ -1178,6 +1178,16 @@ function submitReview() {
   });
 }
 
+function editReview(name, message, rating) {
+  document.getElementById("r_name").value = name;
+  document.getElementById("r_message").value = message;
+  document.getElementById("r_rating").value = rating;
+
+  document.getElementById("reviewForm").scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
 // LOAD REVIEWS
 function loadReviews() {
   fetch(SCRIPT_URL)
@@ -1189,30 +1199,30 @@ function loadReviews() {
         html = `<div style="color:#aaa;font-size:13px;">No reviews yet.</div>`;
       }
 
-      data.slice().reverse().forEach(r => {
-      html += `
-  <div style="
-    margin-bottom:12px;
-    padding:12px 14px;
-    background:#0b0f20;
-    border-radius:12px;
-    border:1px solid rgba(255,255,255,0.08);
+     data.slice().reverse().forEach(r => {
+
+  const safeName = esc(r.name);
+  const safeMessage = esc(r.message);
+  const safeRating = Number(r.rating) || 0;
+
+  html += `
+  <div class="review-box" style="
+      margin-bottom:12px;
+      padding:12px 14px;
+      background:#0b0f20;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,0.08);
   ">
-    <div style="
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:4px;
-    ">
-      <span style="font-size:13px;font-weight:600;">${esc(r.name)}</span>
+    
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+    
+      <span style="font-size:13px; font-weight:600;">${safeName}</span>
 
-      <div style="display:flex;align-items:center;gap:8px;">
-        <span style="font-size:14px;color:#ffd43b;">
-          ${"⭐".repeat(Number(r.rating) || 0)}
-        </span>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <span style="font-size:14px; color:#ffd43b;">${"⭐".repeat(safeRating)}</span>
 
-        <!-- ⭐ EDIT BUTTON -->
-        <button onclick="editReview('${esc(r.name)}','${esc(r.message)}','${r.rating}')"
+        <button 
+          onclick="editReview(\`${safeName}\`, \`${safeMessage}\`, '${safeRating}')"
           style="
             padding:3px 10px;
             font-size:12px;
@@ -1220,19 +1230,19 @@ function loadReviews() {
             border:1px solid rgba(255,255,255,0.25);
             background:#111526;
             color:#fff;
-            cursor:pointer;
-          ">
+            cursor:pointer;">
           ✎ Edit
         </button>
       </div>
+
     </div>
 
-    <div style="font-size:13px;color:#ddd;">
-      ${esc(r.message)}
+    <div style="font-size:13px; color:#ddd; margin-top:6px;">
+      ${safeMessage}
     </div>
-  </div>
-`;
-      });
+
+  </div>`;
+});
 
       document.getElementById("reviewsList").innerHTML = html;
     })
