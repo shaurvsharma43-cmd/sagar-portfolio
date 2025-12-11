@@ -1235,10 +1235,7 @@ function loadReviews() {
 
         // Use JSON.stringify to make safe JS string literals inside onclick
        const editBtnHtml = (loggedEmail && loggedEmail === r.email)
-          ? `<button onclick="openEditPopup(${JSON.stringify(r.name)}, ${JSON.stringify(r.message)}, ${JSON.stringify(String(r.rating))}, ${JSON.stringify(r.email)})"
-              style="padding:3px 10px;font-size:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.25);background:#111526;color:#fff;cursor:pointer;">
-             ✎ Edit
-             </button>`
+          ? `<button onclick="openEditPopup(${JSON.stringify(r.name)}, ${JSON.stringify(r.message)}, ${JSON.stringify(String(r.rating))}, ${JSON.stringify(r.email)})" style="padding:3px 10px;font-size:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.25);background:#111526;color:#fff;cursor:pointer;">✎ Edit</button>`
           : "";
 
         html += `
