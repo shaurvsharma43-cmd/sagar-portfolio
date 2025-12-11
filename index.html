@@ -421,11 +421,13 @@ h2{font-size:18px;margin-bottom:12px;letter-spacing:.03em;}
 }
 
 .buy-btn {
+  display: inline-block;
   transition: transform 0.25s ease;
+  will-change: transform;
 }
 
 .buy-btn:hover {
-  transform: scale(1.07);
+  transform: scale(1.07) translateZ(0);
 }
  
 .nav-cta {
@@ -1178,13 +1180,26 @@ function submitReview() {
   });
 }
 
-function editReview(name, message, rating) {
-  document.getElementById("r_name").value = name;
-  document.getElementById("r_message").value = message;
-  document.getElementById("r_rating").value = rating;
+function editReview(name, message, rating, email) {
 
-  document.getElementById("reviewForm").scrollIntoView({
-    behavior: "smooth"
+  // 1️⃣ Pehle old review delete
+  fetch(`${SCRIPT_URL}?delete=1&email=${encodeURIComponent(email)}`, {
+    method: "POST"
+  })
+  .then(r => r.text())
+  .then(t => {
+    console.log("Old Review Deleted:", t);
+
+    // 2️⃣ Ab form me values fill karo
+    document.getElementById("r_name").value = name;
+    document.getElementById("r_message").value = message;
+    document.getElementById("r_rating").value = rating;
+
+    document.getElementById("reviewForm").scrollIntoView({
+      behavior: "smooth"
+    });
+
+    alert("Now edit your review & submit again!");
   });
 }
 
