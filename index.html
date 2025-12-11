@@ -63,7 +63,7 @@ backdrop-filter: blur(18px);
  background:radial-gradient(circle at 30% 20%,#fff 0,#27e0ff 35%,#ff3b6b 100%);
  box-shadow:0 0 18px rgba(39,224,255,0.7);
 }
-.brand-text{display:flex;flex-direction:column;font-size:13px;}
+.brand-text{Display:flex;flex-direction:column;font-size:13px;}
 
 .nav-links{display:flex;gap:10px;font-size:12px;}
 .nav-links a{
@@ -1158,16 +1158,17 @@ function submitReview() {
   })
   .then(r => r.text())
   .then(text => {
-    if (text === "SUCCESS") {
+    const resp = String(text || "").trim();
+    if (resp === "SUCCESS") {
       document.getElementById("r_message").value = "";
       alert("Thanks for your review!");
       loadReviews();
-    } else if (text === "ALREADY_REVIEWED") {
+    } else if (resp === "ALREADY_REVIEWED") {
       alert("Is email se pehle hi review aa chuka hai.");
-    } else if (text === "DUPLICATE_DEVICE") {
+    } else if (resp === "DUPLICATE_DEVICE") {
       alert("Is device/fingerprint se pehle hi review aa chuka hai.");
     } else {
-      console.log("Unexpected response:", text);
+      console.log("Unexpected response:", resp);
       alert("Review save karne me problem aa gayi.");
     }
   })
@@ -1180,67 +1181,93 @@ function submitReview() {
   });
 }
 
-function editReview(name, message, rating, email) {
 
-  // Step 1: delete old review
-  fetch(`${SCRIPT_URL}?delete=1&email=${encodeURIComponent(email)}`, {
-    method: "POST"
-  })
-  .then(r => r.text())
-  .then(t => {
-    console.log("DELETE RESPONSE:", t);
+// ================================
+// ✅ Unified edit flow (fixed)
+// - Only one function (startEditReview)
+// - Properly escaped onclick parameters (JSON.stringify style usage)
+// - Waits for delete response, fills form, scrolls to form
+// ================================
+function startEditReview(email, name, message, rating) {
+  // Security guard: only allow editing if logged-in email matches
+  const loggedEmail = localStorage.getItem("userEmail");
+  if (!loggedEmail || loggedEmail !== email) {
+    alert("You can only edit your own review. Login with the same Google account used to post this review.");
+    return;
+  }
 
-    // Step 2: fill form for editing
-    document.getElementById("r_name").value = name;
-    document.getElementById("r_message").value = message;
-    document.getElementById("r_rating").value = rating;
+  setReviewButtonLoading(true);
 
-    document.getElementById("reviewForm").scrollIntoView({ behavior: "smooth" });
+  fetch(`${SCRIPT_URL}?delete=1&email=${encodeURIComponent(email)}`, { method: "POST" })
+    .then(r => r.text())
+    .then(t => {
+      console.log("DELETE RESPONSE:", t);
+      // Fill the form for editing
+      const rName = document.getElementById("r_name");
+      if (rName) {
+        rName.value = name;
+        rName.setAttribute("readonly", true);
+      }
+      const rMessage = document.getElementById("r_message");
+      if (rMessage) rMessage.value = message || "";
+      const rRating = document.getElementById("r_rating");
+      if (rRating) rRating.value = rating || "5";
 
-    alert("Old review deleted. Now edit & submit again!");
-  });
+      document.getElementById("reviewForm").scrollIntoView({ behavior: "smooth" });
+      alert("Purana review delete ho gaya. Ab edit karke submit kar do!");
+      loadReviews(); // refresh list after delete
+    })
+    .catch(err => {
+      console.error("DELETE error:", err);
+      alert("Purge karte waqt error aaya. Thodi der baad try karo.");
+    })
+    .finally(() => setReviewButtonLoading(false));
 }
 
-// LOAD REVIEWS
+
+// LOAD REVIEWS (fixed button generation)
 function loadReviews() {
   fetch(SCRIPT_URL)
     .then(r => r.json())
     .then(data => {
       let html = "";
 
-      if (!data.length) {
+      if (!Array.isArray(data) || data.length === 0) {
         html = `<div style="color:#aaa;font-size:13px;">No reviews yet.</div>`;
       }
 
-    data.slice().reverse().forEach(r => {
-  const loggedEmail = localStorage.getItem("userEmail");
+      (Array.isArray(data) ? data.slice().reverse() : []).forEach(r => {
+        const loggedEmail = localStorage.getItem("userEmail");
 
-  const showEdit = (loggedEmail && loggedEmail === r.email) 
-                   ? `<button onclick="editReview('${esc(r.name)}','${esc(r.message)}','${r.rating}','${r.email}')">"
-                        style="padding:3px 10px;font-size:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.25);background:#111526;color:#fff;cursor:pointer;">
-                          ✎ Edit
-                      </button>`
-                   : "";
+        // Use JSON.stringify to make safe JS string literals inside onclick
+        const editBtnHtml = (loggedEmail && loggedEmail === r.email)
+          ? `<button onclick="startEditReview(${JSON.stringify(r.email)}, ${JSON.stringify(r.name)}, ${JSON.stringify(r.message)}, ${JSON.stringify(String(r.rating))})" style="padding:3px 10px;font-size:12px;border-radius:8px;border:1px solid rgba(255,255,255,0.25);background:#111526;color:#fff;cursor:pointer;">
+               ✎ Edit
+             </button>`
+          : "";
 
-  html += `
-    <div style="margin-bottom:12px;padding:12px 14px;background:#0b0f20;border-radius:12px;border:1px solid rgba(255,255,255,0.08);">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-        <span style="font-size:13px;font-weight:600;">${esc(r.name)}</span>
-        <span>
-          ${"⭐".repeat(Number(r.rating) || 0)}
-          ${showEdit}
-        </span>
-      </div>
-      <div style="font-size:13px;color:#ddd;">
-        ${esc(r.message)}
-      </div>
-    </div>
-  `;
-});
+        html += `
+          <div style="margin-bottom:12px;padding:12px 14px;background:#0b0f20;border-radius:12px;border:1px solid rgba(255,255,255,0.08);">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+              <span style="font-size:13px;font-weight:600;">${esc(r.name)}</span>
+              <span>
+                ${"⭐".repeat(Number(r.rating) || 0)}
+                ${editBtnHtml}
+              </span>
+            </div>
+            <div style="font-size:13px;color:#ddd;">
+              ${esc(r.message)}
+            </div>
+          </div>
+        `;
+      });
 
       document.getElementById("reviewsList").innerHTML = html;
     })
-    .catch(err => console.error("GET error:", err));
+    .catch(err => {
+      console.error("GET error:", err);
+      document.getElementById("reviewsList").innerHTML = `<div style="color:#aaa;font-size:13px;">Reviews load karne me problem aayi.</div>`;
+    });
 }
 
 loadReviews();
@@ -1376,25 +1403,6 @@ function openMonthlyOptions(){
 function closeMonthlyOptions(){
   document.getElementById("monthlyPopup").style.display = "none";
 }
-
-function startEditReview(email, name, message, rating) {
-
-  // 1️⃣ Purana review DELETE request
-  fetch(SCRIPT_URL + "?delete=1&email=" + encodeURIComponent(email))
-    .then(r => r.text())
-    .then(res => {
-      console.log("DELETE RESPONSE:", res);
-    });
-
-  // 2️⃣ Form fill for editing
-  document.getElementById("r_name").value = name;
-  document.getElementById("r_message").value = message;
-  document.getElementById("r_rating").value = rating;
-
-  // 3️⃣ Smooth scroll to form
-  document.getElementById("reviewForm").scrollIntoView({ behavior: "smooth" });
-}
-
 </script>
 
 </body>
