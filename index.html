@@ -138,45 +138,66 @@ main{
 .hero-footer-note{font-size:11px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap;}
 
 /* HERO RIGHT */
-.hero-preview{
- background:radial-gradient(circle at top,#2a173f 0,#070716 60%);
- border-radius:var(--radius-xl);
- padding:16px;box-shadow:var(--shadow-soft);
- border:1px solid rgba(255,255,255,0.06);
+.hero-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  align-self: stretch;
 }
 
-.preview-header{
- display:flex;justify-content:space-between;
- font-size:11px;color:var(--muted);
- margin-bottom:10px;
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #bfc2d8;
 }
 
-.thumb-grid{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:10px;
+.thumb-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
-.thumb-card{
- background:linear-gradient(145deg,#161933,#090a16);
- border-radius:14px;padding:8px;
- border:1px solid rgba(255,255,255,0.08);
+.thumb-card {
+  background: rgba(255,255,255,0.03);
+  border-radius: 18px;
+  padding: 10px;
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.thumb-img{
- width:100%;border-radius:9px;
- cursor:pointer;
+.thumb-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 28px rgba(0,0,0,0.55);
 }
-.thumb-meta{
- display:flex;justify-content:space-between;
- font-size:10px;margin-top:6px;
- color:var(--muted);
+
+.thumb-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: 12px;
 }
-.ctr-pill,
-.server-pill{
- padding:2px 6px;border-radius:999px;
- border:1px solid rgba(255,255,255,0.3);
- font-size:9px;
+
+.thumb-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+  font-size: 12px;
+  color: #aeb3d1;
+}
+
+.pill-small {
+  padding: 2px 6px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.25);
+  font-size: 10px;
+}
+
+.more-gallery-text {
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.8;
+  font-style: italic;
 }
 
 /* SECTION */
@@ -585,6 +606,44 @@ section {
   padding-top: 40px;
 }
 
+.preview-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.preview-header-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 0 6px;
+  font-size: 14px;
+  color: #bfc2d8;
+}
+
+.preview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px 22px;
+}
+
+.preview-footer {
+  text-align: center;
+  font-size: 14px;
+  font-style: italic;
+  opacity: 0.75;
+  margin-top: 5px;  /* extra gap removed */
+}
+
+.preview-block {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 22px;
+  padding: 20px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
+
 /* RESPONSIVE */
 @media(max-width:840px){
  main{grid-template-columns:1fr;}
@@ -668,20 +727,21 @@ section {
     <span>📦 Monthly thumbnail packs available</span>
   </div>
 </section>
+<div class="preview-block">
 
-<aside class="hero-preview">
-  <div class="preview-header">
-    <div>Recent work preview</div>
-    <span>YouTube Gaming</span>
+  <div class="preview-header-row">
+      <span>Recent work preview</span>
+      <span>YouTube Gaming</span>
   </div>
 
+  <!-- GRID START -->
   <div class="thumb-grid">
-
+    
     <div class="thumb-card">
       <img src="images/death swap.jpg" class="thumb-img zoom-img">
       <div class="thumb-meta">
-        <span>Minecraft </span>
-        <span class="ctr-pill">Minecraft</span>
+        <span>Minecraft</span>
+        <span class="pill-small">Minecraft</span>
       </div>
     </div>
 
@@ -689,7 +749,7 @@ section {
       <img src="images/free.jpg" class="thumb-img zoom-img">
       <div class="thumb-meta">
         <span>Valorant</span>
-        <span class="server-pill">Valorant</span>
+        <span class="pill-small">Valorant</span>
       </div>
     </div>
 
@@ -697,25 +757,24 @@ section {
       <img src="images/montaze.jpg" class="thumb-img zoom-img">
       <div class="thumb-meta">
         <span>Valorant Montage</span>
-        <span class="ctr-pill">Highlights</span>
+        <span class="pill-small">Highlights</span>
       </div>
     </div>
 
     <div class="thumb-card">
       <img src="images/spear.jpg" class="thumb-img zoom-img">
       <div class="thumb-meta">
-        <span>SMP Minecraft </span>
-        <span class="server-pill">Minecraft</span>
+        <span>SMP Minecraft</span>
+        <span class="pill-small">Minecraft</span>
       </div>
     </div>
 
   </div>
+  <!-- GRID END -->
 
-  <div class="preview-cta">
-    Click any thumbnail to zoom · More work in the gallery below.
-  </div>
+  <div class="preview-footer">More work in the gallery ↓</div>
 
-</aside>
+</div>
 
 </main>
 
