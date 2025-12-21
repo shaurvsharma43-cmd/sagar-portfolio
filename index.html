@@ -680,6 +680,57 @@ section {
   }
 }
 
+.zoom-image-wrap {
+  position: relative;       /* THIS IS THE KEY */
+  display: inline-block;
+}
+
+/* zoomed image */
+#zoomedImg {
+  max-width: 92vw;
+  max-height: 88vh;
+  border-radius: 18px;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ===============================
+   WATERMARK (IMAGE KE UPAR)
+================================ */
+.zoom-watermark-fixed {
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  z-index: 5;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+
+  pointer-events: none;
+  user-select: none;
+
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.55);
+}
+
+/* PREVIEW ONLY */
+.zoom-watermark-fixed .wm-main {
+  font-size: clamp(12px, 1vw, 15px);
+  font-weight: 400;          /* NOT bold */
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* footer line */
+.zoom-watermark-fixed .wm-sub {
+  font-size: clamp(9px, 0.8vw, 11px);
+  font-weight: 300;
+  line-height: 1;
+}
 /* RESPONSIVE */
 @media(max-width:840px){
  main{grid-template-columns:1fr;}
@@ -782,10 +833,96 @@ section {
   
 }
 
+.zoom-img {
+  user-drag: none;
+  -webkit-user-drag: none;
+  user-select: none;
+  pointer-events: auto;
+}
+
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  user-select: none;
+}
+
+/* Zoom modal image safety */
+.zoom-modal img,
+.modal img {
+  pointer-events: auto;
+  -webkit-user-drag: none;
+}
+
+@media (max-width: 768px) {
+
+  /* zoom modal padding */
+  #zoomModal {
+    padding: 12px;
+  }
+
+  /* image wrapper */
+  .zoom-image-wrap {
+    max-width: 100%;
+  }
+
+  /* zoomed image */
+  #zoomedImg {
+    max-width: 100%;
+    max-height: 82vh;
+    border-radius: 14px;
+  }
+
+  /* watermark position fine-tune */
+  .zoom-watermark-fixed {
+    right: 12px;
+    bottom: 10px;
+    gap: 3px;
+  }
+
+  /* PREVIEW ONLY */
+  .zoom-watermark-fixed .wm-main {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+  }
+
+  /* footer text */
+  .zoom-watermark-fixed .wm-sub {
+    font-size: 9px;
+  }
+
+  /* close button easier tap */
+  #closeZoom {
+    top: 10px;
+    right: 14px;
+    font-size: 28px;
+  }
+}
+
+@media (max-width: 768px) {
+
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .gallery-item img {
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 768px) {
+  .zoom-img,
+  #zoomedImg {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+}
+
 </style>
 </head>
 
-<body>
+<body oncontextmenu="return false;">
 <div class="page">
 
 <header>
@@ -871,36 +1008,60 @@ section {
   <div class="thumb-grid">
     
     <div class="thumb-card">
-      <img src="images/pick.jpg" class="thumb-img zoom-img">
-      <div class="thumb-meta">
-        <span>Highlights</span>
-        <span class="pill-small">Highlights</span>
-      </div>
-    </div>
 
-    <div class="thumb-card">
-      <img src="images/free.jpg" class="thumb-img zoom-img">
-      <div class="thumb-meta">
-        <span>Valorant</span>
-        <span class="pill-small">Valorant</span>
-      </div>
-    </div>
+  <div class="img-wrap">
+    <img src="images/pick.jpg" class="thumb-img zoom-img" draggable="false">
+    <div class="img-shield"></div>
+  </div>
 
-    <div class="thumb-card">
-      <img src="images/montaze.jpg" class="thumb-img zoom-img">
-      <div class="thumb-meta">
-        <span>Valorant Montage</span>
-        <span class="pill-small">Highlights</span>
-      </div>
-    </div>
+  <div class="thumb-meta">
+    <span>Highlights</span>
+    <span class="pill-small">Highlights</span>
+  </div>
 
-    <div class="thumb-card">
-      <img src="images/YEZII.jpg" class="thumb-img zoom-img">
-      <div class="thumb-meta">
-        <span>Minecraft</span>
-        <span class="pill-small">Minecraft</span>
-      </div>
-    </div>
+</div>
+
+   <div class="thumb-card">
+
+  <div class="img-wrap">
+    <img src="images/free.jpg" class="thumb-img zoom-img" draggable="false">
+    <div class="img-shield"></div>
+  </div>
+
+  <div class="thumb-meta">
+    <span>Highlights</span>
+    <span class="pill-small">Highlights</span>
+  </div>
+
+</div>
+
+  <div class="thumb-card">
+
+  <div class="img-wrap">
+    <img src="images/montaze.jpg" class="thumb-img zoom-img" draggable="false">
+    <div class="img-shield"></div>
+  </div>
+
+  <div class="thumb-meta">
+    <span>Highlights</span>
+    <span class="pill-small">Highlights</span>
+  </div>
+
+</div>
+
+   <div class="thumb-card">
+
+  <div class="img-wrap">
+    <img src="images/YEZII.jpg" class="thumb-img zoom-img" draggable="false">
+    <div class="img-shield"></div>
+  </div>
+
+  <div class="thumb-meta">
+    <span>Highlights</span>
+    <span class="pill-small">Highlights</span>
+  </div>
+
+</div>
 
   </div>
   <!-- GRID END -->
@@ -1283,7 +1444,17 @@ section {
 <!-- MODAL -->
 <div id="zoomModal">
   <span id="closeZoom">&times;</span>
-  <img id="zoomedImg" src="">
+
+  <!-- IMAGE WRAPPER (IMPORTANT) -->
+  <div class="zoom-image-wrap"> 
+    <img id="zoomedImg" src="">
+
+    <!-- WATERMARK -->
+    <div class="zoom-watermark-fixed">
+      <div class="wm-main">PREVIEW ONLY</div>
+      <div class="wm-sub">© Notsagar · All Rights Reserved</div>
+    </div>
+  </div>
 </div>
 
 <!-- GOOGLE LOGIN SDK -->
@@ -1635,9 +1806,19 @@ function submitEditedReview() {
   });
 }
 
+
 window.openEditPopup = openEditPopup;
 window.submitEditedReview = submitEditedReview;
 
+
 </script>
+<script>
+document.querySelectorAll('.zoom-img').forEach(img => {
+  img.addEventListener('dragstart', e => e.preventDefault());
+  img.addEventListener('contextmenu', e => e.preventDefault());
+});
+</script>
+
+
 </body>
 </html>
