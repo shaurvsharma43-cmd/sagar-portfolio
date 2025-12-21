@@ -654,6 +654,31 @@ section {
   scroll-margin-top: 0;
 }
 
+.gallery-focus {
+  margin: 16px auto 10px;
+  padding: 10px 18px;
+  max-width: fit-content;
+  border-radius: 999px;
+  font-size: 14px;
+  color: #eafaff;
+  background: linear-gradient(
+    135deg,
+    rgba(0, 245, 255, 0.18),
+    rgba(79, 172, 254, 0.18)
+  );
+  border: 1px solid rgba(0, 245, 255, 0.35);
+  box-shadow: 0 0 25px rgba(0, 245, 255, 0.25);
+  animation: pulseGlow 2.4s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% {
+    box-shadow: 0 0 18px rgba(0, 245, 255, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 32px rgba(0, 245, 255, 0.45);
+  }
+}
 
 /* RESPONSIVE */
 @media(max-width:840px){
@@ -846,7 +871,7 @@ section {
   <div class="thumb-grid">
     
     <div class="thumb-card">
-      <img src="images/yeezii2.jpg" class="thumb-img zoom-img">
+      <img src="images/pick.jpg" class="thumb-img zoom-img">
       <div class="thumb-meta">
         <span>Highlights</span>
         <span class="pill-small">Highlights</span>
@@ -942,11 +967,12 @@ section {
     <!-- Your heading + button stays same -->
    <div class="gallery-header">
   <h2>Thumbnail Gallery</h2>
+  
 </div>
   
  <div class="gallery-grid">
     <div class="gallery-item"><img src="images/base-rating.jpg" class="zoom-img"></div>
-    <div class="gallery-item"><img src="images/rank-push.jpg" class="zoom-img"></div>
+    <div class="gallery-item"><img src="images/xty.jpg" class="zoom-img"></div>
     <div class="gallery-item"><img src="images/billu.jpg" class="zoom-img"></div>
     <div class="gallery-item"><img src="images/srk-memes.jpg" class="zoom-img"></div>
     <div class="gallery-item"><img src="images/full-course.jpg" class="zoom-img"></div>
@@ -956,6 +982,10 @@ section {
     </div>
 <a href="gallery/index.html" class="btn-primary see-all-btn">See All →</a>
   </div>  <!-- ⭐ END NEW -->
+
+   <div class="gallery-focus">
+  👀 Want more? <strong>Click “See All”</strong> to explore high-quality thumbnail designs.
+</div>
 
 </section>
 
