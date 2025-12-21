@@ -342,6 +342,50 @@ h1{
 }
 .close-buy:hover{opacity:1;}
 
+/* image wrapper */
+.zoom-image-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+/* watermark fixed to image bottom-right, stacked lines */
+.zoom-watermark-fixed {
+  position: absolute;      /* image ke andar absolute */
+  right: 22px;             /* adjust agar chahiye */
+  bottom: 18px;            /* adjust agar chahiye */
+  z-index: 9999;
+  pointer-events: none;
+  user-select: none;
+
+  display: flex;
+  flex-direction: column;  /* one below other */
+  align-items: flex-end;   /* right aligned stack */
+  gap: 4px;
+
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #fff;             /* full white (100% opacity) */
+  text-shadow: 0 1px 4px rgba(0,0,0,0.45);
+}
+
+/* top line: PREVIEW ONLY (slightly bigger) */
+.zoom-watermark-fixed .wm-main {
+  font-size: clamp(12px, 1.2vw, 16px);
+  font-weight: 700;        /* visible but clean */
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+/* bottom line: brand / footer (thin) */
+.zoom-watermark-fixed .wm-sub {
+  font-size: clamp(9px, 0.9vw, 11px);
+  font-weight: 300;        /* thin, professional */
+  opacity: 1;              /* full visibility */
+  line-height: 1;
+  margin-top: 2px;
+}
+
+
 /* RESPONSIVE */
 @media(max-width:900px){
   .gallery-grid{grid-template-columns:repeat(3,1fr);}
@@ -351,10 +395,28 @@ h1{
   .gallery-grid{grid-template-columns:repeat(3,1fr);gap:10px;}
   .btn-pill{padding:7px 14px;}
 }
+
+/* 🔒 Gallery image protection */
+.gallery-img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  user-select: none;
+  pointer-events: auto;
+}
+
+/* Zoom ke baad bhi drag band */
+.zoom-modal img,
+.zoom-overlay img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  user-select: none;
+}
+
+
 </style>
 </head>
 
-<body>
+<body oncontextmenu="return false;">
 <div class="page">
 
   <div class="top-row">
@@ -379,7 +441,7 @@ h1{
 
     <div class="card">
       <div class="card-inner">
-        <img src="images/base-rating.jpg" class="zoom-img" loading="lazy">
+        <img src="images/base-rating.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">Base Rating</span>
           <span class="card-tag">Minecraft SMP</span>
@@ -389,7 +451,7 @@ h1{
 
     <div class="card">
       <div class="card-inner">
-        <img src="images/rank-push.jpg" class="zoom-img" loading="lazy">
+        <img src="images/rank-push.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">Rank Push</span>
           <span class="card-tag">Valorant Competitive</span>
@@ -399,7 +461,7 @@ h1{
 
     <div class="card">
       <div class="card-inner">
-        <img src="images/billu.jpg" class="zoom-img" loading="lazy">
+        <img src="images/billu.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">Gta v Live </span>
           <span class="card-tag">GTA RP</span>
@@ -409,7 +471,7 @@ h1{
 
     <div class="card">
       <div class="card-inner">
-        <img src="images/srk-memes.jpg" class="zoom-img" loading="lazy">
+        <img src="images/srk-memes.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">SRK Memes Reaction</span>
           <span class="card-tag">Reaction</span>
@@ -419,7 +481,7 @@ h1{
 
     <div class="card">
       <div class="card-inner">
-        <img src="images/full-course.jpg" class="zoom-img" loading="lazy">
+        <img src="images/full-course.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">Thumbnails like Tube Sensei</span>
           <span class="card-tag">Tutorial</span>
@@ -429,7 +491,7 @@ h1{
 
     <div class="card">
       <div class="card-inner">
-        <img src="images/scammer.jpg" class="zoom-img" loading="lazy">
+        <img src="images/scammer.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">Harshad mehta Exposed Thumbnail</span>
           <span class="card-tag">Documentary</span>
@@ -439,7 +501,7 @@ h1{
 
     <div class="card">
       <div class="card-inner">
-        <img src="images/face.jpg" class="zoom-img" loading="lazy">
+        <img src="images/face.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">My Channels Face Reveal Thumbnail</span>
           <span class="card-tag">Face Reveal</span>
@@ -449,7 +511,7 @@ h1{
 
     <div class="card">
       <div class="card-inner">
-        <img src="images/live stream.jpg" class="zoom-img" loading="lazy">
+        <img src="images/live stream.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">Minecraft Live Stream</span>
           <span class="card-tag">Streaming</span>
@@ -459,7 +521,7 @@ h1{
 
     <div class="card">
       <div class="card-inner">
-        <img src="images/death swap.jpg" class="zoom-img" loading="lazy">
+        <img src="images/death swap.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">Death Swap</span>
           <span class="card-tag">Minecraft</span>
@@ -469,7 +531,7 @@ h1{
 
     <div class="card">
       <div class="card-inner">
-        <img src="images/free.jpg" class="zoom-img" loading="lazy">
+        <img src="images/free.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">Valo With me</span>
           <span class="card-tag">FPS</span>
@@ -479,7 +541,7 @@ h1{
 
     <div class="card">
       <div class="card-inner">
-        <img src="images/montaze.jpg" class="zoom-img" loading="lazy">
+        <img src="images/montaze.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">Valorant Montage</span>
           <span class="card-tag">Highlights</span>
@@ -489,7 +551,7 @@ h1{
 
     <div class="card">
       <div class="card-inner">
-        <img src="images/spear.jpg" class="zoom-img" loading="lazy">
+        <img src="images/spear.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">Spear Clutch</span>
           <span class="card-tag">Minecraft</span>
@@ -499,7 +561,7 @@ h1{
 
     <div class="card">
       <div class="card-inner">
-        <img src="images/100 days.jpg" class="zoom-img" loading="lazy">
+        <img src="images/100 days.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">100 Days Thumbnail</span>
           <span class="card-tag">Minecraft</span>
@@ -510,7 +572,7 @@ h1{
 
     <div class="card">
       <div class="card-inner">
-        <img src="images/YEZII.jpg" class="zoom-img" loading="lazy">
+        <img src="images/YEZII.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">MINEZII'S Thumbnail</span>
           <span class="card-tag">Minecraft</span>
@@ -520,7 +582,7 @@ h1{
 
     <div class="card">
       <div class="card-inner">
-        <img src="images/Rixtone live.jpg" class="zoom-img" loading="lazy">
+        <img src="images/Rixtone live.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">Thumbnail For RixsonGamer</span>
           <span class="card-tag">Minecraft Live</span>
@@ -530,7 +592,7 @@ h1{
 
      <div class="card">
       <div class="card-inner">
-        <img src="images/yeezii2.jpg" class="zoom-img" loading="lazy">
+        <img src="images/yeezii2.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">Valorant Highlights</span>
           <span class="card-tag">Highlights</span>
@@ -540,7 +602,7 @@ h1{
 
     <div class="card">
       <div class="card-inner">
-        <img src="images/xty.jpg" class="zoom-img" loading="lazy">
+        <img src="images/xty.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">Raid Live</span>
           <span class="card-tag">Valorant</span>
@@ -550,7 +612,7 @@ h1{
 
          <div class="card">
       <div class="card-inner">
-        <img src="images/pick.jpg" class="zoom-img" loading="lazy">
+        <img src="images/pick.jpg" class="gallery-img zoom-img" loading="lazy">
         <div class="card-meta">
           <span class="card-title">Valorant Highlights</span>
           <span class="card-tag">Highlights</span>
@@ -564,8 +626,18 @@ h1{
 
 <!-- ZOOM MODAL -->
 <div id="zoomModal">
-  <span id="closeZoom">&times;</span>
-  <img id="zoomedImg" src="">
+  <span id="closeZoom">×</span>
+
+  <div class="zoom-wrap">
+    <img id="zoomedImg">
+   <div class="zoom-image-wrap">
+  <img id="zoomedImg" src="" />
+
+  <div class="zoom-watermark-fixed">
+    <div class="wm-main">PREVIEW ONLY</div>
+    <div class="wm-sub">© Notsagar · All Rights Reserved</div>
+  </div>
+</div>
 </div>
 
 <!-- BUY POPUP (GRAY GLASS) -->
@@ -615,6 +687,7 @@ const closeZoom = document.getElementById("closeZoom");
 document.querySelectorAll(".zoom-img").forEach(img=>{
   img.addEventListener("click",()=>{
     zoomImg.src = img.src;
+    zoomImg.setAttribute("draggable","false"); // 🔒 drag block
     zoomModal.style.display = "flex";
   });
 });
@@ -687,6 +760,22 @@ function buyMonthly(){
       );
   }
 }
+</script>
+
+<script>
+  // 🔒 Drag block (gallery + zoom)
+  document.addEventListener('dragstart', e => {
+    if (e.target.classList.contains('gallery-img') || e.target.tagName === 'IMG') {
+      e.preventDefault();
+    }
+  });
+
+  // 🔒 Right click block (gallery)
+  document.addEventListener('contextmenu', e => {
+    if (e.target.classList.contains('gallery-img')) {
+      e.preventDefault();
+    }
+  });
 </script>
 
 </body>
