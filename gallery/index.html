@@ -227,29 +227,42 @@ h1{
 }
 
 /* ZOOM MODAL */
-#zoomModal{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.78);
-  backdrop-filter:blur(8px);
-  justify-content:center;
-  align-items:center;
-  z-index:20;
+#zoomModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.78);
+  backdrop-filter: blur(8px);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
-#zoomedImg{
-  max-width:92%;
-  max-height:92%;
-  border-radius:18px;
-  box-shadow:0 20px 60px rgba(0,0,0,0.9);
+
+/* IMAGE WRAP */
+.zoom-image-wrap {
+  position: relative;
+  z-index: 1;
 }
-#closeZoom{
-  position:absolute;
-  top:26px;
-  right:40px;
-  font-size:40px;
-  color:white;
-  cursor:pointer;
+
+/* IMAGE */
+#zoomedImg {
+  max-width: 92vw;
+  max-height: 92vh;
+  border-radius: 18px;
+  display: block;
+  pointer-events: none;   /* 🔥 KEY FIX */
+}
+
+/* ❌ BUTTON */
+#closeZoom {
+  position: fixed;        /* 🔥 NOT absolute */
+  top: 22px;
+  right: 26px;
+  font-size: 42px;
+  color: #fff;
+  cursor: pointer;
+  z-index: 10000;         /* 🔥 image se upar */
+  user-select: none;
 }
 
 /* BUY POPUP – gray glass */
@@ -261,7 +274,7 @@ h1{
   backdrop-filter:blur(10px);
   justify-content:center;
   align-items:center;
-  z-index:19;
+  z-index:30;
 }
 
 .buy-box{
@@ -412,6 +425,10 @@ h1{
   user-select: none;
 }
 
+.zoom-img {
+  cursor: zoom-in;
+  pointer-events: auto;
+}
 
 </style>
 </head>
@@ -430,7 +447,7 @@ h1{
         <span class="icon">←</span>
         Back Home
       </a>
-      <button class="btn-pill primary" onclick="openBuy()">
+      <button class="btn-pill primary" onclick="openBuy(event)">
         <span class="icon">🛒</span>
         Buy Now
       </button>
@@ -624,25 +641,22 @@ h1{
 
 </div>
 
-<!-- ZOOM MODAL -->
 <div id="zoomModal">
   <span id="closeZoom">×</span>
 
-  <div class="zoom-wrap">
-    <img id="zoomedImg">
-   <div class="zoom-image-wrap">
-  <img id="zoomedImg" src="" />
+  <div class="zoom-image-wrap">
+    <img id="zoomedImg" />
 
-  <div class="zoom-watermark-fixed">
-    <div class="wm-main">PREVIEW ONLY</div>
-    <div class="wm-sub">© Notsagar · All Rights Reserved</div>
+    <div class="zoom-watermark-fixed">
+      <div class="wm-main">PREVIEW ONLY</div>
+      <div class="wm-sub">© Notsagar · All Rights Reserved</div>
+    </div>
   </div>
-</div>
 </div>
 
 <!-- BUY POPUP (GRAY GLASS) -->
-<div id="buyModal">
-  <div class="buy-box">
+<div id="buyModal" onclick="closeBuy()">
+  <div class="buy-box" onclick="event.stopPropagation()">
     <div class="buy-title">Choose a plan</div>
     <div class="buy-sub">Tell me what you need – I’ll reply with details.</div>
 
@@ -684,28 +698,31 @@ const zoomModal = document.getElementById("zoomModal");
 const zoomImg   = document.getElementById("zoomedImg");
 const closeZoom = document.getElementById("closeZoom");
 
-document.querySelectorAll(".zoom-img").forEach(img=>{
-  img.addEventListener("click",()=>{
+document.querySelectorAll(".zoom-img").forEach(img => {
+  img.addEventListener("click", () => {
     zoomImg.src = img.src;
-    zoomImg.setAttribute("draggable","false"); // 🔒 drag block
     zoomModal.style.display = "flex";
   });
 });
 
-function hideZoom(){
+closeZoom.addEventListener("click", () => {
   zoomModal.style.display = "none";
-}
-closeZoom.addEventListener("click", hideZoom);
-zoomModal.addEventListener("click", e=>{
-  if(e.target === zoomModal) hideZoom();
 });
 
+zoomModal.addEventListener("click", (e) => {
+  if (e.target === zoomModal) {
+    zoomModal.style.display = "none";
+  }
+});
 // BUY POPUP
 const buyModal = document.getElementById("buyModal");
 
-function openBuy(){
-  buyModal.style.display = "flex";
+function openBuy(e){
+  if(e) e.stopPropagation();
+  const bm = document.getElementById("buyModal");
+  bm.style.display = "flex";
 }
+
 function closeBuy(){
   buyModal.style.display = "none";
 }
