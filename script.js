@@ -163,6 +163,18 @@ function loadReviews() {
 loadReviews();
 
 
+document.querySelectorAll("img").forEach(img => {
+    img.setAttribute("draggable", "false");
+
+    img.addEventListener("dragstart", e => e.preventDefault());
+
+    img.addEventListener("contextmenu", e => e.preventDefault());
+
+    img.style.userSelect = "none";
+    img.style.webkitUserSelect = "none";
+    img.style.webkitTouchCallout = "none";
+});
+
 // ==== GOOGLE LOGIN ====
 const CLIENT_ID = "330326769652-h3hcdreqcbj6jo84c74n60bvicuuea3o.apps.googleusercontent.com";
 
@@ -233,6 +245,15 @@ function showUserUI(data){
     </button>
   `;
 }
+
+
+document.addEventListener("keydown", function (e) {
+    if (e.key === "F12") {
+        e.preventDefault();
+        return false;
+    }
+});
+
 
 // Logout
 function logout(){
