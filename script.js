@@ -125,17 +125,24 @@ function submitReview() {
 }
 
 // LOAD REVIEWS
+let REVIEWS_CACHE = [];
+
 function loadReviews() {
   fetch(SCRIPT_URL)
     .then(r => r.json())
     .then(data => {
+      const list = Array.isArray(data) ? data.slice().reverse() : [];
+      REVIEWS_CACHE = list;
+      const currentEmail = localStorage.getItem("userEmail");
+
       let html = "";
 
-      if (!Array.isArray(data) || data.length === 0) {
+      if (list.length === 0) {
         html = `<div style="color:#aaa;font-size:13px;">No reviews yet.</div>`;
       }
 
-      (Array.isArray(data) ? data.slice().reverse() : []).forEach(r => {
+      list.forEach((r, idx) => {
+        const canEdit = !!currentEmail && !!r.email && r.email === currentEmail;
 
         html += `
           <div style="margin-bottom:12px;padding:12px 14px;background:#0b0f20;border-radius:12px;border:1px solid rgba(255,255,255,0.08);">
@@ -148,11 +155,21 @@ function loadReviews() {
             <div style="font-size:13px;color:#ddd;">
               ${esc(r.message)}
             </div>
+            ${canEdit ? `<div style="margin-top:8px;text-align:right;">
+              <button class="edit-review-btn" data-idx="${idx}" style="border:none;background:transparent;color:#27e0ff;font-size:12px;cursor:pointer;padding:0;">Edit review</button>
+            </div>` : ""}
           </div>
         `;
       });
 
       document.getElementById("reviewsList").innerHTML = html;
+
+      document.querySelectorAll(".edit-review-btn").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const r = REVIEWS_CACHE[Number(btn.getAttribute("data-idx"))];
+          if (r) openEditPopup(r.name, r.message, r.rating, r.email);
+        });
+      });
     })
     .catch(err => {
       console.error("GET error:", err);
