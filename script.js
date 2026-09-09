@@ -17,6 +17,11 @@ modal.addEventListener("click", e => {
   if (e.target === modal) modal.style.display = "none";
 });
 
+const signInModal = document.getElementById("signInModal");
+signInModal.addEventListener("click", e => {
+  if (e.target === signInModal) closeSignInModal();
+});
+
 
 // ==== REVIEW CONFIG ====
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz4AEokp4Lf-lj7KaGZum0ARPF9nqOBu5EcKkPwtRN0vXP8O6UhYS1n4v7lZOiDHDHR/exec";
@@ -138,33 +143,31 @@ function loadReviews() {
       let html = "";
 
       if (list.length === 0) {
-        html = `<div style="color:#aaa;font-size:13px;">No reviews yet.</div>`;
+        html = `<div class="reviews-empty">No reviews yet — be the first to leave one.</div>`;
       }
 
       list.forEach((r, idx) => {
         const canEdit = !!currentEmail && !!r.email && r.email === currentEmail;
+        const initial = esc((r.name || "?").trim().charAt(0).toUpperCase() || "?");
 
         html += `
-          <div style="margin-bottom:12px;padding:12px 14px;background:#0b0f20;border-radius:12px;border:1px solid rgba(255,255,255,0.08);">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
-              <span style="font-size:13px;font-weight:600;">${esc(r.name)}</span>
-              <span>
-                ${"⭐".repeat(Number(r.rating) || 0)}
-              </span>
+          <div class="review-card">
+            <div class="review-card-top">
+              <div class="review-avatar">${initial}</div>
+              <div class="review-meta">
+                <span class="review-name">${esc(r.name)}</span>
+                <span class="review-stars">${"⭐".repeat(Number(r.rating) || 0)}</span>
+              </div>
+              ${canEdit ? `<button class="review-edit-btn" data-idx="${idx}">Edit</button>` : ""}
             </div>
-            <div style="font-size:13px;color:#ddd;">
-              ${esc(r.message)}
-            </div>
-            ${canEdit ? `<div style="margin-top:8px;text-align:right;">
-              <button class="edit-review-btn" data-idx="${idx}" style="border:none;background:transparent;color:#27e0ff;font-size:12px;cursor:pointer;padding:0;">Edit review</button>
-            </div>` : ""}
+            <p class="review-text">${esc(r.message)}</p>
           </div>
         `;
       });
 
       document.getElementById("reviewsList").innerHTML = html;
 
-      document.querySelectorAll(".edit-review-btn").forEach(btn => {
+      document.querySelectorAll(".review-edit-btn").forEach(btn => {
         btn.addEventListener("click", () => {
           const r = REVIEWS_CACHE[Number(btn.getAttribute("data-idx"))];
           if (r) openEditPopup(r.name, r.message, r.rating, r.email);
@@ -173,7 +176,7 @@ function loadReviews() {
     })
     .catch(err => {
       console.error("GET error:", err);
-      document.getElementById("reviewsList").innerHTML = `<div style="color:#aaa;font-size:13px;">There was a problem loading reviews.</div>`;
+      document.getElementById("reviewsList").innerHTML = `<div class="reviews-error">There was a problem loading reviews.</div>`;
     });
 }
 
@@ -201,11 +204,6 @@ window.onload = function() {
       client_id: CLIENT_ID,
       callback: handleLogin
     });
-
-    google.accounts.id.renderButton(
-      document.getElementById("g_login_btn"),
-      { theme: "outline", size: "medium", shape:"pill" }
-    );
   }
 
   const savedName = localStorage.getItem("userName");
@@ -242,12 +240,42 @@ function handleLogin(response){
   localStorage.setItem("userPic", data.picture);
 
   showUserUI(data);
+  closeSignInModal();
 
   const rName = document.getElementById("r_name");
   if (rName) {
     rName.value = data.name;
     rName.setAttribute("readonly", true);
   }
+}
+
+// Sign in modal (multiple methods, Google only for now)
+function openSignInModal(){
+  document.getElementById("signInModal").style.display = "flex";
+  if (window.google && google.accounts && google.accounts.id) {
+    google.accounts.id.renderButton(
+      document.getElementById("g_login_btn"),
+      { theme: "outline", size: "medium", shape: "pill" }
+    );
+  }
+}
+
+const DISCORD_CLIENT_ID = "1546842719559884891";
+const DISCORD_REDIRECT = window.location.origin;
+
+document.getElementById("discordLogin").addEventListener("click", () => {
+  const url =
+    `https://discord.com/oauth2/authorize` +
+    `?client_id=${DISCORD_CLIENT_ID}` +
+    `&response_type=token` +
+    `&redirect_uri=${encodeURIComponent(DISCORD_REDIRECT)}` +
+    `&scope=identify%20email`;
+
+  window.location.href = url;
+});
+
+function closeSignInModal(){
+  document.getElementById("signInModal").style.display = "none";
 }
 
 // Show user info + logout btn
@@ -261,6 +289,9 @@ function showUserUI(data){
       Logout
     </button>
   `;
+
+  const trigger = document.getElementById("signInTriggerBtn");
+  if (trigger) trigger.style.display = "none";
 }
 
 
@@ -345,3 +376,34 @@ function submitEditedReview() {
 
 window.openEditPopup = openEditPopup;
 window.submitEditedReview = submitEditedReview;
+
+async function discordAutoLogin() {
+  const hash = new URLSearchParams(location.hash.substring(1));
+  const token = hash.get("access_token");
+  if (!token) return;
+
+  const user = await fetch("https://discord.com/api/users/@me", {
+    headers: { Authorization: `Bearer ${token}` }
+  }).then(r => r.json());
+
+  const data = {
+    name: user.global_name || user.username,
+    email: user.email,
+    picture: `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png`
+  };
+
+  localStorage.setItem("userName", data.name);
+  localStorage.setItem("userEmail", data.email);
+  localStorage.setItem("userPic", data.picture);
+
+  showUserUI(data);
+
+  const rName = document.getElementById("r_name");
+if (rName) {
+  rName.value = data.name;
+  rName.setAttribute("readonly", true);
+}
+  history.replaceState({}, "", location.pathname);
+}
+
+discordAutoLogin();
