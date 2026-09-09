@@ -28,11 +28,41 @@
   </nav>
 
   <div style="display:flex;align-items:center;gap:12px;">
-    <div id="g_login_btn" class="g-btn"></div>
+    <button type="button" id="signInTriggerBtn" class="g-btn" onclick="openSignInModal()"
+      style="border:none;background:transparent;color:#fff;font-size:13px;font-weight:600;
+             padding:8px 16px;border-radius:999px;border:1px solid rgba(255,255,255,0.25);cursor:pointer;">
+      Sign In
+    </button>
     <div id="user_area" style="display:flex;align-items:center;gap:8px;"></div>
     <a href="#pricing" class="nav-cta">Work with me</a>
   </div>
 </header>
+
+<div id="signInModal" style="display:none;">
+  <div class="signin-box">
+    <h3>Sign in</h3>
+    <p style="font-size:13px;color:#aaa;margin-bottom:14px;">
+      Choose a method to continue
+    </p>
+
+    <!-- Google -->
+    <div id="g_login_btn" class="g-btn"></div>
+
+    <!-- Discord -->
+    <button id="discordLogin" class="discord-btn">
+      <svg width="18" height="18" viewBox="0 0 127.14 96.36" fill="white">
+        <path d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83A97.68 97.68 0 0 0 49 6.83 72.37 72.37 0 0 0 45.64 0 105.89 105.89 0 0 0 19.39 8.09C2.79 33.35-1.71 57.98.54 82.26A105.73 105.73 0 0 0 32.71 96.36a77.7 77.7 0 0 0 6.89-11.17 68.42 68.42 0 0 1-10.84-5.18c.91-.66 1.8-1.34 2.66-2.04 20.87 9.54 43.56 9.54 64.18 0 .87.71 1.76 1.39 2.66 2.04a68.68 68.68 0 0 1-10.86 5.19 77 77 0 0 0 6.89 11.16A105.25 105.25 0 0 0 126.6 82.27c2.64-28.13-4.5-52.54-18.9-74.2ZM42.45 65.69C36.18 65.69 31 59.96 31 52.91s5.1-12.78 11.46-12.78c6.42 0 11.55 5.78 11.46 12.78 0 7.05-5.13 12.78-11.46 12.78Zm42.24 0c-6.27 0-11.45-5.73-11.45-12.78s5.1-12.78 11.45-12.78c6.42 0 11.55 5.78 11.46 12.78 0 7.05-5.04 12.78-11.46 12.78Z"/>
+      </svg>
+      Continue with Discord
+    </button>
+
+    <div class="signin-actions">
+      <button class="signin-cancel" onclick="closeSignInModal()">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>
 
 <main>
 
@@ -369,16 +399,18 @@
 <section id="reviews" class="reveal">
   <h2>Client Reviews ⭐</h2>
 
-  <div id="reviewForm">
-    <input id="r_name" placeholder="Your Name" readonly />
+  <div id="reviewForm" class="review-form-card">
+    <div class="review-form-row">
+      <input id="r_name" placeholder="Your Name" readonly />
 
-    <select id="r_rating">
-      <option value="5">⭐⭐⭐⭐⭐</option>
-      <option value="4">⭐⭐⭐⭐</option>
-      <option value="3">⭐⭐⭐</option>
-      <option value="2">⭐⭐</option>
-      <option value="1">⭐</option>
-    </select>
+      <select id="r_rating">
+        <option value="5">⭐⭐⭐⭐⭐</option>
+        <option value="4">⭐⭐⭐⭐</option>
+        <option value="3">⭐⭐⭐</option>
+        <option value="2">⭐⭐</option>
+        <option value="1">⭐</option>
+      </select>
+    </div>
 
     <textarea id="r_message" placeholder="Write your review..."></textarea>
 
@@ -387,7 +419,7 @@
     </button>
   </div>
 
-  <div id="reviewsList"></div>
+  <div id="reviewsList" class="reviews-grid"></div>
 </section>
 
 <!-- EDIT REVIEW MODAL -->
