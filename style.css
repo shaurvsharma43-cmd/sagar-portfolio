@@ -389,22 +389,20 @@ section > p {
 }
 
 /* REVIEWS */
-#reviewsList > div{
- margin-top: 10px;
- padding: 16px;
- border-radius: 14px;
- background: rgba(255,255,255,0.03);
- border: 1px solid rgba(255,255,255,0.06);
-}
-#reviewsList > div:last-child{ margin-bottom:0; }
-#reviewsList span{ font-size: 13px; color: #ffd43b; }
+#reviews h2{ margin-bottom: 16px; }
 
-#reviewForm {
+.review-form-card{
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  margin-bottom: 24px;
+}
+.review-form-row{
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  align-items: flex-start;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 #r_name, #r_rating, #r_message {
   background: #15182a;
@@ -417,7 +415,7 @@ section > p {
 }
 #r_name{ flex:1; min-width:180px; padding:10px 14px; }
 #r_rating{ padding:10px 14px; color:#ffd43b; font-size:16px; cursor:pointer; }
-#r_message{ flex:2; min-width:260px; padding:12px 14px; height:90px; resize:none; }
+#r_message{ width:100%; padding:12px 14px; height:90px; resize:none; margin-bottom:12px; display:block; }
 #r_name:focus, #r_rating:focus, #r_message:focus{
   border-color: rgba(39,224,255,0.4);
 }
@@ -434,6 +432,87 @@ section > p {
   transition: transform 0.25s ease;
 }
 #reviewBtn:hover{ transform: scale(1.05); }
+
+.reviews-grid{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+.review-card{
+  position: relative;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+.review-card:hover{
+  transform: translateY(-3px);
+  border-color: rgba(39,224,255,0.35);
+}
+.review-card-top{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.review-avatar{
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: #050712;
+  background: linear-gradient(135deg,#27e0ff,#ff3b6b);
+}
+.review-meta{
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.review-name{
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.review-stars{ font-size: 12px; color: #ffd43b; letter-spacing: 1px; }
+.review-edit-btn{
+  margin-left: auto;
+  flex-shrink: 0;
+  border: 1px solid rgba(255,255,255,0.15);
+  background: transparent;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+.review-edit-btn:hover{ background: rgba(39,224,255,0.1); }
+.review-text{
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--muted);
+  word-break: break-word;
+}
+.reviews-empty, .reviews-error{
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 24px;
+  font-size: 13px;
+  color: var(--muted);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-lg);
+}
+
 
 /* MODALS */
 #zoomModal{
@@ -494,6 +573,22 @@ section > p {
   margin-top:12px; font-size:12px; cursor:pointer; color:#a0a3b1;
 }
 
+#signInModal {
+  display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(10px); z-index:9999; align-items:center; justify-content:center;
+}
+#signInModal .signin-box{
+  background:#0f1327; padding:24px; border-radius:18px;
+  width:280px; text-align:center; border:1px solid rgba(255,255,255,0.12);
+}
+#signInModal h3{ font-size:16px; margin-bottom:4px; }
+#signInModal #g_login_btn{ display:flex; justify-content:center; margin:6px 0; }
+.signin-actions{ margin-top:16px; }
+.signin-cancel{
+  padding:6px 14px; border-radius:10px; border:none;
+  background:#444; color:white; cursor:pointer; font-size:12px;
+}
+
 .buy-btn{
   display: inline-block;
   transition: transform 0.25s ease;
@@ -547,6 +642,7 @@ section > p {
   .gallery-item img{ aspect-ratio: 1 / 1; }
   #reviewForm{ flex-direction: column; }
   #reviewBtn{ width: 100%; }
+  .reviews-grid{ grid-template-columns: 1fr; }
   .contact-card{ flex-direction: column; text-align: center; }
   footer{ margin-top: 24px; font-size: 10px; }
 }
@@ -710,4 +806,44 @@ body::before{
 
 .hero-left{
     padding-right:20px;
+}
+
+/* ===== Discord Sign In Button ===== */
+
+.discord-btn{
+  width:100%;
+  margin-top:12px;
+  padding:12px 16px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:10px;
+
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.08);
+
+  background:linear-gradient(135deg,#5865F2,#4752C4);
+  color:#fff;
+
+  font-size:13px;
+  font-weight:600;
+  cursor:pointer;
+
+  transition:.25s ease;
+}
+
+.discord-btn:hover{
+  transform:scale(1.03);
+  box-shadow:0 0 20px rgba(88,101,242,.35);
+}
+
+.discord-btn:active{
+  transform:scale(.98);
+}
+
+.discord-btn svg{
+  width:18px;
+  height:18px;
+  fill:#fff;
 }
