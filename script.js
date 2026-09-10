@@ -89,7 +89,7 @@ function submitReview() {
   const fingerprint = getFingerprint();
 
   if (!email) {
-    alert("Please login with Google to submit a review.");
+    alert("Please login to submit a review.");
     return;
   }
 
