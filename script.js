@@ -401,3 +401,57 @@ async function discordAutoLogin() {
 }
 
 discordAutoLogin();
+
+const DISCORD_USER_ID = "1249122290944446477";
+
+async function updateDiscordPresence() {
+  try {
+    const res = await fetch(
+      `https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`
+    );
+
+    const { data } = await res.json();
+
+    const dot = document.getElementById("statusDot");
+    const status = document.getElementById("discordStatus");
+    const game = document.getElementById("discordGame");
+
+    if (!dot) return;
+
+    const colors = {
+      online: "#22c55e",
+      idle: "#f59e0b",
+      dnd: "#ef4444",
+      offline: "#6b7280"
+    };
+
+    const names = {
+      online: "Online",
+      idle: "Idle",
+      dnd: "Do Not Disturb",
+      offline: "Offline"
+    };
+   
+    dot.style.background = colors[data.discord_status];
+    dot.style.boxShadow = `0 0 12px ${colors[data.discord_status]}`;
+
+    status.textContent = names[data.discord_status];
+    const live = document.querySelector(".dc-live");
+    if (data.discord_status === "offline") {
+    live.style.display = "none";
+    } else {
+     live.style.display = "block";
+    }
+    const activity = data.activities.find(a => a.type === 0);
+    game.textContent = activity
+      ? `Playing ${activity.name}`
+      : "Not playing anything";
+  
+  } catch {
+    document.getElementById("discordStatus").textContent = "Unavailable";
+    document.getElementById("discordGame").textContent = "Couldn't connect";
+  }
+}
+   
+updateDiscordPresence();
+setInterval(updateDiscordPresence, 15000);
