@@ -1,3 +1,50 @@
+// ==== PREMIUM TOAST NOTIFICATIONS ====
+const TOAST_ICONS = {
+  success: "&#10003;",
+  error: "&#10005;",
+  warning: "&#33;",
+  info: "&#8505;"
+};
+
+function showToast(opts) {
+  const {
+    type = "info",
+    title = "",
+    message = "",
+    duration = 4200
+  } = typeof opts === "string" ? { message: opts } : opts;
+
+  const container = document.getElementById("toastContainer");
+  if (!container) { window.alert(message || title); return; }
+
+  const toast = document.createElement("div");
+  toast.className = `toast toast-${type}`;
+
+  toast.innerHTML = `
+    <div class="toast-icon">${TOAST_ICONS[type] || TOAST_ICONS.info}</div>
+    <div class="toast-body">
+      ${title ? `<div class="toast-title">${title}</div>` : ""}
+      ${message ? `<div class="toast-message">${message}</div>` : ""}
+    </div>
+    <button class="toast-close" aria-label="Dismiss">&times;</button>
+    <div class="toast-progress" style="animation-duration:${duration}ms;"></div>
+  `;
+
+  container.appendChild(toast);
+
+  let dismissed = false;
+  const dismiss = () => {
+    if (dismissed) return;
+    dismissed = true;
+    toast.classList.add("toast-out");
+    setTimeout(() => toast.remove(), 320);
+  };
+
+  toast.querySelector(".toast-close").addEventListener("click", dismiss);
+  const timer = setTimeout(dismiss, duration);
+  toast.addEventListener("mouseenter", () => clearTimeout(timer));
+}
+
 // ==== YEAR + ZOOM MODAL ====
 document.getElementById("year").textContent = new Date().getFullYear();
 
@@ -89,12 +136,20 @@ function submitReview() {
   const fingerprint = getFingerprint();
 
   if (!email) {
-    alert("Please login to submit a review.");
+    showToast({
+      type: "warning",
+      title: "Sign in required",
+      message: "Please sign in to submit a review."
+    });
     return;
   }
 
   if (!message) {
-    alert("Please write a review!");
+    showToast({
+      type: "warning",
+      title: "Review is empty",
+      message: "Please write a few words before submitting your review."
+    });
     return;
   }
 
@@ -109,20 +164,40 @@ function submitReview() {
     const resp = String(text || "").trim();
     if (resp === "SUCCESS") {
       document.getElementById("r_message").value = "";
-      alert("Thanks for your review!");
+      showToast({
+        type: "success",
+        title: "Review submitted",
+        message: "Thank you for your feedback — it's now live."
+      });
       loadReviews();
     } else if (resp === "ALREADY_REVIEWED") {
-      alert("A review has already been submitted from this email.");
+      showToast({
+        type: "info",
+        title: "Already reviewed",
+        message: "A review from this email has already been submitted."
+      });
     } else if (resp === "DUPLICATE_DEVICE") {
-      alert("A review has already been submitted from this device/fingerprint.");
+      showToast({
+        type: "info",
+        title: "Already reviewed",
+        message: "A review has already been submitted from this device."
+      });
     } else {
       console.log("Unexpected response:", resp);
-      alert("There was a problem saving your review.");
+      showToast({
+        type: "error",
+        title: "Something went wrong",
+        message: "We couldn't save your review. Please try again."
+      });
     }
   })
   .catch(err => {
     console.error("POST error:", err);
-    alert("Network error, please try again later.");
+    showToast({
+      type: "error",
+      title: "Connection issue",
+      message: "Network error — please check your connection and try again."
+    });
   })
   .finally(() => {
     setReviewButtonLoading(false);
@@ -344,7 +419,13 @@ function closeEditPopup() {
 
 function submitEditedReview() {
   const newMessage = document.getElementById("edit_message").value.trim();
-  if (!newMessage) return alert("Message cannot be empty.");
+  if (!newMessage) {
+    return showToast({
+      type: "warning",
+      title: "Review is empty",
+      message: "Your message can't be blank."
+    });
+  }
 
   fetch(SCRIPT_URL, {
     method: "POST",
@@ -363,14 +444,26 @@ function submitEditedReview() {
     if (resp.includes("UPDATED")) {
       closeEditPopup();
       loadReviews();
-      alert("Review updated successfully! 🎉");
+      showToast({
+        type: "success",
+        title: "Review updated",
+        message: "Your changes have been saved successfully."
+      });
     } else {
-      alert("Error updating review.");
+      showToast({
+        type: "error",
+        title: "Update failed",
+        message: "We couldn't update your review. Please try again."
+      });
     }
   })
   .catch(err => {
     console.error("EDIT ERROR:", err);
-    alert("Error updating review.");
+    showToast({
+      type: "error",
+      title: "Update failed",
+      message: "We couldn't update your review. Please try again."
+    });
   });
 }
 
@@ -455,3 +548,40 @@ async function updateDiscordPresence() {
    
 updateDiscordPresence();
 setInterval(updateDiscordPresence, 15000);
+
+// ==== PRELOADER ====
+(function(){
+  var loaderEl = document.getElementById('siteLoader');
+  if (!loaderEl) return;
+
+  var barFill = document.getElementById('ldrBarFill');
+  var pctText = document.getElementById('ldrPctText');
+  var statusText = document.getElementById('ldrStatusText');
+  var messages = ["Rendering pixels…", "Grading colors…", "Sharpening the hook…", "Almost live…"];
+  var pct = 0, msgIndex = 0, realLoadDone = false;
+
+  var tick = setInterval(function(){
+    // creep toward 90% while waiting on real assets, then let finish() take it to 100
+    var ceiling = realLoadDone ? 100 : 90;
+    pct += Math.random() * 10 + 3;
+    if (pct >= ceiling) pct = ceiling;
+
+    barFill.style.width = pct + '%';
+    pctText.textContent = Math.floor(pct) + '%';
+
+    var newIndex = Math.min(messages.length - 1, Math.floor((pct / 100) * messages.length));
+    if (newIndex !== msgIndex) {
+      msgIndex = newIndex;
+      statusText.textContent = messages[msgIndex];
+    }
+
+    if (pct >= 100) {
+      clearInterval(tick);
+      setTimeout(function(){ loaderEl.classList.add('ldr-done'); }, 300);
+    }
+  }, 180);
+
+  window.addEventListener('load', function(){
+    realLoadDone = true;
+  });
+})();
