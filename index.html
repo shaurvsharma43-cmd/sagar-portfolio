@@ -9,6 +9,40 @@
 </head>
 
 <body>
+
+<!-- PRELOADER -->
+<div id="siteLoader">
+  <div class="ldr-grid"></div>
+  <div class="ldr-glow ldr-glow-a"></div>
+  <div class="ldr-glow ldr-glow-b"></div>
+
+  <div class="ldr-wrap">
+    <div class="ldr-mark">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 17V7l8-4 8 4v10l-8 4-8-4Z" stroke="url(#ldrGrad)" stroke-width="1.6" stroke-linejoin="round"/>
+        <path d="M4 7l8 4 8-4M12 11v10" stroke="url(#ldrGrad)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs>
+          <linearGradient id="ldrGrad" x1="4" y1="3" x2="20" y2="21" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#27e0ff"/>
+            <stop offset="1" stop-color="#ff3b6b"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="ldr-brand">Not<span>Sagar</span></div>
+    <div class="ldr-tag">Thumbnail Designer</div>
+
+    <div class="ldr-bar-track"><div class="ldr-bar-fill" id="ldrBarFill"></div></div>
+
+    <div class="ldr-status-row">
+      <span id="ldrStatusText">Rendering pixels…</span>
+      <span class="ldr-pct" id="ldrPctText">0%</span>
+    </div>
+  </div>
+</div>
+
+<div id="toastContainer"></div>
 <div class="page">
 
 <header>
