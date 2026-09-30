@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buy Thumbnails</title>
+<style>
+  :root{
+    --bg:#070914; --card:#0d0f1f; --line:rgba(255,255,255,.09);
+    --text:#fff; --muted:#a9adc1; --chip:#0a0b17;
+    --g1:linear-gradient(90deg,#38bdf8,#f43f5e);
+    --g2:linear-gradient(90deg,#22d3ee,#6ee7b7);
+  }
+  *{box-sizing:border-box;margin:0}
+  body{
+    font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;
+    color:var(--text);min-height:100vh;
+    background:
+      radial-gradient(800px 380px at 15% 0%,rgba(20,110,120,.35),transparent 70%),
+      radial-gradient(700px 420px at 90% 100%,rgba(120,40,90,.22),transparent 70%),
+      var(--bg);
+    padding:48px 20px;
+  }
+  .wrap{max-width:1100px;margin:0 auto;border-top:1px solid var(--line);padding-top:40px}
+  h2{font-size:24px;font-weight:700}
+  .sub{color:var(--muted);font-size:14px;margin-top:8px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px;align-items:stretch}
+  .card{
+      background:rgba(13,15,31,0.62);
+  border:1px solid rgba(255,255,255,0.14);
+  border-radius:18px;
+  padding:20px 18px 22px;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 8px 30px rgba(0,0,0,0.18);
+  }
+  .card.pop{border-color:rgba(110,231,183,.45);box-shadow:0 0 40px rgba(34,211,238,.10)}
+  .badge{
+    position:absolute;top:-11px;right:16px;font-size:11px;font-weight:700;color:#04121a;
+    background:var(--g2);padding:4px 10px;border-radius:999px
+  }
+  h3{font-size:16px;font-weight:700}
+  .desc{font-size:13px;margin-top:3px;color:#e6e8f2}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .chip{font-size:11px;padding:5px 10px;border:1px solid var(--line);border-radius:999px;background:var(--chip)}
+  .price{margin-top:18px;font-size:34px;font-weight:700;letter-spacing:-.5px}
+  .price small{font-size:13px;font-weight:400;color:var(--muted);margin-left:6px;letter-spacing:0}
+  ul{list-style:none;padding:0;margin:14px 0 20px;display:grid;gap:9px;flex:1}
+  li{font-size:13px;color:#d5d8e6;display:flex;gap:9px;align-items:flex-start;line-height:1.4}
+  li::before{
+    content:"";flex:none;width:8px;height:8px;margin-top:5px;border-radius:50%;background:var(--g2)
+  }
+  .btn{
+    display:inline-block;text-align:center;text-decoration:none;font-weight:600;font-size:13px;
+    color:#0a0d1a;padding:11px 20px;border-radius:999px;align-self:flex-start;
+    transition:transform .15s, filter .15s
+  }
+  .btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
+  .btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+  .b1{background:var(--g1)} .b2{background:var(--g2)}
+  .assure{
+    display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:26px;font-size:13px;color:var(--muted)
+  }
+  .assure span::before{content:"✓ ";color:#6ee7b7}
+  .foot{margin-top:26px;border-top:1px solid var(--line);padding-top:16px;font-size:12px;color:var(--muted)}
+  button.btn{border:none;cursor:pointer;font-family:inherit}
+  #monthlyPopup{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);
+    backdrop-filter:blur(10px);z-index:9999;align-items:center;justify-content:center
+  }
+  #monthlyPopup .monthly-box{
+    background:#0b0f20;padding:22px;border-radius:18px;width:260px;text-align:center;
+    border:1px solid rgba(255,255,255,.15)
+  }
+  #monthlyPopup h3{font-size:16px;margin-bottom:14px}
+  #monthlyPopup a{
+    display:block;padding:8px 10px;border-radius:999px;color:#050712;margin-bottom:10px;
+    font-size:13px;font-weight:600;text-decoration:none
+  }
+  .monthly-cancel{margin-top:12px;font-size:12px;cursor:pointer;color:#a0a3b1}
+  @media(max-width:860px){.grid{grid-template-columns:1fr}.btn{align-self:stretch}}
+  @media(prefers-reduced-motion:reduce){.btn{transition:none}}
+.new-text {
+  background:#122b38;
+  color: #f0f2fa;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 999px;
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+
+}
+
+.instagram-note {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 12px;
+}
+
+.new-text {
+    display: inline-block;
+}
+
+.new-text {
+    display: inline-block;
+    padding: 8px 18px;
+    border-radius: 999px;
+
+    background: linear-gradient(90deg, #22d3ee, #f43f5e);
+    color: #050505;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    box-shadow:
+        0 0 8px rgba(34, 211, 238, 0.45),
+        0 0 20px rgba(244, 63, 94, 0.25);
+
+    transition: 0.25s ease;
+}
+
+.new-text:hover {
+    box-shadow:
+        0 0 12px rgba(34, 211, 238, 0.7),
+        0 0 30px rgba(244, 63, 94, 0.45);
+
+    transform: translateY(-1px);
+}
+.dm {
+    color: #050505;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+.site-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  pointer-events: none;
+}
+
+.site-gradient {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      rgba(5, 7, 18, 0.79),
+      rgba(5, 7, 18, 0.79)
+    ),
+    radial-gradient(circle at 15% 20%, rgba(0, 220, 255, 0.16), transparent 40%),
+    radial-gradient(circle at 85% 25%, rgba(100, 80, 255, 0.14), transparent 42%),
+    radial-gradient(circle at 70% 85%, rgba(255, 40, 130, 0.12), transparent 45%);
+}
+.back-btn {
+  background: rgba(15, 20, 35, 0.7);
+  border: 1px solid rgba(248, 245, 245, 0.15);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 999px;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 20px;
+  transition: transform 0.2s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+.back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 225, 255, 0.25);
+}
+
+</style>
+</head>
+<body>
+  <video class="site-bg" autoplay muted loop playsinline>
+    <source src="/images/bg.mp4" type="video/mp4">
+  </video>
+  <div class="site-gradient"></div>
+<div class="wrap">
+  <dive><a class="back-btn" href="/index.html">← Back to Home</a></dive>
+  <h2>Pricing</h2>
+  <p class="sub">Prices based on style, complexity &amp; volume.</p>
+
+  <div class="grid">
+    <!-- Single -->
+    <div class="card">
+      <h3>Single Thumbnail</h3>
+      <p class="desc">Perfect for testing my design on your channel.</p>
+      <div class="chips"><span class="chip">1 Thumbnail</span><span class="chip">Small revision</span></div>
+      <div class="price">₹200<small>one-time</small></div>
+      <ul>
+        <li>1080p HD thumbnail (1280×720)</li>
+        <li>Custom text, colors &amp; cutout of you</li>
+        <li>1 small revision included</li>
+        <li>Delivered as PNG + JPG</li>
+        <li>Delivery in 24–48 hours</li>
+      </ul>
+      <!-- Replace # with your payment link (Razorpay / UPI / Instamojo) -->
+      <a class="btn b1" href="mailto:shaurvsharma43@gmail.com?subject=I%20need%20thumbnail&body=Hi%20Sagar,%0D%0A%0D%0AI%20need%20a%20thumbnail.%0D%0A%0D%0AMy%20Channel%20Link:%20%0D%0AType%20style%3A%20%0D%0AReference%20Thumbnail%20Link:%20" target="_blank">Buy Now → (₹200)</a>
+    </div>
+
+    <!-- 5 Pack -->
+    <div class="card pop">
+      <span class="badge">Most popular</span>
+      <h3>5 Thumbnail Pack</h3>
+      <p class="desc">For weekly uploaders who want consistent style.</p>
+      <div class="chips"><span class="chip">5 Thumbnails</span><span class="chip">Series Style</span><span class="chip">Priority</span></div>
+      <div class="price">₹1000<small>₹200 per thumbnail</small></div>
+      <ul>
+        <li>5 thumbnails in one matching series style</li>
+        <li>Consistent fonts, colors &amp; layout for your brand</li>
+        <li>Priority delivery over single orders</li>
+        <li>2 revisions per thumbnail</li>
+        <li>Source PSD on request</li>
+      </ul>
+      <a class="btn b2" href="mailto:shaurvsharma43@gmail.com?subject=I%20need%20thumbnail&body=Hi%20Sagar,%0D%0A%0D%0AI%20need%20a%20thumbnail.%0D%0A%0D%0AMy%20Channel%20Link:%20%0D%0AType%20style%3A%20%0D%0AReference%20Thumbnail%20Link:%20" target="_blank">Buy Now → (₹1000)</a>
+    </div>
+
+    <!-- Monthly -->
+    <div class="card">
+      <h3>Monthly Pack</h3>
+      <p class="desc">For serious creators uploading regularly.</p>
+      <div class="chips"><span class="chip">10–20 Thumbnails</span><span class="chip">Priority Queue</span><span class="chip">Custom Quote</span><span class="chip">DM</span></div>
+      <div class="price">Custom<small>based on volume</small></div>
+      <ul>
+        <li>10–20 thumbnails every month</li>
+        <li>Top of the priority queue</li>
+        <li>Unlimited small tweaks</li>
+        <li>A/B thumbnail variants for your best videos</li>
+        <li>Direct chat for quick requests</li>
+      </ul>
+      <button type="button" class="btn b1" onclick="openMonthlyOptions()">Get Monthly Pack →</button>
+    </div>
+  </div>
+
+  <div class="assure">
+    <span>Original designs, made for your channel</span>
+    <span>Send your video title &amp; photos after payment</span>
+    <span>Not happy? Free redesign of the first draft</span>
+  </div>
+  <p class="foot">Need something different? DM me for a custom quote. Payments via UPI, cards &amp; net banking.</p>
+</div>
+
+<!-- MONTHLY POPUP -->
+<div id="monthlyPopup">
+  <div class="monthly-box">
+    <h3>Monthly Pack</h3>
+
+    <a href="https://www.instagram.com/sagarplayz_official/" 
+       style="background:linear-gradient(135deg,#27e0ff,#ff3b6b);" target="_blank">
+      DM on Instagram
+    </a>
+
+    <a href="mailto:shaurvsharma43@gmail.com?subject=Monthly%20Pack%20Request&body=Hi%20Sagar,%0D%0A%0D%0AI%20need%20a%20monthly%20thumbnail%20pack.%0D%0A%0D%0AChannel%20Link:%0D%0AUpload%20Frequency:%0D%0AStyle:%0D%0AReference%20Link:%0D%0A"
+       style="background:linear-gradient(135deg,#6bffb5,#27e0ff);" target="_blank">
+      Email Quote
+    </a>
+
+    <div class="monthly-cancel" onclick="closeMonthlyOptions()">Cancel</div>
+  </div>
+</div>
+
+<section class="instagram-note">
+  <span class="new-text"> If you have other questions, <a class="dm" href="https://www.instagram.com/sagarplayz_official/" target="_blank">Dm me on Instagram</a>. </span>
+</section>
+
+<script>
+  function openMonthlyOptions(){
+    document.getElementById("monthlyPopup").style.display = "flex";
+  }
+  function closeMonthlyOptions(){
+    document.getElementById("monthlyPopup").style.display = "none";
+  }
+  document.getElementById("monthlyPopup").addEventListener("click", function(e){
+    if (e.target === this) closeMonthlyOptions();
+  });
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape") closeMonthlyOptions();
+  });
+</script>
+</body>
+</html>
