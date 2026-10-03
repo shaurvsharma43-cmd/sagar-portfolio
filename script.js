@@ -292,18 +292,6 @@ window.onload = function() {
     }
   }
 
-  // scroll reveal
-  const revealItems = document.querySelectorAll(".reveal");
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("active");
-      } else {
-        entry.target.classList.remove("active");
-      }
-    });
-  }, { threshold: 0.20 });
-  revealItems.forEach(el => observer.observe(el));
 };
 
 // On login success
@@ -583,5 +571,26 @@ setInterval(updateDiscordPresence, 15000);
 
   window.addEventListener('load', function(){
     realLoadDone = true;
+  });
+})();
+
+// ==== LIGHT SCROLL REVEAL ====
+(function(){
+  var targets = document.querySelectorAll("#services, #gallery, #process, #reviews, #contact");
+  if (!targets.length) return;
+  if (!("IntersectionObserver" in window) ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("in");
+      io.unobserve(entry.target); // play once, then stop watching
+    });
+  }, { threshold: 0.08, rootMargin: "0px 0px -40px 0px" });
+
+  targets.forEach(function(el){
+    el.classList.add("rv");
+    io.observe(el);
   });
 })();
