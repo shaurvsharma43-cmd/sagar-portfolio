@@ -1641,3 +1641,38 @@ body::before{
 @media (prefers-reduced-motion: reduce){
   .rv{ opacity:1; transform:none; transition:none; }
 }
+
+.btn-buy-footer {
+    position: fixed;
+    right: 30px;
+    bottom: 22px;
+    z-index: 9999;
+
+    padding: 11px 22px;
+    border-radius: 12px;
+
+    background: rgba(20, 25, 45, 0.65);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    transition: 0.25s ease;
+}
+
+.btn-buy-footer:hover {
+    transform: translateY(-3px);
+    background: rgba(30, 35, 55, 0.8);
+    border-color: rgba(70, 220, 255, 0.35);
+    box-shadow: 0 10px 30px rgba(40, 200, 255, 0.15);
+}
+
+.btn-buy-footer:active {
+    transform: scale(0.97);
+}
