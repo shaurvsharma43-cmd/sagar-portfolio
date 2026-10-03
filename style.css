@@ -608,17 +608,6 @@ section > p {
 }
 .contact-links a:hover{ transform: scale(1.07); }
 
-/* SCROLL REVEAL */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.6s ease-out;
-}
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 /* RESPONSIVE */
 @media(max-width:840px){
  main{grid-template-columns:1fr;}
@@ -1637,4 +1626,18 @@ body::before{
     padding:13px;
   }
 
+}
+
+/* LIGHT SCROLL REVEAL (opacity + small shift, plays once) */
+.rv{
+  opacity:0;
+  transform:translateY(14px);
+  transition:opacity .45s ease-out, transform .45s ease-out;
+}
+.rv.in{
+  opacity:1;
+  transform:none;
+}
+@media (prefers-reduced-motion: reduce){
+  .rv{ opacity:1; transform:none; transition:none; }
 }
