@@ -617,7 +617,7 @@ setInterval(updateDiscordPresence, 15000);
   const db = getFirestore(app);
   const original = [...grid.children];   // your existing images, shown after the new ones
 
-  onSnapshot(query(collection(db, "images"), where("published", "==", true)), (snap) => {
+  onSnapshot(query(collection(db, "images"), where("published", "==", true), where("section", "==", "main")), (snap) => {
     const fresh = snap.docs
       .map((d) => d.data())
       .sort((a, b) => (b.createdAt?.seconds ?? 0) - (a.createdAt?.seconds ?? 0))
