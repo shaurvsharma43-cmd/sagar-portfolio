@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Buy Thumbnails</title>
+<title>Buy Thumbnails · NotSagar</title>
 <style>
   :root{
     --bg:#070914; --card:#0d0f1f; --line:rgba(255,255,255,.09);
@@ -26,20 +26,18 @@
   .sub{color:var(--muted);font-size:14px;margin-top:8px}
   .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px;align-items:stretch}
   .card{
-      background:rgba(13,15,31,0.62);
-  border:1px solid rgba(255,255,255,0.14);
-  border-radius:18px;
-  padding:20px 18px 22px;
-  display:flex;
-  flex-direction:column;
-  position:relative;
-
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.08),
-    0 8px 30px rgba(0,0,0,0.18);
+    background:rgba(13,15,31,0.62);
+    border:1px solid rgba(255,255,255,0.14);
+    border-radius:18px;
+    padding:20px 18px 22px;
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,0.08),
+      0 8px 30px rgba(0,0,0,0.18);
   }
   .card.pop{border-color:rgba(110,231,183,.45);box-shadow:0 0 40px rgba(34,211,238,.10)}
   .badge{
@@ -60,7 +58,7 @@
   .btn{
     display:inline-block;text-align:center;text-decoration:none;font-weight:600;font-size:13px;
     color:#0a0d1a;padding:11px 20px;border-radius:999px;align-self:flex-start;
-    transition:transform .15s, filter .15s
+    transition:transform .15s, filter .15s;border:none;cursor:pointer;font-family:inherit;
   }
   .btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
   .btn:focus-visible{outline:2px solid #fff;outline-offset:3px}
@@ -70,13 +68,94 @@
   }
   .assure span::before{content:"✓ ";color:#6ee7b7}
   .foot{margin-top:26px;border-top:1px solid var(--line);padding-top:16px;font-size:12px;color:var(--muted)}
-  button.btn{border:none;cursor:pointer;font-family:inherit}
-  #monthlyPopup{
-    display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);
-    backdrop-filter:blur(10px);z-index:9999;align-items:center;justify-content:center
+
+  /* Modal Generic */
+  .modal-backdrop{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    z-index:9999;align-items:center;justify-content:center;padding:16px;
   }
+  .modal-card{
+    background:#0b0f20;padding:26px;border-radius:20px;width:100%;max-width:460px;
+    border:1px solid rgba(255,255,255,.15);box-shadow:0 20px 50px rgba(0,0,0,0.5);position:relative;
+  }
+  .modal-card h3{font-size:18px;margin-bottom:8px;}
+  .modal-card p{font-size:13px;color:var(--muted);margin-bottom:16px;}
+  
+  .form-group{margin-bottom:16px;text-align:left;}
+  .form-group label{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-weight:600;}
+  .form-group input, .form-group textarea{
+    width:100%;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);
+    background:#070914;color:#fff;font-size:13px;font-family:inherit;
+  }
+  .form-group input:focus, .form-group textarea:focus{outline:none;border-color:#27e0ff;}
+  .price-tag{
+    display:inline-block;background:rgba(39,224,255,0.12);color:#27e0ff;
+    padding:4px 12px;border-radius:999px;font-size:12px;font-weight:700;margin-bottom:14px;
+  }
+
+  /* QR Payment Screen */
+  .qr-box {
+    background: #111428;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 14px;
+    padding: 16px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .qr-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #27e0ff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+  .qr-amount {
+    font-size: 22px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .qr-img-wrap {
+    display: inline-block;
+    background: #fff;
+    padding: 10px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  }
+  .qr-img {
+    display: block;
+    width: 180px;
+    height: 180px;
+    object-fit: contain;
+    border-radius: 6px;
+  }
+  .qr-hint {
+    font-size: 11px;
+    color: #a0a5ba;
+    line-height: 1.4;
+  }
+
+  .btn-submit{
+    width:100%;padding:12px;border-radius:999px;background:var(--g1);
+    color:#050505;font-weight:700;font-size:13px;border:none;cursor:pointer;
+    transition:opacity 0.15s, transform 0.15s;margin-top:6px;
+  }
+  .btn-submit:hover{opacity:0.95;transform:translateY(-1px);}
+  .btn-submit:disabled{opacity:0.5;cursor:not-allowed;}
+  .btn-cancel{display:block;text-align:center;color:var(--muted);font-size:12px;margin-top:12px;cursor:pointer;background:none;border:none;width:100%;}
+  .btn-cancel:hover{color:#fff;}
+
+  .btn-google{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;
+    padding:11px;border-radius:999px;background:#fff;color:#000;font-size:13px;
+    font-weight:600;border:none;cursor:pointer;margin-bottom:10px;
+  }
+
   #monthlyPopup .monthly-box{
-    background:#0b0f20;padding:22px;border-radius:18px;width:260px;text-align:center;
+    background:#0b0f20;padding:22px;border-radius:18px;width:280px;text-align:center;
     border:1px solid rgba(255,255,255,.15)
   }
   #monthlyPopup h3{font-size:16px;margin-bottom:14px}
@@ -85,105 +164,42 @@
     font-size:13px;font-weight:600;text-decoration:none
   }
   .monthly-cancel{margin-top:12px;font-size:12px;cursor:pointer;color:#a0a3b1}
+
   @media(max-width:860px){.grid{grid-template-columns:1fr}.btn{align-self:stretch}}
   @media(prefers-reduced-motion:reduce){.btn{transition:none}}
-.new-text {
-  background:#122b38;
-  color: #f0f2fa;
-  font-weight: 600;
-  padding: 2px 10px;
-  border-radius: 999px;
-  display: block;
-  width: fit-content;
-  margin: 0 auto;
 
-}
+  .instagram-note{display:flex;justify-content:center;width:100%;margin-top:12px;}
+  .new-text{
+    display:inline-block;padding:8px 18px;border-radius:999px;
+    background:linear-gradient(90deg,#22d3ee,#f43f5e);color:#050505;
+    border:1px solid rgba(255,255,255,0.25);
+    box-shadow:0 0 8px rgba(34,211,238,0.45), 0 0 20px rgba(244,63,94,0.25);
+    transition:0.25s ease;
+  }
+  .new-text:hover{
+    box-shadow:0 0 12px rgba(34,211,238,0.7), 0 0 30px rgba(244,63,94,0.45);
+    transform:translateY(-1px);
+  }
+  .dm{color:#050505;font-weight:600;text-decoration:underline;}
 
-.instagram-note {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 12px;
-}
-
-.new-text {
-    display: inline-block;
-}
-
-.new-text {
-    display: inline-block;
-    padding: 8px 18px;
-    border-radius: 999px;
-
-    background: linear-gradient(90deg, #22d3ee, #f43f5e);
-    color: #050505;
-
-    border: 1px solid rgba(255, 255, 255, 0.25);
-
-    box-shadow:
-        0 0 8px rgba(34, 211, 238, 0.45),
-        0 0 20px rgba(244, 63, 94, 0.25);
-
-    transition: 0.25s ease;
-}
-
-.new-text:hover {
-    box-shadow:
-        0 0 12px rgba(34, 211, 238, 0.7),
-        0 0 30px rgba(244, 63, 94, 0.45);
-
-    transform: translateY(-1px);
-}
-.dm {
-    color: #050505;
-    font-weight: 600;
-    text-decoration: underline;
-}
-
-.site-bg {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -2;
-  pointer-events: none;
-}
-
-.site-gradient {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-
-  background:
-    linear-gradient(
-      rgba(5, 7, 18, 0.79),
-      rgba(5, 7, 18, 0.79)
-    ),
-    radial-gradient(circle at 15% 20%, rgba(0, 220, 255, 0.16), transparent 40%),
-    radial-gradient(circle at 85% 25%, rgba(100, 80, 255, 0.14), transparent 42%),
-    radial-gradient(circle at 70% 85%, rgba(255, 40, 130, 0.12), transparent 45%);
-}
-.back-btn {
-  background: rgba(15, 20, 35, 0.7);
-  border: 1px solid rgba(248, 245, 245, 0.15);
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 999px;
-  text-decoration: none;
-  position: relative;
-  display: inline-block;
-  margin-bottom: 20px;
-  transition: transform 0.2s ease;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-}
-.back-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 225, 255, 0.25);
-}
-
+  .site-bg{
+    position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;pointer-events:none;
+  }
+  .site-gradient{
+    position:fixed;inset:0;z-index:-1;pointer-events:none;
+    background:
+      linear-gradient(rgba(5,7,18,0.79),rgba(5,7,18,0.79)),
+      radial-gradient(circle at 15% 20%, rgba(0,220,255,0.16), transparent 40%),
+      radial-gradient(circle at 85% 25%, rgba(100,80,255,0.14), transparent 42%),
+      radial-gradient(circle at 70% 85%, rgba(255,40,130,0.12), transparent 45%);
+  }
+  .back-btn{
+    background:rgba(15,20,35,0.7);border:1px solid rgba(248,245,245,0.15);color:#fff;
+    padding:10px 18px;border-radius:999px;text-decoration:none;display:inline-block;
+    margin-bottom:20px;transition:transform 0.2s ease;backdrop-filter:blur(10px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.18);
+  }
+  .back-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,225,255,0.25);}
 </style>
 </head>
 <body>
@@ -191,8 +207,9 @@
     <source src="/images/bg.mp4" type="video/mp4">
   </video>
   <div class="site-gradient"></div>
+
 <div class="wrap">
-  <dive><a class="back-btn" href="/index.html">← Back to Home</a></dive>
+  <div><a class="back-btn" href="/index.html">← Back to Home</a></div>
   <h2>Pricing</h2>
   <p class="sub">Prices based on style, complexity &amp; volume.</p>
 
@@ -210,8 +227,7 @@
         <li>Delivered as PNG + JPG</li>
         <li>Delivery in 24–48 hours</li>
       </ul>
-      <!-- Replace # with your payment link (Razorpay / UPI / Instamojo) -->
-      <a class="btn b1" href="mailto:shaurvsharma43@gmail.com?subject=I%20need%20thumbnail&body=Hi%20Sagar,%0D%0A%0D%0AI%20need%20a%20thumbnail.%0D%0A%0D%0AMy%20Channel%20Link:%20%0D%0AType%20style%3A%20%0D%0AReference%20Thumbnail%20Link:%20" target="_blank">Buy Now → (₹200)</a>
+      <button type="button" class="btn b1" onclick="openOrderModal('Single Thumbnail', 200)">Buy Now → (₹200)</button>
     </div>
 
     <!-- 5 Pack -->
@@ -228,7 +244,7 @@
         <li>2 revisions per thumbnail</li>
         <li>Source PSD on request</li>
       </ul>
-      <a class="btn b2" href="mailto:shaurvsharma43@gmail.com?subject=I%20need%20thumbnail&body=Hi%20Sagar,%0D%0A%0D%0AI%20need%20a%20thumbnail.%0D%0A%0D%0AMy%20Channel%20Link:%20%0D%0AType%20style%3A%20%0D%0AReference%20Thumbnail%20Link:%20" target="_blank">Buy Now → (₹1000)</a>
+      <button type="button" class="btn b2" onclick="openOrderModal('5 Thumbnail Pack', 1000)">Buy Now → (₹1000)</button>
     </div>
 
     <!-- Monthly -->
@@ -250,14 +266,96 @@
 
   <div class="assure">
     <span>Original designs, made for your channel</span>
-    <span>Send your video title &amp; photos after payment</span>
-    <span>Not happy? Free redesign of the first draft</span>
+    <span>Scan &amp; Pay securely via any UPI App</span>
+    <span>Instant dashboard tracking upon submission</span>
   </div>
   <p class="foot">Need something different? DM me for a custom quote. Payments via UPI, cards &amp; net banking.</p>
 </div>
 
+<!-- SIGN-IN REQUIRED MODAL -->
+<div id="authModal" class="modal-backdrop">
+  <div class="modal-card" style="text-align:center;">
+    <h3>Sign In Required</h3>
+    <p>Please sign in with Google to place an order and track its delivery in your dashboard.</p>
+    <button class="btn-google" id="modalGoogleBtn" onclick="handleGoogleSignIn()">
+      <svg width="18" height="18" viewBox="0 0 24 24">
+        <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+        <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+        <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+        <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+      </svg>
+      Continue with Google
+    </button>
+    <button type="button" class="btn-cancel" onclick="closeAuthModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- 2-STEP ORDER & UPI PAYMENT MODAL -->
+<div id="orderModal" class="modal-backdrop">
+  <div class="modal-card">
+    <h3 id="modalPackTitle">Place Thumbnail Order</h3>
+    <div class="price-tag" id="modalPriceTag">Fixed Price: ₹200 INR</div>
+    
+    <!-- STEP 1: ORDER DETAILS -->
+    <div id="orderStep1">
+      <div class="form-group">
+        <label for="orderTitle">Video / Thumbnail Title *</label>
+        <input type="text" id="orderTitle" maxlength="120" placeholder="e.g. Minecraft Hardcore 100 Days" required>
+      </div>
+
+      <div class="form-group">
+        <label for="orderDesc">Design Notes &amp; Style Reference (Optional)</label>
+        <textarea id="orderDesc" maxlength="1000" rows="3" placeholder="Describe character skin, elements, colors, or reference links..."></textarea>
+      </div>
+
+      <div id="orderStep1Error" style="font-size:12px;color:#ef4444;margin-bottom:10px;min-height:16px;"></div>
+
+      <button type="button" class="btn-submit" onclick="goToPaymentStep()">Proceed to Payment →</button>
+      <button type="button" class="btn-cancel" onclick="closeOrderModal()">Cancel</button>
+    </div>
+
+    <!-- STEP 2: SCAN & PAY SCREEN -->
+    <div id="orderStep2" style="display:none;">
+      <div class="qr-box">
+        <div class="qr-title">Scan &amp; Pay</div>
+        <div class="qr-amount" id="qrAmountDisplay">₹200</div>
+        
+        <div class="qr-img-wrap">
+          <img src="/images/payment-qr.png" id="upiQrImg" class="qr-img" alt="UPI QR Code" onerror="this.onerror=null; this.src='../images/payment-qr.png';">
+        </div>
+
+        <p class="qr-hint">Scan with any UPI App (GPay, PhonePe, Paytm, BHIM, Cred, etc.)</p>
+      </div>
+
+      <form id="paymentForm" onsubmit="handleOrderPaymentSubmit(event)">
+        <div class="form-group">
+          <label for="orderUtr">12-Digit UTR / Transaction Reference ID *</label>
+          <input type="text" id="orderUtr" maxlength="30" placeholder="e.g. 428192849182" required>
+          <small style="font-size:10px;color:var(--muted);display:block;margin-top:4px;">You can find the 12-digit UTR/Ref number in your UPI app's transaction receipt.</small>
+        </div>
+
+        <div id="orderStatusMsg" style="font-size:12px;margin-bottom:10px;min-height:16px;"></div>
+
+        <button type="submit" id="submitOrderBtn" class="btn-submit">Submit Payment Proof &amp; Place Order →</button>
+        <button type="button" class="btn-cancel" onclick="goToDetailsStep()">← Back to Details</button>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- ORDER SUCCESS MODAL -->
+<div id="orderSuccessModal" class="modal-backdrop">
+  <div class="modal-card" style="text-align:center;">
+    <h3>🎉 Order &amp; Payment Submitted!</h3>
+    <p>Your order has been submitted with status <strong>Payment Verification Pending</strong>. Once verified, work will begin immediately.</p>
+    <a href="/dashboard/index.html" class="btn b1" style="display:inline-block;width:100%;padding:12px;margin-bottom:8px;">View in My Dashboard →</a>
+    <button type="button" class="btn-cancel" onclick="closeSuccessModal()">Close</button>
+  </div>
+</div>
+
 <!-- MONTHLY POPUP -->
-<div id="monthlyPopup">
+<div id="monthlyPopup" class="modal-backdrop">
   <div class="monthly-box">
     <h3>Monthly Pack</h3>
 
@@ -279,19 +377,193 @@
   <span class="new-text"> If you have other questions, <a class="dm" href="https://www.instagram.com/sagarplayz_official/" target="_blank">Dm me on Instagram</a>. </span>
 </section>
 
-<script>
-  function openMonthlyOptions(){
-    document.getElementById("monthlyPopup").style.display = "flex";
-  }
-  function closeMonthlyOptions(){
-    document.getElementById("monthlyPopup").style.display = "none";
-  }
-  document.getElementById("monthlyPopup").addEventListener("click", function(e){
-    if (e.target === this) closeMonthlyOptions();
+<!-- FIREBASE SDK & ORDER LOGIC -->
+<script type="module">
+  import {
+    auth,
+    db,
+    googleProvider,
+    onAuthStateChanged,
+    signInWithPopup,
+    collection,
+    addDoc,
+    serverTimestamp
+  } from "/dashboard/firebase-config.js";
+
+  let currentUser = null;
+  let selectedPackage = { name: "Single Thumbnail", price: 200 };
+
+  // Auth Observer
+  onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    if (user) {
+      closeAuthModal();
+    }
   });
-  document.addEventListener("keydown", function(e){
-    if (e.key === "Escape") closeMonthlyOptions();
+
+  // Modal controls
+  window.openOrderModal = function(packageName, price) {
+    selectedPackage = { name: packageName, price: price };
+    
+    if (!currentUser) {
+      openAuthModal();
+      return;
+    }
+
+    document.getElementById("modalPackTitle").textContent = `Order: ${packageName}`;
+    document.getElementById("modalPriceTag").textContent = `Fixed Price: ₹${price} INR`;
+    document.getElementById("qrAmountDisplay").textContent = `₹${price}`;
+    
+    // Reset steps
+    goToDetailsStep();
+    document.getElementById("orderTitle").value = "";
+    document.getElementById("orderDesc").value = "";
+    document.getElementById("orderUtr").value = "";
+    document.getElementById("orderStep1Error").textContent = "";
+    document.getElementById("orderStatusMsg").textContent = "";
+    document.getElementById("orderModal").style.display = "flex";
+  };
+
+  window.closeOrderModal = function() {
+    document.getElementById("orderModal").style.display = "none";
+  };
+
+  window.goToPaymentStep = function() {
+    const title = (document.getElementById("orderTitle").value || "").trim();
+    const errorEl = document.getElementById("orderStep1Error");
+
+    if (!title) {
+      errorEl.textContent = "Please enter a video/thumbnail title before proceeding.";
+      return;
+    }
+    errorEl.textContent = "";
+
+    document.getElementById("orderStep1").style.display = "none";
+    document.getElementById("orderStep2").style.display = "block";
+  };
+
+  window.goToDetailsStep = function() {
+    document.getElementById("orderStep1").style.display = "block";
+    document.getElementById("orderStep2").style.display = "none";
+  };
+
+  window.openAuthModal = function() {
+    document.getElementById("authModal").style.display = "flex";
+  };
+
+  window.closeAuthModal = function() {
+    document.getElementById("authModal").style.display = "none";
+  };
+
+  window.closeSuccessModal = function() {
+    document.getElementById("orderSuccessModal").style.display = "none";
+  };
+
+  window.openMonthlyOptions = function() {
+    document.getElementById("monthlyPopup").style.display = "flex";
+  };
+
+  window.closeMonthlyOptions = function() {
+    document.getElementById("monthlyPopup").style.display = "none";
+  };
+
+  // Google Sign In
+  window.handleGoogleSignIn = async function() {
+    const btn = document.getElementById("modalGoogleBtn");
+    if (btn) btn.disabled = true;
+    try {
+      await signInWithPopup(auth, googleProvider);
+      closeAuthModal();
+      openOrderModal(selectedPackage.name, selectedPackage.price);
+    } catch (err) {
+      console.error("Sign in failed:", err);
+      alert(err.message || "Failed to sign in with Google.");
+    } finally {
+      if (btn) btn.disabled = false;
+    }
+  };
+
+  // Submit Order & Payment Proof to Firestore
+  window.handleOrderPaymentSubmit = async function(e) {
+    e.preventDefault();
+    if (!currentUser) {
+      openAuthModal();
+      return;
+    }
+
+    const titleInput = document.getElementById("orderTitle");
+    const descInput = document.getElementById("orderDesc");
+    const utrInput = document.getElementById("orderUtr");
+    const statusMsg = document.getElementById("orderStatusMsg");
+    const submitBtn = document.getElementById("submitOrderBtn");
+
+    const title = (titleInput.value || "").trim();
+    const desc = (descInput.value || "").trim();
+    const utr = (utrInput.value || "").trim();
+
+    if (!title) {
+      goToDetailsStep();
+      document.getElementById("orderStep1Error").textContent = "Video title is required.";
+      return;
+    }
+
+    if (!utr || utr.length < 4) {
+      statusMsg.style.color = "#ef4444";
+      statusMsg.textContent = "Please enter a valid UTR / transaction reference number.";
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting Order & Payment...";
+    statusMsg.textContent = "";
+
+    try {
+      await addDoc(collection(db, "orders"), {
+        userId: currentUser.uid,
+        customerEmail: currentUser.email,
+        customerName: currentUser.displayName || "Customer",
+        title: title,
+        description: desc,
+        price: selectedPackage.price,
+        currency: "INR",
+        status: "Pending",
+        paymentStatus: "Verification Pending",
+        utr: utr,
+        downloadUrl: "",
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+        paymentSubmittedAt: serverTimestamp(),
+        paymentVerifiedAt: null,
+        paymentVerifiedBy: null
+      });
+
+      closeOrderModal();
+      document.getElementById("orderSuccessModal").style.display = "flex";
+    } catch (err) {
+      console.error("Order payment submission failed:", err);
+      statusMsg.style.color = "#ef4444";
+      statusMsg.textContent = `Submission failed: ${err.message}`;
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit Payment Proof & Place Order →";
+    }
+  };
+
+  // Close modals on backdrop click
+  document.querySelectorAll(".modal-backdrop").forEach(modal => {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      document.querySelectorAll(".modal-backdrop").forEach(m => m.style.display = "none");
+    }
   });
 </script>
+
 </body>
 </html>
