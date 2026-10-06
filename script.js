@@ -347,13 +347,14 @@ function showUserUI(data){
   const userArea = document.getElementById("user_area");
   if (!userArea) return;
   userArea.innerHTML = `
-    <img src="${data.picture}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">
-    <span style="font-size:13px;">${data.name}</span>
+    <a href="/dashboard/index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+      <img src="${data.picture}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">
+      <span style="font-size:13px;color:#fff;">${data.name}</span>
+    </a>
     <button onclick="logout()" style="border:none;background:#ff3b6b;color:#fff;padding:4px 10px;border-radius:20px;cursor:pointer;font-size:11px;">
       Logout
     </button>
   `;
-
   const trigger = document.getElementById("signInTriggerBtn");
   if (trigger) trigger.style.display = "none";
 }
