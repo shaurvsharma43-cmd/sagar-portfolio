@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Creator Dashboard · NotSagar Thumbnails</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+
+<!-- FIXED BACKGROUND VIDEO (EXACT AS ROOT MAIN SITE) -->
+<video class="site-bg" autoplay muted loop playsinline>
+  <source src="/images/bg.mp4" type="video/mp4">
+  <source src="../images/bg.mp4" type="video/mp4">
+</video>
+<div class="site-gradient"></div>
+
+<!-- GATE (Logged out state) -->
+<div id="gate" class="gate" style="display:none;">
+  <div class="gate-card">
+    <div class="gate-icon">
+      <svg viewBox="0 0 24 24">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/>
+      </svg>
+    </div>
+    <h2>Welcome to Your Dashboard</h2>
+    <p>Sign in with your Google account to access your orders, track design progress, and download completed thumbnails.</p>
+    <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap;">
+      <button class="btn-gate-signin" onclick="handleGoogleSignIn()">
+        <svg width="18" height="18" viewBox="0 0 24 24">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+        </svg>
+        Continue with Google
+      </button>
+      <a href="/" class="btn-gate-back">← Back to Site</a>
+    </div>
+  </div>
+</div>
+
+<!-- DASHBOARD (Logged in state) -->
+<div id="dashWrap" class="dash" style="display:none;">
+  <aside class="sidebar">
+    <div class="brand-box">
+      <div class="brand-header">
+        <div class="brand-logo-icon"></div>
+        <div>
+          <div class="brand-title">NotSagar</div>
+          <span class="brand-sub">Creator Hub</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Mini Profile -->
+    <div class="user-mini-card">
+      <img id="sb-pic" class="user-mini-avatar" src="https://www.gravatar.com/avatar/?d=mp" alt="Avatar">
+      <div class="user-mini-info">
+        <div class="user-mini-name" id="sb-name">Loading...</div>
+        <div class="user-mini-tag">Verified Creator</div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav-menu">
+      <span class="nav-label">Menu</span>
+      <button class="nav-item active" onclick="nav(this,'orders')">
+        <span class="nav-icon">📦</span>
+        <span>My Orders</span>
+      </button>
+      <button class="nav-item" onclick="nav(this,'notifs')">
+        <span class="nav-icon">🔔</span>
+        <span>Notifications</span>
+      </button>
+      <button class="nav-item" onclick="nav(this,'profile')">
+        <span class="nav-icon">👤</span>
+        <span>Profile Settings</span>
+      </button>
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+      <a class="nav-item nav-cta" href="/buy/buy.html">
+        <span class="nav-icon">⚡</span>
+        <span>Order Thumbnails</span>
+      </a>
+      <a class="nav-item" href="/">
+        <span class="nav-icon">←</span>
+        <span>Back to Site</span>
+      </a>
+      <button class="nav-item nav-logout" onclick="handleLogout()">
+        <span class="nav-icon">🚪</span>
+        <span>Log Out</span>
+      </button>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <!-- ORDERS SECTION -->
+    <div id="orders" class="section active">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">My Orders</h1>
+          <p class="page-sub">Track your thumbnail packages, design status, and download deliverables.</p>
+        </div>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats">
+        <div class="stat total">
+          <div class="stat-header">
+            <span class="label">Total Orders</span>
+            <div class="stat-icon-wrap">📦</div>
+          </div>
+          <div class="val" id="s-total">0</div>
+        </div>
+        <div class="stat progress">
+          <div class="stat-header">
+            <span class="label">In Progress</span>
+            <div class="stat-icon-wrap">🎨</div>
+          </div>
+          <div class="val" id="s-progress">0</div>
+        </div>
+        <div class="stat done">
+          <div class="stat-header">
+            <span class="label">Completed</span>
+            <div class="stat-icon-wrap">✓</div>
+          </div>
+          <div class="val" id="s-done">0</div>
+        </div>
+      </div>
+
+      <!-- Orders List Container -->
+      <div id="orders-list" class="orders-list">
+        <div class="empty-state-box">
+          <p>Loading your orders…</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTIFICATIONS SECTION -->
+    <div id="notifs" class="section">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Notifications</h1>
+          <p class="page-sub">Updates regarding your order progress, payment verification, and downloads.</p>
+        </div>
+      </div>
+      <div id="notif-list">
+        <div class="empty-state-box">
+          <p>Loading notifications…</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROFILE SECTION -->
+    <div id="profile" class="section">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Creator Profile</h1>
+          <p class="page-sub">Manage your connected account details and channel link.</p>
+        </div>
+      </div>
+
+      <div class="profile-card">
+        <div class="profile-avatar-wrap">
+          <img id="p-pic" class="avatar-circle" src="https://www.gravatar.com/avatar/?d=mp" alt="avatar">
+        </div>
+
+        <div class="field">
+          <label>Creator Name</label>
+          <input id="p-name" readonly placeholder="Your Name">
+        </div>
+
+        <div class="field">
+          <label>Email Address</label>
+          <input id="p-email" readonly placeholder="you@example.com">
+        </div>
+
+        <div class="field">
+          <label>YouTube Channel URL</label>
+          <input id="p-yt" placeholder="https://youtube.com/@yourchannel">
+        </div>
+
+        <div style="display:flex;align-items:center;gap:14px;margin-top:20px;">
+          <button id="p-save-yt" class="save-btn">Save Changes</button>
+          <span id="p-yt-status" style="font-size:12px;font-weight:600;"></span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- BACKEND CLIENT SCRIPT -->
+<script type="module" src="dashboard.js"></script>
+
+</body>
+</html>
