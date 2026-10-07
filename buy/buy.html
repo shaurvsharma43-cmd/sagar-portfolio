@@ -71,13 +71,15 @@
 
   /* Modal Generic */
   .modal-backdrop{
-    display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);
-    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);
+    backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
     z-index:9999;align-items:center;justify-content:center;padding:16px;
+    overflow-y:auto;
   }
   .modal-card{
-    background:#0b0f20;padding:26px;border-radius:20px;width:100%;max-width:460px;
-    border:1px solid rgba(255,255,255,.15);box-shadow:0 20px 50px rgba(0,0,0,0.5);position:relative;
+    background:#0b0f20;padding:26px;border-radius:20px;width:100%;max-width:480px;
+    border:1px solid rgba(255,255,255,.15);box-shadow:0 20px 50px rgba(0,0,0,0.6);position:relative;
+    box-sizing:border-box;margin:auto;
   }
   .modal-card h3{font-size:18px;margin-bottom:8px;}
   .modal-card p{font-size:13px;color:var(--muted);margin-bottom:16px;}
@@ -86,7 +88,7 @@
   .form-group label{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;font-weight:600;}
   .form-group input, .form-group textarea{
     width:100%;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.15);
-    background:#070914;color:#fff;font-size:13px;font-family:inherit;
+    background:#070914;color:#fff;font-size:13px;font-family:inherit;box-sizing:border-box;
   }
   .form-group input:focus, .form-group textarea:focus{outline:none;border-color:#27e0ff;}
   .price-tag{
@@ -97,45 +99,60 @@
   /* QR Payment Screen */
   .qr-box {
     background: #111428;
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 14px;
-    padding: 16px;
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 16px;
+    padding: 20px 16px;
     text-align: center;
     margin-bottom: 16px;
   }
   .qr-title {
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 700;
     color: #27e0ff;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 8px;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
   }
   .qr-amount {
-    font-size: 22px;
+    font-size: 26px;
     font-weight: 800;
     color: #fff;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+    letter-spacing: -0.02em;
   }
   .qr-img-wrap {
-    display: inline-block;
-    background: #fff;
-    padding: 10px;
-    border-radius: 12px;
-    margin-bottom: 10px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    padding: 12px;
+    border-radius: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5), 0 0 25px rgba(39,224,255,0.15);
   }
   .qr-img {
     display: block;
-    width: 180px;
-    height: 180px;
+    width: 320px;
+    height: 320px;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
     object-fit: contain;
     border-radius: 6px;
+    image-rendering: -webkit-optimize-contrast;
   }
   .qr-hint {
-    font-size: 11px;
+    font-size: 12px;
     color: #a0a5ba;
     line-height: 1.4;
+    margin-top: 4px;
+  }
+
+  @media(max-width:480px){
+    .modal-card { padding: 18px 14px; border-radius: 16px; }
+    .qr-box { padding: 14px 10px; }
+    .qr-amount { font-size: 22px; margin-bottom: 10px; }
+    .qr-img-wrap { padding: 10px; border-radius: 12px; margin-bottom: 10px; }
+    .qr-img { width: 250px; height: 250px; }
   }
 
   .btn-submit{
