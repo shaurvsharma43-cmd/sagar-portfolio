@@ -537,11 +537,11 @@
     try {
       await addDoc(collection(db, "orders"), {
         userId: currentUser.uid,
-        customerEmail: currentUser.email,
+        customerEmail: currentUser.email || "",
         customerName: currentUser.displayName || "Customer",
         title: title,
         description: desc,
-        price: selectedPackage.price,
+        price: Number(selectedPackage.price),
         currency: "INR",
         status: "Pending",
         paymentStatus: "Verification Pending",
@@ -549,17 +549,23 @@
         downloadUrl: "",
         createdAt: serverTimestamp(),
         updatedAt: serverTimestamp(),
-        paymentSubmittedAt: serverTimestamp(),
-        paymentVerifiedAt: null,
-        paymentVerifiedBy: null
+        paymentSubmittedAt: serverTimestamp()
       });
 
       closeOrderModal();
       document.getElementById("orderSuccessModal").style.display = "flex";
     } catch (err) {
-      console.error("Order payment submission failed:", err);
+      console.error("Order payment submission failed:", {
+        code: err.code || "unknown",
+        message: err.message || "Unknown error",
+        details: err
+      });
       statusMsg.style.color = "#ef4444";
-      statusMsg.textContent = `Submission failed: ${err.message}`;
+      if (err.code === "permission-denied") {
+        statusMsg.textContent = "Submission failed: Permission denied. Please check your login session and try again.";
+      } else {
+        statusMsg.textContent = "Submission failed. Please check your connection and try again.";
+      }
     } finally {
       submitBtn.disabled = false;
       submitBtn.textContent = "Submit Payment Proof & Place Order →";
