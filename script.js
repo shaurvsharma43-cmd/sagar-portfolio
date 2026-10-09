@@ -343,21 +343,74 @@ function closeSignInModal(){
 }
 
 // Show user info + logout btn
-function showUserUI(data){
+function showUserUI(data) {
   const userArea = document.getElementById("user_area");
   if (!userArea) return;
+
+  const initial = (data.name || "?").trim().charAt(0).toUpperCase();
+
   userArea.innerHTML = `
-    <a href="/dashboard/index.html" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
-      <img src="${data.picture}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;">
-      <span style="font-size:13px;color:#fff;">${data.name}</span>
-    </a>
-    <button onclick="logout()" style="border:none;background:#ff3b6b;color:#fff;padding:4px 10px;border-radius:20px;cursor:pointer;font-size:11px;">
-      Logout
-    </button>
+    <div class="profile-trigger" onclick="toggleProfileMenu(event)">
+      <img src="${data.picture}" 
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"
+           style="width:30px;height:30px;border-radius:50%;object-fit:cover;">
+      <div style="display:none;width:30px;height:30px;border-radius:50%;
+                  background:linear-gradient(135deg,#27e0ff,#ff3b6b);
+                  align-items:center;justify-content:center;
+                  font-size:12px;font-weight:700;color:#000;">
+        ${initial}
+      </div>
+      <span style="font-size:13px;color:#fff;font-weight:500;">${data.name}</span>
+      <span style="font-size:11px;color:#aaa;" id="profileChevron">▾</span>
+    </div>
+
+    <div id="profileMenu">
+      <div style="padding:14px 14px 10px;border-bottom:1px solid rgba(255,255,255,0.07);
+                  display:flex;align-items:center;gap:10px;">
+        <img src="${data.picture}"
+             onerror="this.style.display='none'"
+             style="width:36px;height:36px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+        <div>
+          <div style="font-size:13px;font-weight:600;color:#fff;">${data.name}</div>
+          <div style="font-size:11px;color:#888;margin-top:2px;">${data.email || ""}</div>
+        </div>
+      </div>
+      <a href="/dashboard/index.html" class="profile-menu-item">
+        <span>📦</span> My Dashboard
+      </a>
+      <a href="/dashboard/index.html#orders" class="profile-menu-item">
+        <span>🛍️</span> My Orders
+      </a>
+      <a href="/dashboard/index.html#profile" class="profile-menu-item">
+        <span>👤</span> Profile
+      </a>
+      <div style="height:1px;background:rgba(255,255,255,0.07);margin:4px 0;"></div>
+      <div class="profile-menu-item profile-logout" onclick="logout()">
+        <span>🚪</span> Logout
+      </div>
+    </div>
   `;
+
   const trigger = document.getElementById("signInTriggerBtn");
   if (trigger) trigger.style.display = "none";
 }
+
+function toggleProfileMenu(e) {
+  e.stopPropagation();
+  const menu = document.getElementById("profileMenu");
+  const chev = document.getElementById("profileChevron");
+  const isOpen = menu.style.display === "block";
+  menu.style.display = isOpen ? "none" : "block";
+  chev.textContent = isOpen ? "▾" : "▴";
+}
+
+// close when clicking anywhere else
+document.addEventListener("click", () => {
+  const menu = document.getElementById("profileMenu");
+  const chev = document.getElementById("profileChevron");
+  if (menu) { menu.style.display = "none"; }
+  if (chev) { chev.textContent = "▾"; }
+});
 
 
 document.addEventListener("keydown", function (e) {
