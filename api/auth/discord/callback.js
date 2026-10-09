@@ -16,10 +16,15 @@ function getFirebaseAdmin() {
     throw new Error("Missing FIREBASE_CLIENT_EMAIL or FIREBASE_PRIVATE_KEY environment variables.");
   }
 
-  // Handle escaped newlines in Vercel environment variables
-  if (privateKey.includes("\\n")) {
-    privateKey = privateKey.replace(/\\n/g, "\n");
+  // Normalize private key for various Vercel / environment formatting quirks
+  privateKey = privateKey.trim();
+  if (
+    (privateKey.startsWith('"') && privateKey.endsWith('"')) ||
+    (privateKey.startsWith("'") && privateKey.endsWith("'"))
+  ) {
+    privateKey = privateKey.slice(1, -1);
   }
+  privateKey = privateKey.replace(/\\n/g, "\n").replace(/\r/g, "").trim();
 
   return admin.initializeApp({
     credential: admin.credential.cert({
