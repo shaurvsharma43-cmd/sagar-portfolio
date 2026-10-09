@@ -390,7 +390,7 @@ function closeSignInModal() {
 
 function handleDiscordSignIn(redirectTo = "/") {
   const target = encodeURIComponent(redirectTo || window.location.pathname || "/");
-  window.location.href = `/api/auth/discord/login?redirect_to=${target}`;
+  window.location.href = `https://sagar-portfolio-tau-nine.vercel.app/api/auth/discord/login?redirect_to=${target}`;
 }
 
 const discordLoginBtn = document.getElementById("discordLogin");
