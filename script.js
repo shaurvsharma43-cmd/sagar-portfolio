@@ -293,6 +293,7 @@ onAuthStateChanged(auth, async (user) => {
   currentFirebaseUser = user;
   if (user) {
     // Ensure profile document in Firestore
+    let profileData = {};
     try {
       const userRef = doc(db, "users", user.uid);
       const userSnap = await getDoc(userRef);
@@ -307,15 +308,17 @@ onAuthStateChanged(auth, async (user) => {
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp()
         });
+      } else {
+        profileData = userSnap.data() || {};
       }
     } catch (e) {
       console.warn("Could not sync user profile:", e);
     }
 
     const userData = {
-      name: user.displayName || "Customer",
-      email: user.email || "",
-      picture: user.photoURL || "https://www.gravatar.com/avatar/?d=mp",
+      name: profileData.name || user.displayName || "Customer",
+      email: profileData.email || user.email || "",
+      picture: profileData.photoURL || user.photoURL || "https://www.gravatar.com/avatar/?d=mp",
       uid: user.uid
     };
 
@@ -697,18 +700,18 @@ setInterval(updateDiscordPresence, 15000);
   const grid = document.querySelector(".gallery-grid");
   if (!grid) return;
 
-  const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
+  const { initializeApp, getApps } = await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js");
   const { getFirestore, collection, query, where, onSnapshot } =
     await import("https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js");
 
-  const app = initializeApp({
+  const app = getApps().find((a) => a.name === "imageApp") || initializeApp({
     apiKey: "AIzaSyDR0c9r785_Q14bCVQh1a1HEvyfxxOPBkQ",
     authDomain: "sagarthumbnailhub.firebaseapp.com",
     projectId: "sagarthumbnailhub",
     storageBucket: "sagarthumbnailhub.firebasestorage.app",
     messagingSenderId: "548631925900",
     appId: "1:548631925900:web:6ac9c298238bfdf7e717a9",
-  });
+  }, "imageApp");
   const db = getFirestore(app);
   const original = [...grid.children];   // your existing images, shown after the new ones
 
