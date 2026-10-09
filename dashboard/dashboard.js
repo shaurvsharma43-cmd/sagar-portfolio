@@ -60,6 +60,12 @@ window.handleGoogleSignIn = async function() {
   }
 };
 
+// Sign in with Discord (Serverless OAuth Bridge)
+window.handleDiscordSignIn = function(redirectTo = "/dashboard/index.html") {
+  const target = encodeURIComponent(redirectTo || "/dashboard/index.html");
+  window.location.href = `https://sagar-portfolio-tau-nine.vercel.app/api/auth/discord/login?redirect_to=${target}`;
+};
+
 // Logout
 window.handleLogout = async function() {
   try {
@@ -97,7 +103,22 @@ function showGateUI() {
 function showDashboardUI() {
   if (gateEl) gateEl.style.display = "none";
   if (dashWrapEl) dashWrapEl.style.display = "grid";
+
+  // Check URL hash for direct tab navigation (e.g. #orders, #profile, #notifs)
+  const hash = (window.location.hash || "").replace("#", "");
+  if (hash && document.getElementById(hash)) {
+    const navBtn = document.querySelector(`.nav-item[onclick*="${hash}"]`);
+    if (navBtn) window.nav(navBtn, hash);
+  }
 }
+
+window.addEventListener("hashchange", () => {
+  const hash = (window.location.hash || "").replace("#", "");
+  if (hash && document.getElementById(hash)) {
+    const navBtn = document.querySelector(`.nav-item[onclick*="${hash}"]`);
+    if (navBtn) window.nav(navBtn, hash);
+  }
+});
 
 // User Profile Management
 async function initUserProfile(user) {
