@@ -1676,3 +1676,101 @@ body::before{
 .btn-buy-footer:active {
     transform: scale(0.97);
 }
+.dc-stetus {
+    margin-top: 10px;
+    position: relative;
+
+    /* 1. कंटेनर को सेंटर करने के लिए block और margin auto का उपयोग */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: max-content; /* यह बॉक्स को सिर्फ टेक्स्ट जितनी चौड़ाई देगा */
+
+    color: #f5f6f7;
+    font-family: 'gg sans', 'Noto Sans', sans-serif;
+
+    padding: 6px 16px;
+    
+    /* 2. कोनों को परफेक्ट कर्व करने के लिए (डबल एंट्री हटा दी गई है) */
+    border-radius: 5px; 
+
+    /* डिसकॉर्ड का असली ब्लर्पल (Blurple) कलर */
+    background-color: rgba(88, 101, 242, 1); 
+
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.35),
+        0 0 10px rgba(88, 101, 242, 0.2);
+
+    text-shadow: 0 0 7px rgba(6, 180, 248, 0.4);
+    cursor: pointer;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+/* 3. <h4> टैग की डिफ़ॉल्ट चौड़ाई और मार्जिन को रीसेट करने के लिए */
+.dc-stetus h4 {
+    margin: 0; 
+    padding: 0;
+    font-size: 12px;
+    font-weight: 500;
+    display: inline; /* पूरी चौड़ाई घेरने से रोकने के लिए */
+}
+
+.dc-stetus:hover { 
+    transform: scale(1.03);
+    background-color: rgba(71, 82, 196, 1); /* होवर पर गहरा रंग */
+}
+
+.profile-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.04);
+  transition: 0.2s;
+  position: relative;
+}
+.profile-trigger:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+#profileMenu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 210px;
+  background: #111526;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  z-index: 9999;
+}
+
+#user_area { position: relative; }
+
+.profile-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #ccc;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.profile-menu-item:hover {
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+}
+.profile-logout {
+  color: #ff6b8f;
+}
+.profile-logout:hover {
+  background: rgba(255,59,107,0.1);
+  color: #ff3b6b;
+}
