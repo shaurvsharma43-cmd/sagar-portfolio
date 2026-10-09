@@ -62,80 +62,22 @@ function verifyState(signedState, secret) {
 }
 
 function renderBridgeHtml(res, customToken, redirectTo, errorMsg = null) {
-  res.setHeader("Content-Type", "text/html; charset=utf-8");
+  const frontendOrigin = process.env.FRONTEND_URL || "https://notsagarthumbnailhub.bond";
+  let cleanRedirect = redirectTo || "/";
+  if (!cleanRedirect.startsWith("/")) cleanRedirect = "/" + cleanRedirect;
 
   if (errorMsg) {
-    res.status(400).send(`<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Discord Authentication Failed</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: system-ui, sans-serif; background: #070914; color: #fff; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; }
-    .box { background: #0e1124; border: 1px solid rgba(255,255,255,0.12); padding: 30px; border-radius: 16px; max-width: 400px; text-align: center; box-shadow: 0 10px 40px rgba(0,0,0,0.5); }
-    h2 { color: #f43f5e; margin-top: 0; font-size: 20px; }
-    p { color: #a9adc1; font-size: 14px; line-height: 1.5; }
-    a { display: inline-block; margin-top: 20px; background: linear-gradient(90deg, #38bdf8, #f43f5e); color: #000; font-weight: 700; text-decoration: none; padding: 10px 24px; border-radius: 999px; }
-  </style>
-</head>
-<body>
-  <div class="box">
-    <h2>Authentication Notice</h2>
-    <p>${errorMsg.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</p>
-    <a href="${(redirectTo || "/").replace(/"/g, "&quot;")}">← Return to Site</a>
-  </div>
-</body>
-</html>`);
-    return;
+    const targetUrl = new URL(cleanRedirect, frontendOrigin);
+    targetUrl.hash = "__auth_err=" + encodeURIComponent(errorMsg);
+    res.writeHead(302, { Location: targetUrl.toString() });
+    return res.end();
   }
 
-  // Success: Render client bridge that signs into Firebase Auth and redirects
-  res.status(200).send(`<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Completing Discord Sign-In...</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: system-ui, sans-serif; background: #070914; color: #fff; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; }
-    .loader-box { text-align: center; }
-    .spinner { width: 42px; height: 42px; border: 3px solid rgba(255,255,255,0.1); border-top-color: #5865F2; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    h3 { font-size: 16px; font-weight: 600; margin: 0; }
-    p { font-size: 13px; color: #888; margin-top: 6px; }
-  </style>
-</head>
-<body>
-  <div class="loader-box">
-    <div class="spinner"></div>
-    <h3>Signing into NotSagar Thumbnails…</h3>
-    <p>Please wait a moment while your Discord session connects.</p>
-  </div>
-
-  <script type="module">
-    import { auth } from "/dashboard/firebase-config.js";
-    import { signInWithCustomToken } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-    const customToken = ${JSON.stringify(customToken)};
-    const targetUrl = ${JSON.stringify(redirectTo || "/")};
-
-    try {
-      await signInWithCustomToken(auth, customToken);
-      window.location.replace(targetUrl);
-    } catch (err) {
-      console.error("Custom token sign-in error:", err);
-      document.body.innerHTML = \`
-        <div style="text-align:center;padding:20px;font-family:system-ui;color:#fff;background:#070914;">
-          <h3 style="color:#ef4444;">Sign-in error</h3>
-          <p style="color:#aaa;font-size:13px;">\${err.message || "Failed to complete authentication."}</p>
-          <a href="\${targetUrl}" style="color:#27e0ff;font-size:13px;">← Return to site</a>
-        </div>
-      \`;
-    }
-  </script>
-</body>
-</html>`);
+  // Success: Redirect back to frontend domain with custom token in URL hash fragment
+  const targetUrl = new URL(cleanRedirect, frontendOrigin);
+  targetUrl.hash = "__dt=" + encodeURIComponent(customToken);
+  res.writeHead(302, { Location: targetUrl.toString() });
+  return res.end();
 }
 
 export default async function handler(req, res) {
