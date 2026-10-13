@@ -591,11 +591,27 @@ async function updateDiscordPresence() {
 
     const { data } = await res.json();
 
-    const dot = document.getElementById("statusDot");
-    const status = document.getElementById("discordStatus");
-    const game = document.getElementById("discordGame");
+    // 1. Update availability badge in contact section
+    const badgeText = document.getElementById("availabilityText");
+    const badgeDot  = document.getElementById("availabilityDot");
+    if (badgeText && badgeDot) {
+      const availMap = {
+        online:  { label: "Available for projects",     color: "#22c55e" },
+        idle:    { label: "Might be slow to respond",   color: "#f59e0b" },
+        dnd:     { label: "Heads down — DM on Discord", color: "#ef4444" },
+        offline: { label: "Isn't available right now",  color: "#6b7280" },
+      };
+      const s = availMap[data?.discord_status] || availMap.offline;
+      badgeText.textContent     = s.label;
+      badgeDot.style.background = s.color;
+      badgeDot.style.boxShadow  = `0 0 6px ${s.color}`;
+    }
 
-    if (!dot) return;
+    // 2. Update optional Discord status widget if present on page
+    const dot    = document.getElementById("statusDot");
+    const status = document.getElementById("discordStatus");
+    const game   = document.getElementById("discordGame");
+    const live   = document.querySelector(".dc-live");
 
     const colors = {
       online: "#22c55e",
@@ -610,30 +626,57 @@ async function updateDiscordPresence() {
       dnd: "Do Not Disturb",
       offline: "Offline"
     };
-   
-    dot.style.background = colors[data.discord_status];
-    dot.style.boxShadow = `0 0 12px ${colors[data.discord_status]}`;
 
-    status.textContent = names[data.discord_status];
-    const live = document.querySelector(".dc-live");
-    if (data.discord_status === "offline") {
-    live.style.display = "none";
-    } else {
-     live.style.display = "block";
+    const currentStatus = data?.discord_status || "offline";
+
+    if (dot) {
+      dot.style.background = colors[currentStatus] || colors.offline;
+      dot.style.boxShadow = `0 0 12px ${colors[currentStatus] || colors.offline}`;
     }
-    const activity = data.activities.find(a => a.type === 0);
-    game.textContent = activity
-      ? `Playing ${activity.name}`
-      : "Not playing anything";
-  
+
+    if (status) {
+      status.textContent = names[currentStatus] || "Offline";
+    }
+
+    if (live) {
+      live.style.display = currentStatus === "offline" ? "none" : "block";
+    }
+
+    if (game) {
+      const activity = Array.isArray(data?.activities) ? data.activities.find(a => a.type === 0) : null;
+      game.textContent = activity
+        ? `Playing ${activity.name}`
+        : "Not playing anything";
+    }
   } catch {
-    document.getElementById("discordStatus").textContent = "Unavailable";
-    document.getElementById("discordGame").textContent = "Couldn't connect";
+    const status = document.getElementById("discordStatus");
+    if (status) status.textContent = "Unavailable";
+
+    const game = document.getElementById("discordGame");
+    if (game) game.textContent = "Couldn't connect";
+
+    const badgeText = document.getElementById("availabilityText");
+    if (badgeText) badgeText.textContent = "Status unavailable";
+
+    const badgeDot = document.getElementById("availabilityDot");
+    if (badgeDot) {
+      badgeDot.style.background = "#6b7280";
+      badgeDot.style.boxShadow = "0 0 6px #6b7280";
+    }
   }
 }
    
 updateDiscordPresence();
-setInterval(updateDiscordPresence, 15000);
+// Pause polling when tab is hidden to save CPU/network
+let _discordInterval = setInterval(updateDiscordPresence, 15000);
+document.addEventListener('visibilitychange', function() {
+  if (document.hidden) {
+    clearInterval(_discordInterval);
+  } else {
+    updateDiscordPresence(); // immediate refresh on tab focus
+    _discordInterval = setInterval(updateDiscordPresence, 15000);
+  }
+});
 
 // ==== PRELOADER ====
 (function(){
