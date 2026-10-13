@@ -145,11 +145,14 @@ main{
  -webkit-background-clip:text;color:transparent;
 }
 .hero-title .hero-name {
-  background: linear-gradient(90deg,#27e0ff,#6bffc0);
+  background: linear-gradient(90deg, #27e0ff, #6bffc0, #27e0ff);
+  background-size: 200% auto;
   -webkit-background-clip: text;
   color: transparent;
   font-weight: 800;
   transition: transform 0.25s ease;
+  animation: shine 3s linear infinite;
+  
 }
 .hero-name:hover{
   transform: scale(1.08);
@@ -217,6 +220,7 @@ main{
   padding: 20px;
   backdrop-filter: blur(6px);
   -webkit-backdrop-filter: blur(6px);
+  margin-top: 50px;
 }
 
 .preview-header-row {
@@ -314,6 +318,7 @@ section > p {
  font-size:13px;
  transition: transform 0.25s ease;
  cursor: pointer;
+ -webkit-backdrop-filter: blur();
 }
 .card:hover{
   transform: scale(1.03);
@@ -1299,18 +1304,42 @@ body::before{
   border:1px solid rgba(255,255,255,.09);
 }
 
-.contact-status span{
-  width:7px;
-  height:7px;
+.contact-status #availabilityBadge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  width:auto;
+  height:auto;
+  border-radius:0;
+  background:none;
+  box-shadow:none;
+  animation:none;
+}
 
+.contact-status #availabilityDot{
+  display:inline-block;
+  flex:0 0 8px;
+  width:8px;
+  height:8px;
   border-radius:50%;
-
   background:#43f58a;
-
-  box-shadow:
-    0 0 8px rgba(67,245,138,.9);
-
+  box-shadow:0 0 8px rgba(67,245,138,.9);
   animation:contactPulse 2s infinite;
+}
+
+.contact-status #availabilityText{
+  display:inline-block;
+  width:auto;
+  height:auto;
+  border-radius:0;
+  background:none;
+  box-shadow:none;
+  animation:none;
+  font-size:11px;
+  font-weight:600;
+  color:rgba(255,255,255,.8);
+  white-space:nowrap;
+  line-height:1;
 }
 
 @keyframes contactPulse{
@@ -1782,3 +1811,250 @@ body::before{
   background: rgba(255,59,107,0.1);
   color: #ff3b6b;
 }
+
+/* =====================================================
+   PERFORMANCE + GLASS UI LAYER (overrides, keep last)
+===================================================== */
+:root{
+  --glass-bg: linear-gradient(145deg, rgba(255,255,255,.10), rgba(255,255,255,.03));
+  --glass-border: rgba(255,255,255,.13);
+  --glass-blur: blur(12px) saturate(140%);
+  --glass-shadow: 0 10px 30px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.12);
+  --ease-out: cubic-bezier(.2,.8,.2,1);
+}
+
+img{
+  -webkit-user-drag:none;
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-touch-callout:none;
+}
+
+/* --- Lag fix 1: static soft background (no animated 90px blur layer) --- */
+body{ background:#04050B; }
+body::before{
+  inset:0;
+  filter:none;
+  animation:none;
+  transform:none;
+}
+
+/* --- Lag fix 2: video without live blur filter; darkened by overlay instead --- */
+.video-bg video{
+  transform:none;
+  filter:none;
+  opacity:.55;
+}
+.video-overlay{
+  background:
+    linear-gradient(rgba(5,7,13,.55), rgba(5,7,13,.88)),
+    radial-gradient(circle at 20% 30%, rgba(0,229,255,.10), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(124,92,255,.10), transparent 40%);
+}
+
+/* --- Lag fix 3: skip rendering of off-screen sections --- */
+#services, #gallery, #process, #reviews, #contact{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 520px;
+}
+.gallery-item img, .thumb-img{ content-visibility:auto; }
+
+/* --- Lag fix 4: preloader without huge blur filters / endless grid animation --- */
+.ldr-glow{
+  filter:none;
+  opacity:.5;
+  background:radial-gradient(circle, rgba(39,224,255,.35), transparent 65%);
+}
+.ldr-glow-b{ background:radial-gradient(circle, rgba(255,59,107,.28), transparent 65%); opacity:.5; }
+.ldr-grid{ animation:none; }
+.ldr-mark::before{ animation:none; }
+
+/* --- Lag fix 5: pulsing glow animates opacity (GPU) instead of box-shadow (repaint) --- */
+.gallery-focus{
+  position:relative;
+  animation:none;
+  box-shadow:0 0 18px rgba(0,245,255,.25);
+}
+.gallery-focus::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  box-shadow:0 0 32px rgba(0,245,255,.5);
+  opacity:0;
+  pointer-events:none;
+  animation:glowPulse 2.4s ease-in-out infinite;
+}
+@keyframes glowPulse{ 0%,100%{opacity:0;} 50%{opacity:1;} }
+
+/* --- Lag fix 6: lighter blur on existing glass pieces --- */
+header{ backdrop-filter:blur(12px) saturate(140%); -webkit-backdrop-filter:blur(12px) saturate(140%); }
+.metric, .hero-badge{ backdrop-filter:none; -webkit-backdrop-filter:none; }
+.discord-widget{ backdrop-filter:blur(12px) saturate(130%); -webkit-backdrop-filter:blur(12px) saturate(130%); }
+.contact-card{ backdrop-filter:blur(14px) saturate(130%); -webkit-backdrop-filter:blur(14px) saturate(130%); }
+.toast{ backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
+
+/* =====================================================
+   GLASS CARDS (blurred, transparent, light-catching)
+===================================================== */
+.hero-card,
+.preview-block,
+.card,
+.gallery-box,
+.review-form-card,
+.review-card{
+  position:relative;
+  background:var(--glass-bg);
+  border:1px solid var(--glass-border);
+  box-shadow:var(--glass-shadow);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+}
+
+.thumb-card,
+.metric{
+  background:linear-gradient(145deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+  border:1px solid var(--glass-border);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10);
+}
+
+.hero-card{
+  background:
+    radial-gradient(circle at top left, rgba(39,224,255,.12), transparent 50%),
+    var(--glass-bg);
+}
+
+.card{ overflow:hidden; }
+
+/* inner modal panels */
+#editModal .edit-box,
+#monthlyPopup .monthly-box,
+#signInModal .signin-box{
+  background:linear-gradient(145deg, rgba(255,255,255,.10), rgba(255,255,255,.04)), rgba(12,15,32,.7);
+  border:1px solid var(--glass-border);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+}
+#zoomModal, #editModal, #monthlyPopup, #signInModal{
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+#profileMenu{
+  background:rgba(14,18,36,.72);
+  backdrop-filter:var(--glass-blur);
+  -webkit-backdrop-filter:var(--glass-blur);
+}
+#r_name, #r_rating, #r_message, #edit_message{
+  background:rgba(255,255,255,.06);
+  border-color:rgba(255,255,255,.12);
+}
+
+/* =====================================================
+   OPTIMIZED ANIMATIONS (transform + opacity only)
+===================================================== */
+@keyframes fadeUp{
+  from{ opacity:0; transform:translateY(18px); }
+  to{ opacity:1; transform:none; }
+}
+@keyframes dotPulse{
+  0%,100%{ transform:scale(1); opacity:1; }
+  50%{ transform:scale(1.5); opacity:.55; }
+}
+@keyframes floatY{
+  0%,100%{ transform:translateY(0); }
+  50%{ transform:translateY(-6px); }
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* hero entrance (plays once) */
+.hero-card{ animation:fadeUp .7s var(--ease-out) both; }
+.preview-block{ animation:fadeUp .7s var(--ease-out) .12s both; }
+.hero-dot{ animation:dotPulse 2s ease-in-out infinite; }
+
+/* staggered card entrance when a section scrolls in */
+.rv.in .card,
+.rv.in .review-card,
+.rv.in .gallery-item{
+  animation:fadeUp .55s var(--ease-out) backwards;
+}
+.rv.in .card:nth-child(2), .rv.in .review-card:nth-child(2), .rv.in .gallery-item:nth-child(2){ animation-delay:.07s; }
+.rv.in .card:nth-child(3), .rv.in .review-card:nth-child(3), .rv.in .gallery-item:nth-child(3){ animation-delay:.14s; }
+.rv.in .card:nth-child(4), .rv.in .review-card:nth-child(4), .rv.in .gallery-item:nth-child(4){ animation-delay:.21s; }
+.rv.in .gallery-item:nth-child(5){ animation-delay:.28s; }
+.rv.in .gallery-item:nth-child(6){ animation-delay:.35s; }
+.rv.in .gallery-item:nth-child(7){ animation-delay:.42s; }
+.rv.in .gallery-item:nth-child(8){ animation-delay:.49s; }
+
+/* hover effects only on devices that can hover; GPU-only properties */
+@media (hover:hover){
+  .card::before,
+  .review-card::before,
+  .thumb-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(105deg, transparent 30%, rgba(255,255,255,.12) 50%, transparent 70%);
+    transform:translateX(-120%);
+    transition:transform .7s var(--ease-out);
+    pointer-events:none;
+    border-radius:inherit;
+  }
+  .thumb-card{ position:relative; overflow:hidden; }
+  .card:hover::before,
+  .review-card:hover::before,
+  .thumb-card:hover::before{ transform:translateX(120%); }
+
+  .card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(39,224,255,.35);
+  }
+  .brand-logo{ animation:floatY 4s ease-in-out infinite; }
+}
+
+/* only promote layers while actually interacting */
+.card:hover, .thumb-card:hover, .gallery-item img:hover, .btn-primary:hover, .btn-ghost:hover{
+  will-change:transform;
+}
+
+/* phones: drop the most expensive effects */
+@media (max-width:600px){
+  .video-bg video{ display:none; }
+  .hero-card, .preview-block, .card, .gallery-box, .review-form-card, .review-card, header{
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+  }
+  .btn-buy-footer{ backdrop-filter:none; -webkit-backdrop-filter:none; background:rgba(20,25,45,.85); }
+}
+
+/* accessibility: respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+}
+
+.ser{
+  color: #fff;
+  display: inline-block;
+    background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 10px;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  text-decoration: none;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+.ser:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(39,224,255,0.35);
+  transform:translateY(-5px);
+} 
