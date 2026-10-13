@@ -5,6 +5,9 @@
   <title>Sagar | Thumbnail Designer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Sagar - Gaming & Minecraft Thumbnail Designer" />
+  <link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.lanyard.rest" crossorigin>
+  <link rel="dns-prefetch" href="https://fonts.googleapis.com">
   <link rel="stylesheet" href="style.css">
 </head>
 
@@ -68,7 +71,7 @@
       Sign In
     </button>
     <div id="user_area" style="display:flex;align-items:center;gap:8px;"></div>
-    <a href="#pricing" class="nav-cta">Work with me</a>
+    <a href="/buy/buy.html" class="nav-cta">Work with me</a>
   </div>
 </header>
 
@@ -168,7 +171,7 @@
   <div class="thumb-grid">
 
     <div class="thumb-card">
-      <img src="images/yeezii2.jpg" class="thumb-img zoom-img">
+      <img src="images/yeezii2.jpg" class="thumb-img zoom-img" loading="lazy" decoding="async" alt="Recent thumbnail">
       <div class="thumb-meta">
         <span>Highlights</span>
         <span class="pill-small">Highlights</span>
@@ -176,7 +179,7 @@
     </div>
 
     <div class="thumb-card">
-      <img src="images/free.jpg" class="thumb-img zoom-img">
+      <img src="images/free.jpg" class="thumb-img zoom-img" loading="lazy" decoding="async" alt="Recent thumbnail">
       <div class="thumb-meta">
         <span>Valorant</span>
         <span class="pill-small">Valorant</span>
@@ -184,7 +187,7 @@
     </div>
 
     <div class="thumb-card">
-      <img src="images/montaze.jpg" class="thumb-img zoom-img">
+      <img src="images/montaze.jpg" class="thumb-img zoom-img" loading="lazy" decoding="async" alt="Recent thumbnail">
       <div class="thumb-meta">
         <span>Valorant Montage</span>
         <span class="pill-small">Highlights</span>
@@ -192,7 +195,7 @@
     </div>
 
     <div class="thumb-card">
-      <img src="images/YEZII.jpg" class="thumb-img zoom-img">
+      <img src="images/YEZII.jpg" class="thumb-img zoom-img" loading="lazy" decoding="async" alt="Recent thumbnail">
       <div class="thumb-meta">
         <span>Minecraft</span>
         <span class="pill-small">Minecraft</span>
@@ -212,7 +215,7 @@
 
 <!-- SERVICES -->
 <section id="services">
-  <h2>Services</h2>
+  <a class="ser" href="#services">Services</a>
   <p class="muted">
     I design custom thumbnails focused on story, emotion and high click-through rate.
   </p>
@@ -268,14 +271,14 @@
     </div>
 
     <div class="gallery-grid">
-      <div class="gallery-item"><img src="images/YEZII.jpg" class="zoom-img"></div>
-      <div class="gallery-item"><img src="images/free.jpg" class="zoom-img"></div>
-      <div class="gallery-item"><img src="images/yeezii2.jpg" class="zoom-img"></div>
-      <div class="gallery-item"><img src="images/montaze.jpg" class="zoom-img"></div>
-      <div class="gallery-item"><img src="images/billu.jpg" class="zoom-img"></div>
-      <div class="gallery-item"><img src="images/death swap.jpg" class="zoom-img"></div>
-      <div class="gallery-item"><img src="images/pick.jpg" class="zoom-img"></div>
-      <div class="gallery-item"><img src="gallery/images/Untitled-16.jpg" class="zoom-img"></div>
+      <div class="gallery-item"><img src="images/YEZII.jpg" class="zoom-img" loading="lazy" decoding="async" alt="Thumbnail design"></div>
+      <div class="gallery-item"><img src="images/free.jpg" class="zoom-img" loading="lazy" decoding="async" alt="Thumbnail design"></div>
+      <div class="gallery-item"><img src="images/yeezii2.jpg" class="zoom-img" loading="lazy" decoding="async" alt="Thumbnail design"></div>
+      <div class="gallery-item"><img src="images/montaze.jpg" class="zoom-img" loading="lazy" decoding="async" alt="Thumbnail design"></div>
+      <div class="gallery-item"><img src="images/billu.jpg" class="zoom-img" loading="lazy" decoding="async" alt="Thumbnail design"></div>
+      <div class="gallery-item"><img src="images/death swap.jpg" class="zoom-img" loading="lazy" decoding="async" alt="Thumbnail design"></div>
+      <div class="gallery-item"><img src="images/pick.jpg" class="zoom-img" loading="lazy" decoding="async" alt="Thumbnail design"></div>
+      <div class="gallery-item"><img src="gallery/images/Untitled-16.jpg" class="zoom-img" loading="lazy" decoding="async" alt="Thumbnail design"></div>
     </div>
 
     <a href="gallery/index.html" class="btn-primary see-all-btn">See All →</a>
@@ -421,8 +424,10 @@
 
     <div class="contact-info">
       <div class="contact-status">
-        <span></span>
-        Available for projects
+        <span id="availabilityBadge">
+  <span id="availabilityDot" class="hero-dot"></span>
+  <span id="availabilityText">Checking...</span>
+</span>
       </div>
 
       <strong>Let's create something great.</strong>
@@ -506,23 +511,6 @@
   </div>
 </section>
 
-<div class="dc-stetus">
-  <H4 >Discord Status</H4>
-</div>
-
-<div class="discord-widget">
-  <div class="dc-left">
-    <div id="statusDot" class="dc-dot"></div>
-
-    <div>
-      <span class="dc-label">Notsagar is currently</span>
-      <h4 id="discordStatus">Checking...</h4>
-      <p id="discordGame">Connecting...</p>
-    </div>
-  </div>
-
-  <div class="dc-live">LIVE</div>
-</div>
 
 <footer style="margin-top:32px;font-size:11px;color:var(--muted);text-align:center;">
   © <span id="year"></span> Sagar · Thumbnail Designer · NotSagarGamerz
@@ -559,7 +547,7 @@
 
 
 <div class="video-bg">
-    <video autoplay muted loop playsinline>
+    <video autoplay muted loop playsinline preload="metadata" disablepictureinpicture>
         <source src="images/bg.mp4" type="video/mp4">
     </video>
 
