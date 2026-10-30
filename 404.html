@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>404 - Page Not Found | NotSagar Thumbnails</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Oops! The page you're looking for doesn't exist or may have been moved." />
+  <meta name="theme-color" content="#050712" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    :root {
+      --bg: #050712;
+      --bg-darker: #020308;
+      --accent: #27e0ff;
+      --accent-purple: #9d4edd;
+      --accent-pink: #ff3b6b;
+      --accent-emerald: #6bffb5;
+      --text: #f5f5f7;
+      --muted: #a0a3b1;
+      --card-bg: rgba(14, 18, 38, 0.65);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --glass-blur: blur(20px);
+      --radius-xl: 28px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at top, #151a3a 0%, #050712 55%, #020308 100%);
+      color: var(--text);
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Ambient dynamic glow orbs */
+    .ambient-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: 0.35;
+      animation: floatOrb 18s ease-in-out infinite alternate;
+      will-change: transform;
+    }
+
+    .orb-1 {
+      width: 520px;
+      height: 520px;
+      background: radial-gradient(circle, #7928ca, #4338ca 70%, transparent);
+      top: -120px;
+      left: 10%;
+      animation-duration: 16s;
+    }
+
+    .orb-2 {
+      width: 480px;
+      height: 480px;
+      background: radial-gradient(circle, #27e0ff, #3b82f6 70%, transparent);
+      bottom: -100px;
+      right: 8%;
+      animation-duration: 20s;
+      animation-delay: -5s;
+    }
+
+    .orb-3 {
+      width: 360px;
+      height: 360px;
+      background: radial-gradient(circle, #ff3b6b, #c026d3 70%, transparent);
+      top: 45%;
+      left: 60%;
+      opacity: 0.22;
+      animation-duration: 24s;
+      animation-delay: -10s;
+    }
+
+    @keyframes floatOrb {
+      0% {
+        transform: translate(0, 0) scale(1);
+      }
+      50% {
+        transform: translate(60px, -40px) scale(1.12);
+      }
+      100% {
+        transform: translate(-50px, 50px) scale(0.92);
+      }
+    }
+
+    /* Background canvas for interactive drifting particles */
+    #particleCanvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Subtle grid overlay */
+    .grid-pattern {
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+      -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Navigation header matching index.html */
+    header {
+      width: 100%;
+      max-width: 1100px;
+      margin: 16px auto 0;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-radius: 999px;
+      background: rgba(5, 7, 18, 0.55);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      position: relative;
+      z-index: 10;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      animation: fadeInDown 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .brand {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #fff 0, #27e0ff 35%, #ff3b6b 100%);
+      box-shadow: 0 0 18px rgba(39, 224, 255, 0.65);
+      flex-shrink: 0;
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      font-size: 13px;
+    }
+
+    .brand-text span:first-child {
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.2px;
+    }
+
+    .brand-text span:last-child {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .header-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-btn-ghost {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 7px 14px;
+      border-radius: 999px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn-ghost:hover {
+      color: #fff;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-cta {
+      padding: 8px 18px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-emerald));
+      color: #020308;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 4px 18px rgba(39, 224, 255, 0.3);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .nav-cta:hover {
+      transform: scale(1.05);
+      box-shadow: 0 6px 24px rgba(39, 224, 255, 0.5);
+    }
+
+    /* Main Container */
+    main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 18px 48px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .error-card {
+      width: 100%;
+      max-width: 680px;
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%), var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      padding: 48px 36px 44px;
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      box-shadow: 
+        0 24px 60px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(157, 78, 221, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      animation: scaleFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    /* Ambient card top highlight */
+    .error-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 15%;
+      right: 15%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(39, 224, 255, 0.7), rgba(255, 59, 107, 0.7), transparent);
+    }
+
+    /* Status badge inside card */
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(39, 224, 255, 0.08);
+      border: 1px solid rgba(39, 224, 255, 0.25);
+      font-size: 12px;
+      font-weight: 600;
+      color: #99f6e4;
+      margin-bottom: 24px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      box-shadow: 0 0 16px rgba(39, 224, 255, 0.12);
+    }
+
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 10px var(--accent);
+      animation: pulseDot 2s infinite ease-in-out;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.4);
+        opacity: 0.5;
+      }
+    }
+
+    /* Giant 404 Headline with glowing gradient */
+    .hero-404 {
+      position: relative;
+      display: inline-block;
+      user-select: none;
+      line-height: 0.95;
+      margin-bottom: 18px;
+    }
+
+    .error-code {
+      font-size: clamp(84px, 18vw, 150px);
+      font-weight: 900;
+      letter-spacing: -4px;
+      background: linear-gradient(135deg, #ffffff 0%, #27e0ff 32%, #a855f7 68%, #ff3b6b 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 6s linear infinite;
+      display: inline-block;
+      text-shadow: 0 0 60px rgba(168, 85, 247, 0.25);
+    }
+
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% center;
+      }
+      50% {
+        background-position: 100% center;
+      }
+      100% {
+        background-position: 0% center;
+      }
+    }
+
+    /* Glow behind the 404 text */
+    .glow-blur {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: 60%;
+      background: radial-gradient(ellipse, rgba(168, 85, 247, 0.35) 0%, rgba(39, 224, 255, 0.15) 50%, transparent 75%);
+      filter: blur(36px);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Headings & Descriptions */
+    .error-title {
+      font-size: clamp(22px, 4vw, 30px);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      letter-spacing: -0.4px;
+    }
+
+    .error-desc {
+      color: #b3b6cb;
+      font-size: clamp(14px, 2vw, 15px);
+      line-height: 1.6;
+      max-width: 480px;
+      margin: 0 auto 32px;
+    }
+
+    /* Action buttons row */
+    .actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 28px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent) 0%, #a855f7 50%, var(--accent-pink) 100%);
+      background-size: 200% auto;
+      color: #050712;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 
+        0 10px 28px rgba(39, 224, 255, 0.28),
+        0 4px 14px rgba(168, 85, 247, 0.2);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-home:hover {
+      transform: translateY(-2px) scale(1.04);
+      background-position: right center;
+      box-shadow: 
+        0 14px 36px rgba(39, 224, 255, 0.4),
+        0 6px 20px rgba(255, 59, 107, 0.3);
+      color: #000;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: all 0.25s ease;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.10);
+      border-color: rgba(39, 224, 255, 0.4);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Help navigation suggestions */
+    .helpful-links {
+      margin-top: 36px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .helpful-links span {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .link-chip {
+      text-decoration: none;
+      color: #cbd5e1;
+      font-size: 12px;
+      font-weight: 500;
+      padding: 5px 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.2s ease;
+    }
+
+    .link-chip:hover {
+      color: #fff;
+      background: rgba(39, 224, 255, 0.12);
+      border-color: rgba(39, 224, 255, 0.35);
+    }
+
+    /* Footer matching the site style */
+    footer {
+      width: 100%;
+      text-align: center;
+      padding: 20px 16px 28px;
+      font-size: 11px;
+      color: var(--muted);
+      position: relative;
+      z-index: 5;
+    }
+
+    /* Entrance keyframes */
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes scaleFadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 680px) {
+      header {
+        margin: 12px auto 0;
+        padding: 10px 14px;
+      }
+      .error-card {
+        padding: 36px 20px 32px;
+        border-radius: 20px;
+      }
+      .actions-row {
+        flex-direction: column;
+        width: 100%;
+      }
+      .btn-home, .btn-secondary {
+        width: 100%;
+        justify-content: center;
+      }
+      .brand-text span:last-child {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ambient glowing orbs -->
+  <div class="ambient-glow" aria-hidden="true">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Interactive/drifting floating particles -->
+  <canvas id="particleCanvas" aria-hidden="true"></canvas>
+
+  <!-- Geometric grid overlay -->
+  <div class="grid-pattern" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header>
+    <a href="/" class="brand" aria-label="Go to NotSagar Home">
+      <div class="brand-logo"></div>
+      <div class="brand-text">
+        <span>NotSagar · Thumbnails</span>
+        <span>Gaming · Minecraft · SMP</span>
+      </div>
+    </a>
+
+    <div class="header-links">
+      <a href="/gallery/index.html" class="nav-btn-ghost">Gallery</a>
+      <a href="/buy/buy.html" class="nav-cta">Work with me</a>
+    </div>
+  </header>
+
+  <!-- Main Content Card -->
+  <main>
+    <div class="error-card">
+      <div class="pill-badge">
+        <span class="pill-dot"></span>
+        <span>Error 404 · Lost In Orbit</span>
+      </div>
+
+      <div class="hero-404">
+        <div class="glow-blur"></div>
+        <div class="error-code">404</div>
+      </div>
+
+      <h1 class="error-title">Oops! Lost in the pixels?</h1>
+      <p class="error-desc">
+        The page you're looking for doesn't exist or may have been moved. Let's get you back on track to exploring high-converting thumbnails.
+      </p>
+
+      <div class="actions-row">
+        <a href="/" class="btn-home">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          Back to Home
+        </a>
+        <a href="/gallery/index.html" class="btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+            <polyline points="21 15 16 10 5 21"></polyline>
+          </svg>
+          Explore Gallery
+        </a>
+      </div>
+
+      <div class="helpful-links">
+        <span>Quick Navigation:</span>
+        <a href="/#services" class="link-chip">Services</a>
+        <a href="/#process" class="link-chip">Process</a>
+        <a href="/#reviews" class="link-chip">Reviews</a>
+        <a href="/buy/buy.html" class="link-chip">Pricing & Packs</a>
+        <a href="/#contact" class="link-chip">Contact</a>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    © <span id="year"></span> Sagar · Thumbnail Designer · NotSagarGamerz
+  </footer>
+
+  <!-- Subtle particle script -->
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    (function() {
+      const canvas = document.getElementById("particleCanvas");
+      if (!canvas) return;
+      const ctx = canvas.getContext("2d");
+      let width, height;
+      let particles = [];
+      const particleCount = 42;
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = window.innerHeight;
+      }
+      window.addEventListener("resize", resize);
+      resize();
+
+      class Particle {
+        constructor() {
+          this.reset(true);
+        }
+        reset(initial = false) {
+          this.x = Math.random() * width;
+          this.y = initial ? Math.random() * height : height + 10;
+          this.size = Math.random() * 2.2 + 0.8;
+          this.speedY = -(Math.random() * 0.45 + 0.15);
+          this.speedX = (Math.random() - 0.5) * 0.3;
+          this.alpha = Math.random() * 0.55 + 0.2;
+          this.colorType = Math.random();
+        }
+        update() {
+          this.y += this.speedY;
+          this.x += this.speedX;
+          if (this.y < -10 || this.x < -10 || this.x > width + 10) {
+            this.reset(false);
+          }
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          if (this.colorType < 0.45) {
+            ctx.fillStyle = `rgba(39, 224, 255, ${this.alpha})`;
+          } else if (this.colorType < 0.75) {
+            ctx.fillStyle = `rgba(168, 85, 247, ${this.alpha})`;
+          } else {
+            ctx.fillStyle = `rgba(255, 59, 107, ${this.alpha * 0.8})`;
+          }
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle());
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+        }
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+  </script>
+</body>
+</html>
